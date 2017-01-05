@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on Immunant, Inc</title>
-    <link>http://immunant.github.io/page/</link>
+    <link>http://immunant.github.io/page/index.xml</link>
     <description>Recent content in Pages on Immunant, Inc</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -17,7 +17,7 @@
       <guid>http://immunant.github.io/page/contribute/</guid>
       <description>
 
-&lt;h3 id=&#34;contributor-agreement:27455f84f02fccb1aba2862e3b34cb0e&#34;&gt;Contributor Agreement&lt;/h3&gt;
+&lt;h3 id=&#34;contributor-agreement&#34;&gt;Contributor Agreement&lt;/h3&gt;
 
 &lt;p&gt;If you are interested in contributing to Immunant&amp;rsquo;s self-rando project, please complete, sign, and send one of the following contributor agreements to &lt;strong&gt;team [at] immunant.com&lt;/strong&gt;.&lt;/p&gt;
 
