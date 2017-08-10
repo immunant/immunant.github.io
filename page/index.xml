@@ -6,10 +6,19 @@
     <description>Recent content in Pages on Immunant, Inc</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Aug 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://immunant.github.io/page/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Rustacean in Residence</title>
+      <link>http://immunant.github.io/page/002_rustacean/</link>
+      <pubDate>Wed, 09 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://immunant.github.io/page/002_rustacean/</guid>
+      <description>Rustacean in Residence Systems programming is synonymous with coding in C/C++ at present. Immunant is exploring a new way to transition C code to newer systems programming languages such as Rust, Go, Nim, etc. We are looking for an additional team member &amp;amp; programming languages aficionado who loves to hack on compilers, language runtimes, and who believes that when machines finally become sentient, they will seek to eliminate their dependencies on libc before anything else.</description>
+    </item>
     
     <item>
       <title>Compiler, Linker, and Loader Whisperer</title>
@@ -26,10 +35,11 @@
       <pubDate>Mon, 05 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://immunant.github.io/page/jobs/</guid>
-      <description>001: Compiler, Linker, and Loader Whisperer Posted: June 5th, 2017. Location: Irvine CA.  
+      <description>001: Compiler, Linker, and Loader Whisperer Location: Irvine CA.
+002: Rustacean in Residence Location: Irvine CA.  
 Applying Applicants must be willing to relocate to Southern California. Remote work is not an option unless the position is marked as such. Employment is conditional on applicants selected for employment passing worldwide background checks. Immunant participates in E-verify.
 Email your application to team [at] immunant.com or mail it to:
- .google-maps { position: relative; padding-bottom: 75%; // This is the aspect ratio height: 0; overflow: hidden; } .</description>
+ .</description>
     </item>
     
     <item>
