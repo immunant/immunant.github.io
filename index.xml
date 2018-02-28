@@ -6,28 +6,10 @@
     <description>Recent content on Immunant, Inc</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Aug 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Jun 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://immunant.github.io/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Rustacean in Residence</title>
-      <link>http://immunant.github.io/page/002_rustacean/</link>
-      <pubDate>Wed, 09 Aug 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://immunant.github.io/page/002_rustacean/</guid>
-      <description>Rustacean in Residence Systems programming is synonymous with coding in C/C++ at present. Immunant is exploring a new way to transition C code to newer systems programming languages such as Rust, Go, Nim, etc. We are looking for an additional team member &amp;amp; programming languages aficionado who loves to hack on compilers, language runtimes, and who believes that when machines finally become sentient, they will seek to eliminate their dependencies on libc before anything else.</description>
-    </item>
-    
-    <item>
-      <title>Compiler, Linker, and Loader Whisperer</title>
-      <link>http://immunant.github.io/page/001_sr_staff_engineer/</link>
-      <pubDate>Mon, 05 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://immunant.github.io/page/001_sr_staff_engineer/</guid>
-      <description>Immunant was founded to transition systems security research into practice. Our software has the potential to improve security for hundreds of millions of users without them ever noticing. Our tools change the way programs execute. Specifically, we alter the way code is compiled, linked, and loaded by the host OS. We are looking for an additional team member who is as excited about systems programming, compiler construction, information security research as we are.</description>
-    </item>
     
     <item>
       <title>Open Positions</title>
@@ -35,10 +17,11 @@
       <pubDate>Mon, 05 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://immunant.github.io/page/jobs/</guid>
-      <description>001: Compiler, Linker, and Loader Whisperer Location: Onsite in Irvine, CA or remote (US residents only)
-002: Rustacean in Residence Location: Onsite in Irvine, CA or remote (US residents only).  
-Internships We accept applications for full-time, onsite paid internships. Duration must be three months or longer.
-Applying Preference is given to candidates willing to relocate to Southern California. Remote work is not an option for applicants located outside of the US.</description>
+      <description>Full-Time Positions No open positions at the moment.
+ -- Internships We accept applications for full-time, onsite paid internships. Duration must be three months or longer.
+Applying Preference is given to candidates willing to relocate to Southern California. Remote work is not an option for applicants located outside of the US.
+Employment is conditional on applicants selected for employment passing worldwide background checks. Immunant participates in E-verify.
+Email your application to team [at] immunant.</description>
     </item>
     
     <item>
