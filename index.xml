@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Immunant, Inc</title>
-    <link>http://immunant.github.io/</link>
+    <link>//immunant.com/</link>
     <description>Recent content on Immunant, Inc</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 05 Jun 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://immunant.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="//immunant.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Open Positions</title>
-      <link>http://immunant.github.io/page/jobs/</link>
+      <link>//immunant.com/page/jobs/</link>
       <pubDate>Mon, 05 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://immunant.github.io/page/jobs/</guid>
+      <guid>//immunant.com/page/jobs/</guid>
       <description>Full-Time Positions No open positions at the moment.
  -- Internships We accept applications for full-time, onsite paid internships. Duration must be three months or longer.
 Applying Preference is given to candidates willing to relocate to Southern California. Remote work is not an option for applicants located outside of the US.
@@ -26,10 +26,10 @@ Email your application to team [at] immunant.</description>
     
     <item>
       <title>Contributor License Agreement</title>
-      <link>http://immunant.github.io/page/contribute/</link>
+      <link>//immunant.com/page/contribute/</link>
       <pubDate>Wed, 28 Oct 2015 18:11:31 -0700</pubDate>
       
-      <guid>http://immunant.github.io/page/contribute/</guid>
+      <guid>//immunant.com/page/contribute/</guid>
       <description>If you are interested in contributing to Immunant&amp;rsquo;s open source projects, please complete, sign, and send us one of the following contributor license agreements. Send your signed copy to team [at] immunant.com.
  Contributor license agreement for individuals Contributor license agreement for entities  </description>
     </item>
