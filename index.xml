@@ -40,7 +40,7 @@ Email your application to team [at] immunant.</description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>//immunant.com/blog/2018/09/multicompiler/</guid>
-      <description>It is obviously very bad if everybody used the same password. It is also bad when one person reuses the same password across sites. Luckily, we have password managers that can generate unique, random passwords for each site. It is no less of a problem when everybody runs the same software for the follwing reason: When a software flaw is found, we want every installation of the program to be different enough that the same malicious input cannot compromise multiple users (but not so different that users notice).</description>
+      <description>It is obviously very bad if everybody used the same password. It is also bad when one person reuses the same password across sites. Luckily, we have password managers that can generate unique, random passwords for each site. It is no less of a problem when everybody runs the same software for the following reason: When a software flaw is found, we want every installation of the program to be different enough that the same malicious input cannot compromise multiple users (but not so different that users notice).</description>
     </item>
     
   </channel>
