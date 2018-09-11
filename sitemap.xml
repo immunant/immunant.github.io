@@ -13,6 +13,14 @@
   </url>
   
   <url>
+    <loc>//immunant.com/blog/2018/</loc>
+  </url>
+  
+  <url>
+    <loc>//immunant.com/blog/</loc>
+  </url>
+  
+  <url>
     <loc>//immunant.com/categories/</loc>
     <priority>0</priority>
   </url>
@@ -24,9 +32,17 @@
   </url>
   
   <url>
+    <loc>//immunant.com/blog/2018/09/multicompiler/</loc>
+  </url>
+  
+  <url>
     <loc>//immunant.com/page/</loc>
     <lastmod>2017-06-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>//immunant.com/blog/2018/09/</loc>
   </url>
   
   <url>
