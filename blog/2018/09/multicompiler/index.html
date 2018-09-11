@@ -201,65 +201,65 @@ The multicompiler re-orders stack elements and can insert padding between stack 
 
 <p>This section assumes you have root access to a host running Ubuntu 16.04 or later. If you&rsquo;re on another Linux distribution, you&rsquo;ll need to adjust the commands accordingly. If you&rsquo;re on Windows or macOS, you can use docker or VirtualBox to set up a suitable Linux environment.</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># install prerequisite packages on Ubuntu as root
-</span><span style="color:#75715e"># note: the default version of cmake on Ubuntu 14.04 is too old for LLVM.
-</span><span style="color:#75715e"></span>apt-get install -y  <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	build-essential libssl-dev libxml2-dev <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	libpcre3-dev binutils-dev cmake git mdm</code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># install prerequisite packages on Ubuntu as root
+</span><span style="color:#6272a4"># note: the default version of cmake on Ubuntu 14.04 is too old for LLVM.
+</span><span style="color:#6272a4"></span>apt-get install -y  <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	build-essential libssl-dev libxml2-dev <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	libpcre3-dev binutils-dev cmake git mdm</code></pre></div>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ROOT_DIR<span style="color:#f92672">=</span>$HOME/diversity <span style="color:#f92672">&amp;&amp;</span> mkdir -p $ROOT_DIR <span style="color:#f92672">&amp;&amp;</span> cd $ROOT_DIR
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8be9fd;font-style:italic">ROOT_DIR</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$HOME</span>/diversity <span style="color:#ff79c6">&amp;&amp;</span> mkdir -p <span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">cd</span> <span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span>
 
-git clone --depth <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	git@github.com:securesystemslab/multicompiler.git <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	multicompiler
+git clone --depth <span style="color:#bd93f9">1</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	git@github.com:securesystemslab/multicompiler.git <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	multicompiler
 
-git clone --depth <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	git@github.com:securesystemslab/multicompiler-clang.git <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	multicompiler/projects/clang
+git clone --depth <span style="color:#bd93f9">1</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	git@github.com:securesystemslab/multicompiler-clang.git <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	multicompiler/projects/clang
 
-git clone --depth <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	git@github.com:securesystemslab/multicompiler-compiler-rt.git <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	multicompiler/projects/compiler-rt
+git clone --depth <span style="color:#bd93f9">1</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	git@github.com:securesystemslab/multicompiler-compiler-rt.git <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	multicompiler/projects/compiler-rt
 
-git clone --depth <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	git@github.com:securesystemslab/poolalloc.git <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	multicompiler/projects/poolalloc</code></pre></div>
+git clone --depth <span style="color:#bd93f9">1</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	git@github.com:securesystemslab/poolalloc.git <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	multicompiler/projects/poolalloc</code></pre></div>
 
 <h3 id="linker-plugin-support">Linker Plugin Support</h3>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ /usr/bin/ld -plugin
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ /usr/bin/ld -plugin
 /usr/bin/ld: -plugin: missing argument
-/usr/bin/ld: use the --help option <span style="color:#66d9ef">for</span> usage information</code></pre></div>
+/usr/bin/ld: use the --help option <span style="color:#ff79c6">for</span> usage information</code></pre></div>
 
 <p>If you see <code>-plugin: missing argument</code> in the output, you&rsquo;re all set. Otherwise you can build your own copy of binutils with plugin support using <a href="https://llvm.org/docs/GoldPlugin.html#how-to-build-it">these instructions</a>. You&rsquo;ll need to adjust the path to point to your custom binutils build in the next step.</p>
 
 <h3 id="configuring-and-making">Configuring and Making</h3>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># building multicompiler in-tree isn&#39;t recommended
-</span><span style="color:#75715e"></span>BUILD_DIR<span style="color:#f92672">=</span>$ROOT_DIR/multicompiler/build <span style="color:#f92672">&amp;&amp;</span> mkdir -p $BUILD_DIR <span style="color:#f92672">&amp;&amp;</span> cd $BUILD_DIR
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># building multicompiler in-tree isn&#39;t recommended
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">BUILD_DIR</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span>/multicompiler/build <span style="color:#ff79c6">&amp;&amp;</span> mkdir -p <span style="color:#8be9fd;font-style:italic">$BUILD_DIR</span> <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#8be9fd;font-style:italic">cd</span> <span style="color:#8be9fd;font-style:italic">$BUILD_DIR</span>
 
-<span style="color:#75715e"># `DLLVM_BINUTILS_INCDIR` is required for LTO support. If your host linker
-</span><span style="color:#75715e"># was built without plugin support, point `LLVM_BINUTILS_INCDIR` to the
-</span><span style="color:#75715e"># path of the binutils binaries you built previously.
-</span><span style="color:#75715e"></span>cmake .. -DLLVM_TARGETS_TO_BUILD<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;X86&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span> 	-DCMAKE_INSTALL_PREFIX<span style="color:#f92672">=</span>$ROOT_DIR/multicompiler/install <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	-DLLVM_BINUTILS_INCDIR<span style="color:#f92672">=</span>/usr/include <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	-DCMAKE_BUILD_TYPE<span style="color:#f92672">=</span>Release
+<span style="color:#6272a4"># `DLLVM_BINUTILS_INCDIR` is required for LTO support. If your host linker
+</span><span style="color:#6272a4"># was built without plugin support, point `LLVM_BINUTILS_INCDIR` to the
+</span><span style="color:#6272a4"># path of the binutils binaries you built previously.
+</span><span style="color:#6272a4"></span>cmake .. -DLLVM_TARGETS_TO_BUILD<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;X86&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span> 	-DCMAKE_INSTALL_PREFIX<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span>/multicompiler/install <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	-DLLVM_BINUTILS_INCDIR<span style="color:#ff79c6">=</span>/usr/include <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	-DCMAKE_BUILD_TYPE<span style="color:#ff79c6">=</span>Release
 
-make -j<span style="color:#e6db74">`</span>ncpus<span style="color:#e6db74">`</span> <span style="color:#f92672">&amp;&amp;</span> make install</code></pre></div>
+make -j<span style="color:#f1fa8c">`</span>ncpus<span style="color:#f1fa8c">`</span> <span style="color:#ff79c6">&amp;&amp;</span> make install</code></pre></div>
 
 <h3 id="downloading-cpython-sources">Downloading CPython Sources</h3>
 
 <p>We&rsquo;re almost ready to use the multicompiler, all we need is to download the CPython source code and its build dependencies.</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># dependencies
-</span><span style="color:#75715e"></span>apt-get install --no-install-recommends -y <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	python-setuptools tcl-dev liblzma-dev libgdbm-dev tk-dev libreadline-dev
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># dependencies
+</span><span style="color:#6272a4"></span>apt-get install --no-install-recommends -y <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	python-setuptools tcl-dev liblzma-dev libgdbm-dev tk-dev libreadline-dev
 
-<span style="color:#75715e"># sources
-</span><span style="color:#75715e"></span>PY2_SRC<span style="color:#f92672">=</span>https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz
+<span style="color:#6272a4"># sources
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">PY2_SRC</span><span style="color:#ff79c6">=</span>https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz
 
-cd $ROOT_DIR <span style="color:#f92672">&amp;&amp;</span> wget $PY2_SRC -O - | tar -zx</code></pre></div>
+<span style="color:#8be9fd;font-style:italic">cd</span> <span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span> <span style="color:#ff79c6">&amp;&amp;</span> wget <span style="color:#8be9fd;font-style:italic">$PY2_SRC</span> -O - | tar -zx</code></pre></div>
 
 <h3 id="diversifying-cpython-with-the-multicompiler">Diversifying CPython with the Multicompiler</h3>
 
@@ -269,48 +269,48 @@ cd $ROOT_DIR <span style="color:#f92672">&amp;&amp;</span> wget $PY2_SRC -O - | 
 
 <p>Note that you may have to change the ways flags are passed to the compiler if you decide to compile and diversify some other software package.</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># configuring and making a link-time-optimized CPython binary
-</span><span style="color:#75715e"></span>cd $ROOT_DIR/Python-2.7.12
-CC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/clang -flto&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>CXX<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/clang++ -flto&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>RANLIB<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/llvm-ranlib&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>AR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/llvm-ar&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>CFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-O2 -g -frandom-seed=42&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>CXXFLAGS<span style="color:#f92672">=</span>$CFLAGS <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>LDFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Wl,--plugin-opt,-random-seed=42&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	./configure --prefix<span style="color:#f92672">=</span>$ROOT_DIR/python_norando <span style="color:#f92672">&amp;&amp;</span> make -j<span style="color:#e6db74">`</span>ncpus<span style="color:#e6db74">`</span> install
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># configuring and making a link-time-optimized CPython binary
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">cd</span> <span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span>/Python-2.7.12
+<span style="color:#8be9fd;font-style:italic">CC</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span><span style="color:#f1fa8c">/multicompiler/install/bin/clang -flto&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">CXX</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span><span style="color:#f1fa8c">/multicompiler/install/bin/clang++ -flto&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">RANLIB</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span><span style="color:#f1fa8c">/multicompiler/install/bin/llvm-ranlib&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">AR</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span><span style="color:#f1fa8c">/multicompiler/install/bin/llvm-ar&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">CFLAGS</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;-O2 -g -frandom-seed=42&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">CXXFLAGS</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$CFLAGS</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">LDFLAGS</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;-Wl,--plugin-opt,-random-seed=42&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	./configure --prefix<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span>/python_norando <span style="color:#ff79c6">&amp;&amp;</span> make -j<span style="color:#f1fa8c">`</span>ncpus<span style="color:#f1fa8c">`</span> install
 
-<span style="color:#75715e">#  testing (excluding tests that can fail on Ubuntu hosts)
-</span><span style="color:#75715e"></span>time make TESTOPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-x test_gdb test_ssl&#34;</span> quicktest
+<span style="color:#6272a4">#  testing (excluding tests that can fail on Ubuntu hosts)
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">time</span> make <span style="color:#8be9fd;font-style:italic">TESTOPTS</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;-x test_gdb test_ssl&#34;</span> quicktest
 
 make distclean
 
-<span style="color:#75715e"># configuring and making a link-time-diversified CPython binary
-</span><span style="color:#75715e"># by adding `-randomize-function-list` to `LDFLAGS`
-</span><span style="color:#75715e"></span>CC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/clang -flto&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>CXX<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/clang++ -flto&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>RANLIB<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/llvm-ranlib&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>AR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/llvm-ar&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>CFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-O2 -g -frandom-seed=42&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>CXXFLAGS<span style="color:#f92672">=</span>$CFLAGS <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>LDFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Wl,--plugin-opt,-random-seed=42 -Wl,--plugin-opt,-randomize-function-list&#34;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	./configure --prefix<span style="color:#f92672">=</span>$ROOT_DIR/python_fnrando <span style="color:#f92672">&amp;&amp;</span> make -j<span style="color:#e6db74">`</span>ncpus<span style="color:#e6db74">`</span> install
+<span style="color:#6272a4"># configuring and making a link-time-diversified CPython binary
+</span><span style="color:#6272a4"># by adding `-randomize-function-list` to `LDFLAGS`
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">CC</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span><span style="color:#f1fa8c">/multicompiler/install/bin/clang -flto&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">CXX</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span><span style="color:#f1fa8c">/multicompiler/install/bin/clang++ -flto&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">RANLIB</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span><span style="color:#f1fa8c">/multicompiler/install/bin/llvm-ranlib&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">AR</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span><span style="color:#f1fa8c">/multicompiler/install/bin/llvm-ar&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">CFLAGS</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;-O2 -g -frandom-seed=42&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">CXXFLAGS</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$CFLAGS</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span><span style="color:#8be9fd;font-style:italic">LDFLAGS</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;-Wl,--plugin-opt,-random-seed=42 -Wl,--plugin-opt,-randomize-function-list&#34;</span> <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	./configure --prefix<span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span>/python_fnrando <span style="color:#ff79c6">&amp;&amp;</span> make -j<span style="color:#f1fa8c">`</span>ncpus<span style="color:#f1fa8c">`</span> install
 
-<span style="color:#75715e">#  testing diversified python
-</span><span style="color:#75715e"></span>time make TESTOPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-x test_gdb test_ssl&#34;</span> quicktest</code></pre></div>
+<span style="color:#6272a4">#  testing diversified python
+</span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">time</span> make <span style="color:#8be9fd;font-style:italic">TESTOPTS</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;-x test_gdb test_ssl&#34;</span> quicktest</code></pre></div>
 
 <p><strong>Note:</strong> we pass a random seed even for the &ldquo;norando&rdquo; build (where none is required) to suppress warnings.</p>
 
 <h3 id="verifying-the-effects-of-function-randomization">Verifying the Effects of Function Randomization</h3>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nm --numeric-sort $ROOT_DIR/python_norando/bin/python | <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	egrep <span style="color:#e6db74">&#34;[[:xdigit:]]+\st\s\w+&#34;</span> | tail
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nm --numeric-sort <span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span>/python_norando/bin/python | <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	egrep <span style="color:#f1fa8c">&#34;[[:xdigit:]]+\st\s\w+&#34;</span> | tail
 
-nm --numeric-sort $ROOT_DIR/python_fnrando/bin/python | <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>	egrep <span style="color:#e6db74">&#34;[[:xdigit:]]+\st\s\w+&#34;</span> | tail</code></pre></div>
+nm --numeric-sort <span style="color:#8be9fd;font-style:italic">$ROOT_DIR</span>/python_fnrando/bin/python | <span style="color:#f1fa8c">\
+</span><span style="color:#f1fa8c"></span>	egrep <span style="color:#f1fa8c">&#34;[[:xdigit:]]+\st\s\w+&#34;</span> | tail</code></pre></div>
 
 <p>On the host used for testing, <code>tail</code> returns the following for <code>python_norando</code>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hex" data-lang="hex">0000000000559160 t ast_for_call
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hex" data-lang="hex">0000000000559160 t ast_for_call
 0000000000559910 t ast_for_slice
 0000000000559d40 t alias_for_import_name
 000000000055a280 t ast_for_suite
@@ -323,7 +323,7 @@ nm --numeric-sort $ROOT_DIR/python_fnrando/bin/python | <span style="color:#ae81
 
 <p>whereas the same command for <code>python_fnrando</code> prints</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hex" data-lang="hex">000000000055bea0 t iter_len
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hex" data-lang="hex">000000000055bea0 t iter_len
 000000000055bfd0 t slot_nb_inplace_and
 000000000055bff0 t wrap_ternaryfunc_r
 000000000055c060 t formatteriter_next
@@ -338,15 +338,15 @@ nm --numeric-sort $ROOT_DIR/python_fnrando/bin/python | <span style="color:#ae81
 
 <p><strong>Note:</strong> The way we&rsquo;ve built CPython is simple but not the most secure. To show what arguments were passed to the CPython <code>configure</code> script on your host, run the following commands in a python REPL:</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> distutils.sysconfig
-<span style="color:#66d9ef">print</span>(distutils<span style="color:#f92672">.</span>sysconfig<span style="color:#f92672">.</span>get_config_var(<span style="color:#e6db74">&#39;CONFIG_ARGS&#39;</span>))</code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#ff79c6">import</span> distutils.sysconfig
+<span style="color:#ff79c6">print</span>(distutils<span style="color:#ff79c6">.</span>sysconfig<span style="color:#ff79c6">.</span>get_config_var(<span style="color:#f1fa8c">&#39;CONFIG_ARGS&#39;</span>))</code></pre></div>
 
 <p>Example output on Ubuntu 16.04:
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#e6db74">&#39;--enable-shared&#39;</span> <span style="color:#e6db74">&#39;--prefix=/usr&#39;</span> <span style="color:#e6db74">&#39;--enable-ipv6&#39;</span> <span style="color:#e6db74">&#39;--enable-unicode=ucs4&#39;</span> 
-<span style="color:#e6db74">&#39;--with-dbmliborder=bdb:gdbm&#39;</span> <span style="color:#e6db74">&#39;--with-system-expat&#39;</span> <span style="color:#e6db74">&#39;--with-computed-gotos&#39;</span> 
-<span style="color:#e6db74">&#39;--with-system-ffi&#39;</span>  <span style="color:#e6db74">&#39;--with-fpectl&#39;</span> <span style="color:#e6db74">&#39;CC=x86_64-linux-gnu-gcc&#39;</span> 
-<span style="color:#e6db74">&#39;CFLAGS=-Wdate-time -D_FORTIFY_SOURCE=2 -g  -fstack-protector-strong -Wformat 
-</span><span style="color:#e6db74">-Werror=format-security &#39;</span> <span style="color:#e6db74">&#39;LDFLAGS=-Wl,-Bsymbolic-functions -Wl,-z,relro&#39;</span></code></pre></div></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f1fa8c">&#39;--enable-shared&#39;</span> <span style="color:#f1fa8c">&#39;--prefix=/usr&#39;</span> <span style="color:#f1fa8c">&#39;--enable-ipv6&#39;</span> <span style="color:#f1fa8c">&#39;--enable-unicode=ucs4&#39;</span> 
+<span style="color:#f1fa8c">&#39;--with-dbmliborder=bdb:gdbm&#39;</span> <span style="color:#f1fa8c">&#39;--with-system-expat&#39;</span> <span style="color:#f1fa8c">&#39;--with-computed-gotos&#39;</span> 
+<span style="color:#f1fa8c">&#39;--with-system-ffi&#39;</span>  <span style="color:#f1fa8c">&#39;--with-fpectl&#39;</span> <span style="color:#f1fa8c">&#39;CC=x86_64-linux-gnu-gcc&#39;</span> 
+<span style="color:#f1fa8c">&#39;CFLAGS=-Wdate-time -D_FORTIFY_SOURCE=2 -g  -fstack-protector-strong -Wformat 
+</span><span style="color:#f1fa8c">-Werror=format-security &#39;</span> <span style="color:#f1fa8c">&#39;LDFLAGS=-Wl,-Bsymbolic-functions -Wl,-z,relro&#39;</span></code></pre></div></p>
 
 <h3 id="performance-impact-of-randomization">Performance Impact of Randomization</h3>
 
