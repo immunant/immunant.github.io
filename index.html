@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Information Security Research and Development.">
   <meta name="author" content="Immunant, Inc.">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.53" />
   <title>Immunant, Inc</title>
   <!-- Stylesheets -->
   <link href="//immunant.com/css/bootstrap-v3.3.7/bootstrap.css" rel="stylesheet">
@@ -135,7 +135,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">Services</h2>
-                <h3 class="section-subheading text-muted">We specialize in the following areas:</h3>
+                <h3 class="section-subheading text-muted">Securing your software shouldn’t have to come at the expense of efficiency. At Immunant we work alongside you to develop customized security solutions. We specialize in tailoring cutting-edge research to fit the software you build and the threats you face. From legacy embedded systems to modern browsers, we can help you secure, migrate, and build systems software.</h3>
             </div>
         </div>
         <div class="row text-center">
@@ -143,10 +143,28 @@
             <div class="col-md-6">
                 <span class="fa-stack fa-4x">
                     <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
+                    <i class="fa fa-shield fa-stack-1x fa-inverse"></i>
                 </span>
-                <h4 class="service-heading">Exploit Mitigation &amp; Code Hardening</h4>
-                <p class="text-muted">Standard exploit mitigations are routinely bypassed by adversaries. Immunant develops a suite of probabilistic defenses that randomize the attack surface of an application on every run while preserving its performance and functionality.</p>
+                <h4 class="service-heading">Mitigation</h4>
+                <p class="text-muted">Even the best software has security vulnerabilities. We are leading experts in automatically mitigating the impact of these bugs. Let us help you apply state-of-the-art defenses to your software today.</p>
+            </div>
+            
+            <div class="col-md-6">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-level-up fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">Migration</h4>
+                <p class="text-muted">Straining under the burden of a legacy codebase? We provide a cost-effective and compatible solution for migrating your buggy, insecure systems software into a modern and maintainable language.</p>
+            </div>
+            
+            <div class="col-md-6">
+                <span class="fa-stack fa-4x">
+                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fa fa-wrench fa-stack-1x fa-inverse"></i>
+                </span>
+                <h4 class="service-heading">Integration</h4>
+                <p class="text-muted">Struggling to interface between your shiny new Rust code and your existing code? Need to isolate unsafe legacy libraries? Let’s talk about how to build customized tooling to suit your needs.</p>
             </div>
             
             <div class="col-md-6">
@@ -155,7 +173,7 @@
                     <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
                 </span>
                 <h4 class="service-heading">Information Security R&amp;D</h4>
-                <p class="text-muted">Immunant is a deep-science startup seeking to address longstanding information security challenges. We offer a limited set of R&amp;D services to enterprise and government customers.</p>
+                <p class="text-muted">We rely on our background in computer science to address longstanding information security challenges. We offer a limited set of R&amp;D services to enterprise and government customers.</p>
             </div>
             
         </div>
@@ -166,7 +184,9 @@
         
         
         
-        <!-- Contact Section -->
+        
+<!-- Contact Section -->
+
 <section id="contact">
   <div class="container">
     <div class="row">
@@ -184,9 +204,10 @@
     </div>
     <div class="row">
       <div class="col-lg-12">
-        
-        <form  action="//formspree.io/team@immunant.com" method="POST" name="sentMessage" id="contactForm">
-        
+        <form
+          method="POST"
+          name="sentMessage"
+          id="contactForm" action="//formspree.io/team@immunant.com">
 
           <fieldset>
             <div class="row">
@@ -230,12 +251,30 @@
                     Thank you for contacting us.
                   
                 </div>
+                <div class="captcha-error text-danger" id="captcha-error">
+                  Message is not sendable due to captcha not loadable. Please contact us at team@immunant.com.
+                </div>
                 <div class="text-danger" id="error" style="display:none;">
                   
                     Message could not be send. Please contact us at team@immunant.com instead.
                   
                 </div><br />
-                <button type="submit" value="Submit" class="btn btn-xl">Send message</button>
+                
+                  <div class="g-recaptcha-container">
+                    <span class="g-recaptcha-filler"></span>
+                    <button
+                      type="submit"
+                      value="Submit"
+                      class="g-recaptcha btn btn-xl"
+                      data-sitekey="6LfdUYwUAAAAAO7cdgEebzVehyxWBKiwqeDIWNL6"
+                      data-size="invisible"
+                      data-badge="inline"
+                      data-callback="onContactCaptcha">
+                      Send message
+                    </button>
+                    <span class="filler"></span>
+                  </div>
+                
               </div>
             </div>
             
@@ -251,7 +290,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <span class="copyright">&copy; 2014-2019 Immunant, Inc.</span>
+                <span class="copyright">&copy; 2019 Immunant, Inc.</span>
             </div>
             <div class="col-md-4">
                 <ul class="list-inline social-buttons">
@@ -264,6 +303,8 @@
             </div>
             <div class="col-md-4">
                 <ul class="list-inline quicklinks">
+                    
+                    <li><a href=""></a></li>
                     
                 </ul>
             </div>
@@ -299,6 +340,10 @@ if (!doNotTrack) {
 <script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
+
+
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 
 
