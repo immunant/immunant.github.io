@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Immunant, Inc</title>
+    <link>/</link>
+    <description>Recent content on Immunant, Inc</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Immunant, Inc.</copyright>
+    <lastBuildDate>Tue, 21 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Contact Us</title>
+      <link>/contact/</link>
+      <pubDate>Tue, 21 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/contact/</guid>
+      <description> Name:   Email:   Message:   Send Message   </description>
+    </item>
+    
+    <item>
+      <title>Message Sent</title>
+      <link>/thanks/</link>
+      <pubDate>Tue, 21 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/thanks/</guid>
+      <description>Thanks for reaching out; we&amp;rsquo;ll be in touch shortly.</description>
+    </item>
+    
+    <item>
+      <title>Optimizing for Security</title>
+      <link>/blog/2018/09/multicompiler/</link>
+      <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2018/09/multicompiler/</guid>
+      <description>It is obviously very bad if everybody used the same password. It is also bad when one person reuses the same password across sites. Luckily, we have password managers that can generate unique, random passwords for each site. It is no less of a problem when everybody runs the same software for the following reason: When a software flaw is found, we want every installation of the program to be different enough that the same malicious input cannot compromise multiple users (but not so different that users notice).</description>
+    </item>
+    
+    <item>
+      <title>Code Migration</title>
+      <link>/migrating/</link>
+      <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/migrating/</guid>
+      <description>The risks of memory safety bugs are well understood. Even expert developers struggle to correctly use C/C++. In the best case scenario, the development process is augmented by an array of bug finding tools such as fuzzers and static analyzers. Even so, we know that memory safety bugs invariably make it into the released code where they will be found by attackers.
+For instance, Microsoft reported that over the last 12 years, 70% of Microsoft security patches address memory safety bugs.</description>
+    </item>
+    
+    <item>
+      <title>Hardening and Exploit Mitigation</title>
+      <link>/mitigating/</link>
+      <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/mitigating/</guid>
+      <description>Need to process untrusted inputs with C/C++? Oftentimes, security best practices do not get implemented; limited resources causes things to slip through the cracks. Our expert security engineers work alongside your team to measurably increase the security of your product. Whether you rely on software developed in house or third party/open source libraries, we will help you assess your current security posture and deploy additional software hardening techniques without degrading overall system performance.</description>
+    </item>
+    
+  </channel>
+</rss>

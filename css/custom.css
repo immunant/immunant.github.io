@@ -1,0 +1,66 @@
+.logo span.logo__mark {
+    display: none;
+}
+
+.logo span.logo__text {
+    margin-top: 6px;
+    height: 66px;
+    content:url("/images/logo-light.png");
+    font-size: 250%;
+}
+
+.dark-theme .logo span.logo__text {
+    content:url("/images/logo-dark.png");
+}
+
+.logo span.logo__cursor {
+    display: none;
+}
+
+div.content {
+    margin-top: 0;
+}
+
+.container {
+    flex-basis: auto;
+}
+
+.dark-theme h1, .dark-theme h2, .dark-theme h3, .dark-theme h4, .dark-theme h5, .dark-theme h6, .dark-theme strong, .dark-theme a  {
+    color: rgb(220, 220, 230);
+}
+
+.header {
+    padding: 5px;
+}
+
+.contact {
+    margin: 1em 0; 
+}
+.contact label {
+    margin-top: 1em;
+    display: block; 
+}
+.contact span {
+    display: block; 
+}
+
+.contact textarea {
+    height: 100px; 
+}
+
+.contact label input, .contact label textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 1em;
+    background-color: #fafafa;
+    border: 1px solid #dbdbe0;
+    border-radius: 8px;
+    box-shadow: none;
+    padding: 0.55em 0.75em; 
+}
+
+h1 {
+    justify-content: center;
+    padding-bottom: 0.5em;
+    font-size: 300%;
+}
