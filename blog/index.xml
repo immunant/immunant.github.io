@@ -13,6 +13,15 @@
     
     
     <item>
+      <title>Introduction to C2Rust</title>
+      <link>/blog/2019/08/introduction-to-c2rust/</link>
+      <pubDate>Fri, 16 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2019/08/introduction-to-c2rust/</guid>
+      <description>We believe that software should be both fast and safe. Languages like C and C++ deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. Rust delivers on speed and interoperability while making memory safety the default.</description>
+    </item>
+    
+    <item>
       <title>Optimizing for Security</title>
       <link>/blog/2018/09/multicompiler/</link>
       <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>

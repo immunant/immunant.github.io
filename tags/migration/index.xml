@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>migration on Immunant, Inc</title>
+    <link>/tags/migration/</link>
+    <description>Recent content in migration on Immunant, Inc</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Immunant, Inc.</copyright>
+    <lastBuildDate>Fri, 16 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/migration/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Introduction to C2Rust</title>
+      <link>/blog/2019/08/introduction-to-c2rust/</link>
+      <pubDate>Fri, 16 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2019/08/introduction-to-c2rust/</guid>
+      <description>We believe that software should be both fast and safe. Languages like C and C++ deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. Rust delivers on speed and interoperability while making memory safety the default.</description>
+    </item>
+    
+  </channel>
+</rss>
