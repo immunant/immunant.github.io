@@ -13,6 +13,17 @@
     
     
     <item>
+      <title>Improved C Variadics in Rust and C2Rust</title>
+      <link>/blog/2019/09/variadics/</link>
+      <pubDate>Tue, 17 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2019/09/variadics/</guid>
+      <description>Improved C Variadics in Rust and C2Rust Introduction to C Variadics The C language provides a special class of functions called variadic functions that can be called with a variable number of arguments. The declaration of a variadic function ends with an ellipsis, e.g.:
+void variadic_function(int x, ...);  Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).
+The C runtime provides a set of helper macros that developers use to retrieve the values of the variadic arguments.</description>
+    </item>
+    
+    <item>
       <title>Introduction to C2Rust</title>
       <link>/blog/2019/08/introduction-to-c2rust/</link>
       <pubDate>Fri, 16 Aug 2019 00:00:00 +0000</pubDate>

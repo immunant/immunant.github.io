@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="">
+<meta name="description"
+    content="Improved C Variadics in Rust and C2Rust Introduction to C Variadics The C language provides a special class of functions called variadic functions that can be called with a variable number of arguments. The declaration of a variadic function ends with an ellipsis, e.g.:
+void variadic_function(int x, ...);  Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).
+The C runtime provides a set of helper macros that developers use to retrieve the values of the variadic arguments." />
+<meta name="keywords" content="migration mitigation hardening research consulting" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/blog/2019/09/variadics/" />
+
+
+<title>
+    
+    Improved C Variadics in Rust and C2Rust :: Immunant, Inc 
+    
+</title>
+
+
+
+
+
+
+<link rel="stylesheet" href="/main.min.53cf309f64bc819823e75e49eb5c48fba4fedbdf42678008748eba50b328eefe.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png ">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png ">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png ">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png ">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png ">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png ">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png ">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png ">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png ">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png ">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png ">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png ">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png ">
+<link rel="manifest" href="/images/favicon/manifest.json ">
+<meta name="msapplication-TileColor" content="#0A4F93">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
+<link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico " type="image/x-icon">
+<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Improved C Variadics in Rust and C2Rust">
+<meta itemprop="description" content="Improved C Variadics in Rust and C2Rust Introduction to C Variadics The C language provides a special class of functions called variadic functions that can be called with a variable number of arguments. The declaration of a variadic function ends with an ellipsis, e.g.:
+void variadic_function(int x, ...);  Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).
+The C runtime provides a set of helper macros that developers use to retrieve the values of the variadic arguments.">
+
+
+<meta itemprop="datePublished" content="2019-09-17T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-09-17T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1711">
+
+
+
+<meta itemprop="keywords" content="migration,Rust,c2rust," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/images"/>
+
+<meta name="twitter:title" content="Improved C Variadics in Rust and C2Rust"/>
+<meta name="twitter:description" content="Improved C Variadics in Rust and C2Rust Introduction to C Variadics The C language provides a special class of functions called variadic functions that can be called with a variable number of arguments. The declaration of a variadic function ends with an ellipsis, e.g.:
+void variadic_function(int x, ...);  Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).
+The C runtime provides a set of helper macros that developers use to retrieve the values of the variadic arguments."/>
+
+
+
+
+<meta property="article:published_time" content="2019-09-17 00:00:00 &#43;0000 &#43;0000" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">Immunant</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/migration">Migration</a></li><li><a href="/mitigation">Mitigation</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="/blog/2019/09/variadics/">Improved C Variadics in Rust and C2Rust</a></h2>
+
+            
+
+            <div class="post-content">
+                
+
+<h1 id="improved-c-variadics-in-rust-and-c2rust">Improved C Variadics in Rust and C2Rust</h1>
+
+<h2 id="introduction-to-c-variadics">Introduction to C Variadics</h2>
+
+<p>The C language provides a special class of functions called <em>variadic functions</em>
+that can be called with a variable number of arguments. The declaration of a variadic
+function ends with an ellipsis, e.g.:</p>
+
+<pre><code class="language-C">void variadic_function(int x, ...);
+</code></pre>
+
+<p>Variadic functions can be called with any number of arguments in place of the
+ellipsis (including none at all).</p>
+
+<p>The C runtime provides a set of helper macros that developers use to retrieve
+the values of the variadic arguments.
+All the macros, along with the <code>va_list</code> type, are defined in the
+<code>stdarg.h</code> header and most commonly implemented as <a href="https://en.wikipedia.org/wiki/Intrinsic_function">compiler builtins</a>:</p>
+
+<ul>
+<li><p><code>va_start(ap, last)</code> initializes the variable <code>ap</code> of type <code>va_list</code>
+to the next argument of the current function following <code>last</code>,
+where <code>last</code> is the name of one of the non-variadic arguments of the
+function. <code>last</code> most commonly refers to the argument immediately before
+the ellipsis, so <code>ap</code> is effectively initialized with the address of the
+first variadic argument.</p></li>
+
+<li><p><code>va_arg(ap, type)</code> returns the value of the next argument from <code>ap</code>,
+under the assumption that the type of the argument at the variadic
+function&rsquo;s call site is <code>type</code>.</p></li>
+
+<li><p><code>va_copy(aq, ap)</code> copies the current state of <code>ap</code> into <code>aq</code>. Both
+arguments have type <code>va_list</code>.</p></li>
+
+<li><p><code>va_end(ap)</code> frees all resources used by <code>ap</code>. Each <code>va_start</code>
+and <code>va_copy</code> call must be matched by exactly one <code>va_end</code> call in the same
+function.</p></li>
+</ul>
+
+<p>For example, this is a very common implementation of the <code>printf</code> function:</p>
+
+<pre><code class="language-C">int printf(const char *fmt, ...) {
+    int res;
+    va_list ap;
+    va_start(ap, fmt);
+    res = vprintf(fmt, ap);
+    va_end(ap);
+    return res;
+}
+</code></pre>
+
+<p>The signature of the <code>vprintf</code> function is</p>
+
+<pre><code class="language-C">int vprintf(const char *fmt, va_list ap);
+</code></pre>
+
+<p>and it internally calls <code>va_arg</code> to retrieve the values of the
+arguments passed to <code>printf</code>.</p>
+
+<h2 id="c-variadics-in-rust">C Variadics in Rust</h2>
+
+<p>Our goal in the <a href="https://github.com/immunant/c2rust">C2Rust</a> project is to translate any valid C99 program into equivalent Rust code. Naturally, this means we need to properly support translating
+C variadic functions into Rust.</p>
+
+<p>For a long time, the Rust-C FFI only allowed one-way calls to C variadic
+functions: Rust code could call C variadic functions, but not the other way
+around. For example, the <code>printf</code> function could be declared and called from
+Rust as:</p>
+
+<pre><code class="language-Rust">extern &quot;C&quot; {
+    fn printf(fmt: *const c_char, ...) -&gt; c_int;
+}
+</code></pre>
+
+<p>but such a function could not be implemented in Rust.</p>
+
+<p><a href="https://github.com/rust-lang/rfcs/blob/master/text/2137-variadic.md">Rust RFC 2137</a>
+proposed an interface for Rust code to provide C-compatible variadic functions,
+which was later implemented as a <a href="https://github.com/rust-lang/rust/pull/49878">series</a>
+of <a href="https://github.com/rust-lang/rust/pull/57760">patches</a> by Dan Robertson that have been
+merged into nightly Rust from November 2018 to February 2019.</p>
+
+<p>The new interface provides a new <code>VaList</code> that is compatible with C&rsquo;s
+<code>va_list</code> and which implements the following interface (simplified for brevity):</p>
+
+<pre><code class="language-Rust">impl VaList {
+    /// Rust equivalent of `va_arg`, extracts the next argument of type `T`.
+    pub unsafe fn arg&lt;T&gt;(&amp;mut self) -&gt; T;
+
+    /// Calls function `f` with a copy of `self`, constructed with `va_copy`
+    /// and safely destroyed using `va_end`.
+    pub unsafe fn with_copy&lt;F, R&gt;(&amp;self, f: F) -&gt; R
+        where F: FnOnce(VaList) -&gt; R;
+}
+</code></pre>
+
+<p>These methods provide a safer alternative to their C counterparts (but still
+marked <code>unsafe</code>, since <code>arg</code> still performs a form of <a href="https://en.wikipedia.org/wiki/Type_punning">type punning</a>),
+guaranteeing that every call to <code>va_start</code> and <code>va_copy</code> has a matching <code>va_end</code>.</p>
+
+<p>C variadic functions defined in Rust use a special syntax: the variadic
+arguments are defined with a special ellipsis type, which the compiler
+internally transforms into a <code>VaList</code> type and automatically calls <code>va_start</code>
+and <code>va_end</code> for that parameter, e.g.:</p>
+
+<pre><code class="language-Rust">pub unsafe extern &quot;C&quot; variadic_function(mut ap: ...) {
+    // rustc calls `va_start(ap)` internally here
+
+    // Print the first argument as a `u32`
+    println!(&quot;{}&quot;, ap.arg::&lt;u32&gt;());
+
+    // rustc now calls `va_end(ap)` automatically
+}
+</code></pre>
+
+<h2 id="implementing-clone-for-valist">Implementing <code>Clone</code> for <code>VaList</code></h2>
+
+<p>While the <code>VaList</code> API above does not directly match C&rsquo;s macros,
+it provides a sufficient interface for the C2Rust transpiler to support
+conversion of C <code>va_start</code>, <code>va_arg</code> and <code>va_end</code> calls. However, some uses of <code>va_copy</code>
+cannot be translated to <code>with_copy</code>, such as</p>
+
+<pre><code class="language-C">va_list ap1, ap2;
+va_copy(ap1, ap);
+if (condition)
+    va_copy(ap2, ap);
+// ...other code that uses ap1 and ap2...
+va_end(ap1);
+// ...more code that uses ap2...
+if (same_condition)
+    va_end(ap2);
+</code></pre>
+
+<p>and</p>
+
+<pre><code class="language-C">va_list aq, ap1, ap2;
+// ...initialize ap1 and ap2...
+if (condition) {
+    va_copy(aq, ap1);
+} else {
+    va_copy(aq, ap2);
+}
+// ...code that uses aq...
+va_end(aq);
+</code></pre>
+
+<p>In the first example, the problem is that the lifetimes of the <code>ap1</code> and <code>ap2</code> variables overlap, but neither includes the other. Therefore, we cannot replace each <code>va_copy</code> call with <code>with_copy</code> while also maintaining the order of variadics operations (we could move <code>va_end(ap1);</code> after the last <code>if</code> statement, but that might change the behavior of the entire program). In the second example, the <code>aq</code> copy is initialized in one of the branches of the <code>if</code> statement, but needs to escape the statement and live until the corresponding <code>va_end</code> call which is outside the statement. If we were to place the <code>with_copy</code> call inside the <code>if</code>, the latest its internal scope could end (and implicitly call <code>va_end</code>) would be at the end of each branch.</p>
+
+<p>For a real-world example of C code that cannot be trivially transformed to a <code>with_copy</code> call,
+see the <a href="https://github.com/JuliaLang/julia/blob/master/src/support/asprintf.c#L77"><code>vasprintf</code> function</a> in the Julia language implementation.</p>
+
+<p>The underlying issue is that <code>with_copy</code> creates a new scope which the copy lives and is destroyed in at the end, and assumes that all other uses of the copy can be cleanly moved into this scope. Our examples show that this is not always simple or even possible at all.</p>
+
+<p>To solve this problem, we submitted a Rust language <a href="https://github.com/rust-lang/rust/pull/59625">pull request</a>
+with an extension to this interface that would expose a Rust version of <code>va_copy</code>.
+After several redesigns based on discussions and suggestions from Rust language
+team, we settled on a final version of the interface with the following changes
+(based on a design proposed by Rust compiler team member eddyb):</p>
+
+<ul>
+<li><p>Split the previous <code>VaList</code> into two structures: an internal <code>VaListImpl</code>
+used by the compiler as the backing structure for the ellipsis argument,
+and <code>VaList</code> used as the public C-compatible interface for the former.</p></li>
+
+<li><p>Implement the <code>Clone</code> trait which copies a given <code>VaListImpl</code> and returns
+the copy.</p></li>
+</ul>
+
+<p>The <code>VaList</code> split brings Rust&rsquo;s data structures closer to their C equivalents,
+since on some architectures <code>va_list</code> is defined, e.g., by
+<a href="https://github.com/llvm/llvm-project/blob/release/8.x/clang/lib/AST/ASTContext.cpp#L7413">clang</a>, as</p>
+
+<pre><code class="language-C">typedef struct __va_list_tag va_list[1];
+</code></pre>
+
+<p>Due to C&rsquo;s implicit array-to-pointer decay, <code>va_list</code> decays to the
+<code>struct __va_list_tag*</code> pointer type when used in function signatures, but
+remains a single-element array (with the same size as the structure itself)
+when used to declare a local variable.
+To preserve this distinction in the Rust interface, we refactored <code>VaList</code> to match
+the pointer version of <code>va_list</code>, and added <code>VaListImpl</code> as an equivalent for
+the <code>__va_list_tag</code> structure.</p>
+
+<p>The new interface for the two structures is (simplified once again):</p>
+
+<pre><code class="language-Rust">impl VaListImpl {
+    /// Explicitly convert `VaListImpl` -&gt; `VaList` for callees.
+    pub fn as_va_list(&amp;mut self) -&gt; VaList;
+
+    pub unsafe fn arg&lt;T&gt;(&amp;mut self) -&gt; T;
+
+    /// Calls function `f` with a copy of `self`, constructed with `va_copy`
+    /// and safely destroyed using `va_end`.
+    pub unsafe fn with_copy&lt;F, R&gt;(&amp;self, f: F) -&gt; R
+      where F: FnOnce(VaList) -&gt; R;
+}
+
+impl Deref for VaList {
+    /// Deref-coercion for `VaList`, so it can be used in lieu of a `VaListImpl`.
+    fn deref(&amp;self) -&gt; &amp;VaListImpl;
+}
+
+/// `DerefMut` implementation for `arg`
+impl DerefMut for VaList { ... }
+
+impl Clone for VaListImpl {
+    /// Copy `self` into a new `VaListImpl` and return it.
+    fn clone(&amp;self) -&gt; Self;
+}
+</code></pre>
+
+<p>We omitted one interesting and significant detail from the interface for
+brevity: the actual types are not <code>VaListImpl</code> and <code>VaList</code>, but <code>VaListImpl&lt;'f&gt;</code>
+and <code>VaList&lt;'a, 'f&gt;</code>. The <code>'a</code> lifetime has a simple purpose: since <code>VaList</code>
+is internally just a <code>&amp;'a mut VaListImpl</code> reference to its backing <code>VaListImpl</code>,
+<code>'a</code> is the lifetime of that reference. On the other hand, <code>'f</code> has a much more
+interesting motivation: by making both structures invariant over this lifetime,
+we tie each <code>VaListImpl</code> structure to the function it was created in (for the
+<code>VaListImpl&lt;'f&gt;</code> creates implicitly by the compiler for an ellipsis argument,
+its lifetime argument is always the entire body of that variadic function),
+and tie each <code>VaList</code> to the lifetime of the <code>VaListImpl</code> it was created from.
+This has some interesting safety consequences:</p>
+
+<ul>
+<li><p>it prevents users from accidentally  assigning incompatible <code>VaList</code> or <code>VaListImpl</code> values,
+i.e., <code>VaList</code> values from two different variadic functions, and</p></li>
+
+<li><p>it prevents <code>VaListImpl&lt;'f&gt;</code> values from escaping their variadic function.</p></li>
+</ul>
+
+<p>For example, this code will fail to compile:</p>
+
+<pre><code class="language-Rust">pub unsafe extern fn foo&lt;'a&gt;(mut ap: ...) -&gt; VaListImpl&lt;'a&gt; {
+    // `VaListImpl` would escape
+    ap
+}
+
+fn bar&lt;'a, 'f, 'g: 'f&gt;(ap: &amp;mut VaList&lt;'a, 'f&gt;, aq: VaList&lt;'a, 'g&gt;) {
+    // Incompatible types
+    *ap = aq;
+}
+</code></pre>
+
+<h2 id="translating-c-variadics-to-rust">Translating C Variadics to Rust</h2>
+
+<p>With the extended interface, we have all the tools we need to convert C variadic macros and types
+into their Rust equivalents using the following rules:</p>
+
+<table>
+<thead>
+<tr>
+<th>C code</th>
+<th>Rust equivalent</th>
+<th>Rule</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>void foo(int x, ...)</code></td>
+<td><code>fn foo(x: c_int, mut args: ...)</code></td>
+<td>The ellipsis argument is named <code>args</code></td>
+</tr>
+
+<tr>
+<td><code>void bar(int, va_list)</code></td>
+<td><code>fn bar(_: c_int, _: VaList)</code></td>
+<td><code>va_list</code> function arguments get the <code>VaList</code> type</td>
+</tr>
+
+<tr>
+<td><code>va_list ap;</code></td>
+<td><code>let mut ap: VaListImpl;</code></td>
+<td><code>va_list</code> function locals get the <code>VaListImpl</code> type</td>
+</tr>
+
+<tr>
+<td><code>va_start(ap, x);</code></td>
+<td><code>ap = args.clone();</code></td>
+<td><code>va_start</code> becomes <code>args.clone()</code></td>
+</tr>
+
+<tr>
+<td><code>va_arg(ap, int)</code></td>
+<td><code>ap.arg::&lt;c_int&gt;()</code></td>
+<td><code>va_arg</code> becomes <code>VaListImpl::arg</code></td>
+</tr>
+
+<tr>
+<td><code>va_clone(aq, ap);</code></td>
+<td><code>aq = ap.clone();</code></td>
+<td><code>va_copy</code> becomes <code>VaListImpl::clone</code></td>
+</tr>
+
+<tr>
+<td><code>va_end(ap);</code></td>
+<td><code>/* Ignore va_end */</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<p>The rules above are generally straightforward, with a few notable exceptions.
+First, since <code>VaListImpl</code> does not provide a constructor or a <code>start</code> function,
+we actually implement <code>va_start</code> using the <code>clone</code> function.
+We use the function&rsquo;s ellipsis argument as the source for every such <code>clone</code>
+call. Since this requires that the argument is named, we assign it a unique
+name of <code>args</code> plus an optional suffix.
+Second, since <code>VaListImpl</code> values are automatically dropped, we simply ignore
+<code>va_end</code> calls.</p>
+
+<p>For example,</p>
+
+<pre><code class="language-C">void bar(int, va_list);
+
+void foo(int x, ...) {
+    va_list ap, aq;
+    va_start(ap, x);
+    va_copy(aq, ap);
+    bar(x, aq);
+    va_end(ap);
+    va_end(aq);
+}
+</code></pre>
+
+<p>becomes</p>
+
+<pre><code class="language-Rust">extern &quot;C&quot; {
+    #[no_mangle]
+    fn bar(_: c_int, _: VaList);
+}
+
+pub unsafe extern fn foo(x: c_int, mut args: ...) {
+    let mut ap: VaListImpl;
+    let mut aq: VaListImpl;
+    ap = args.clone();
+    aq = ap.clone();
+    bar(x, aq.as_va_list());
+}
+</code></pre>
+
+<h2 id="acknowledgments">Acknowledgments</h2>
+
+<p>We would like to thank Dan Robertson, Josh Triplett, and Eduard-Mihai Burtescu
+(eddyb) for the comments and suggestions for the design and implementation of
+<code>Clone</code> for <code>VaList</code> and the <code>VaList</code>/<code>VaListImpl</code> split.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/migration">migration</a></span><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span>
+  				</p>
+  			</div>
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+            <span>Immunant, Inc.</span>
+            <span>
+                <div>
+                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                </div>
+            </span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.9f93cb02eb7bb5503eb288f77da6a393bfa29f10a464a92838007cd0e3583ca5fc0a847aa8a8df980601098035d781cb35692dde3c51cea8544d129886e02988.js" integrity="sha512-n5PLAut7tVA&#43;soj3faajk7&#43;inxCkZKkoOAB80ONYPKX8CoR6qKjfmAYBCYA114HLNWkt3jxRzqhUTRKYhuApiA=="></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-44066564-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="/js/prism_custom.js"></script>
+	
+
+
+    </body>
+</html>
