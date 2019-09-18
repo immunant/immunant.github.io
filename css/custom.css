@@ -67,6 +67,7 @@ h1 {
 
 table {
     border-spacing: 0px 2px;
+    /* overflow-x:scroll; display:block; */
 }
 
 th {
@@ -75,5 +76,6 @@ th {
 }
 
 td {
+    white-space: nowrap;
     border-bottom: 1px solid #3B3D41;
 }
