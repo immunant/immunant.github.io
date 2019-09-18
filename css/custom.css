@@ -64,3 +64,16 @@ h1 {
     padding-bottom: 0.5em;
     font-size: 300%;
 }
+
+table {
+    border-spacing: 0px 2px;
+}
+
+th {
+    border-bottom: 2px solid #A9A9B2;
+    /* border-spacing: 0px; */
+}
+
+td {
+    border-bottom: 1px solid #3B3D41;
+}
