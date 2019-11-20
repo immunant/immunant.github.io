@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Authors on Immunant, Inc</title>
+    <link>/authors/</link>
+    <description>Recent content in Authors on Immunant, Inc</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Immunant, Inc.</copyright>
+    <lastBuildDate>Tue, 12 Nov 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>/authors/andrei-homescu/</link>
+      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/authors/andrei-homescu/</guid>
+      <description>Andrei is a co-founder and chief mad scientist at Immunant. In his free time, he enjoys long walks at the beach, urban hiking, and reality TV.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/authors/per-larsen/</link>
+      <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/authors/per-larsen/</guid>
+      <description>Per is a co-founder and CEO at Immunant. He is a fan of the metric system and an avid collector of limited-edition plastic spoons.</description>
+    </item>
+    
+  </channel>
+</rss>

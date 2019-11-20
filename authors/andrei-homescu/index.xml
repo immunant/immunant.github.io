@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Immunant, Inc</title>
+    <link>/authors/andrei-homescu/</link>
+    <description>Recent content on Immunant, Inc</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Immunant, Inc.</copyright>
+    <lastBuildDate>Tue, 12 Nov 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/authors/andrei-homescu/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Rust 2020: Lessons learned by transpiling C to Rust</title>
+      <link>/blog/2019/11/rust2020/</link>
+      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2019/11/rust2020/</guid>
+      <description>The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&amp;rsquo;ve uncovered some dark corners of C as it&amp;rsquo;s written in practice, and found places where Rust can&amp;rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C.</description>
+    </item>
+    
+    <item>
+      <title>Improved C Variadics in Rust and C2Rust</title>
+      <link>/blog/2019/09/variadics/</link>
+      <pubDate>Tue, 17 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2019/09/variadics/</guid>
+      <description>Introduction to C Variadics The C language provides a special class of functions called variadic functions that can be called with a variable number of arguments. The declaration of a variadic function ends with an ellipsis, e.g.:
+void variadic_function(int x, ...);  Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).
+The C runtime provides a set of helper macros that developers use to retrieve the values of the variadic arguments.</description>
+    </item>
+    
+  </channel>
+</rss>
