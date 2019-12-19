@@ -7,7 +7,7 @@
 <meta name="author"
     content="">
 <meta name="description"
-    content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&amp;rsquo;ve uncovered some dark corners of C as it&amp;rsquo;s written in practice, and found places where Rust can&amp;rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C." />
+    content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&#39;ve uncovered some dark corners of C as it&#39;s written in practice, and found places where Rust can&#39;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C." />
 <meta name="keywords" content="migration mitigation hardening research consulting" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="/blog/2019/11/rust2020/" />
@@ -24,7 +24,7 @@
 
 
 
-<link rel="stylesheet" href="/main.min.efebf3d66fb65cd25f0d7f425a6896aaf2fe7fe163cd428e36613168b478c4f1.css">
+<link rel="stylesheet" href="/main.min.9a236353d760abb5a7e86ed48beffd5b635f7dd438e88d74ee6ff5290838d430.css">
 
 
 
@@ -51,21 +51,19 @@
 <link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
 <link rel="icon" href="/images/favicon.ico " type="image/x-icon">
 <meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Rust 2020: Lessons learned by transpiling C to Rust">
-<meta itemprop="description" content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&rsquo;ve uncovered some dark corners of C as it&rsquo;s written in practice, and found places where Rust can&rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C.">
-
-
+<meta itemprop="description" content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&#39;ve uncovered some dark corners of C as it&#39;s written in practice, and found places where Rust can&#39;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C.">
 <meta itemprop="datePublished" content="2019-11-12T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2019-11-12T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1534">
+<meta itemprop="wordCount" content="1531">
+<meta itemprop="image" content="/images"/>
 
 
 
-<meta itemprop="keywords" content="migration,Rust,c2rust," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="keywords" content="migration,Rust,c2rust," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="/images"/>
 
 <meta name="twitter:title" content="Rust 2020: Lessons learned by transpiling C to Rust"/>
-<meta name="twitter:description" content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&rsquo;ve uncovered some dark corners of C as it&rsquo;s written in practice, and found places where Rust can&rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C."/>
+<meta name="twitter:description" content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&#39;ve uncovered some dark corners of C as it&#39;s written in practice, and found places where Rust can&#39;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C."/>
 
 
 
@@ -147,18 +145,14 @@
             
 
             <div class="post-content">
-                
-
-<p>The <a href="https://www.github.com/immunant/c2rust/">C2Rust</a> project is all about translating C
+                <p>The <a href="https://www.github.com/immunant/c2rust/">C2Rust</a> project is all about translating C
 code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our
 C2Rust introductory blog post <a href="/blog/2019/08/introduction-to-c2rust/">here</a>.)
-Along the way we&rsquo;ve uncovered  some dark corners of C as it&rsquo;s written in practice, and
-found places where Rust can&rsquo;t quite replicate the same code with the same ABI. This is
+Along the way we've uncovered  some dark corners of C as it's written in practice, and
+found places where Rust can't quite replicate the same code with the same ABI. This is
 the story of those dark corners and the areas we think Rust needs to improve to be fully
 FFI compatible with C.</p>
-
 <h2 id="background">Background</h2>
-
 <p>Rust was designed as a systems programming language that enforces
 temporal memory safety at compile-time, via a borrow checker that enforces strict
 ownership rules and limits aliasing for memory allocations and pointers.
@@ -167,17 +161,17 @@ pattern, which is also enforced at compile-time by calling local objects&rsquo;
 destructors at the end of each scope. Conversely, other programming languages
 solve these problems using garbage collection or <a href="https://en.wikipedia.org/wiki/Reference_counting">reference counting</a>. However, the garbage collector
 is usually a significant part of the language runtime and its existence
-influences the design of the rest of the language, including the language&rsquo;s FFI. Passing GC&rsquo;ed objects through the FFI to another language, e.g., C,
+influences the design of the rest of the language, including the language's FFI. Passing GC'ed objects through the FFI to another language, e.g., C,
 poses significant challenges since the GC must track pointers across languages
-or risk freeing them prematurely; alternatively, the GC&rsquo;ed language may
-disallow passing GC&rsquo;ed pointers through the FFI completely, like in <a href="https://golang.org/cmd/cgo/#hdr-Passing_pointers">Go</a>,
+or risk freeing them prematurely; alternatively, the GC'ed language may
+disallow passing GC'ed pointers through the FFI completely, like in <a href="https://golang.org/cmd/cgo/#hdr-Passing_pointers">Go</a>,
 or shift the burden of memory allocation back to the developer.</p>
-
-<p>Rust&rsquo;s static enforcement of memory safety (as opposed to dynamic management via garbage collection or reference counting) positions it as a valuable alternative to C or C++ in a lot of use cases. These include situations where:
-- multiple languages must coexist in a process and communicate over a FFI,
-- adding a heavyweight language runtime is infeasible, and
-- the pause times or memory requirements of garbage collection are undesirable.</p>
-
+<p>Rust's static enforcement of memory safety (as opposed to dynamic management via garbage collection or reference counting) positions it as a valuable alternative to C or C++ in a lot of use cases. These include situations where:</p>
+<ul>
+<li>multiple languages must coexist in a process and communicate over a FFI,</li>
+<li>adding a heavyweight language runtime is infeasible, and</li>
+<li>the pause times or memory requirements of garbage collection are undesirable.</li>
+</ul>
 <p>Rust is one of the few languages
 that can be used to implement middleware and OS components, with the rewrites optionally being
 drop-in replacements for the originals. In fact, one of the
@@ -191,7 +185,6 @@ Swift, and Python at writing applications, it is particularly suited for writing
 and low-level system components, e.g.,
 <a href="https://github.com/fishinabarrel/linux-kernel-module-rust">kernel modules</a> and
 <a href="https://github.com/intel/rust-hypervisor-firmware">firmware</a>.</p>
-
 <p>In cases like the above, binaries compiled from Rust are not used in a
 standalone environment, but linked (either statically or dynamically) as a
 component of a larger system, which may be written in one or several other
@@ -205,26 +198,20 @@ with C as a significant factor in systems language adoption, and concluded with
 a list of current problems and future improvements on this front.
 In this blog post, we give some real-world examples where Rust is not yet
 fully compatible with C, some of which already mentioned by Josh in his talk.</p>
-
-<h2 id="opportunities-to-improve-rust-s-compatibility-with-c">Opportunities to improve Rust&rsquo;s compatibility with C</h2>
-
+<h2 id="opportunities-to-improve-rusts-compatibility-with-c">Opportunities to improve Rust's compatibility with C</h2>
 <p>While converting C code to Rust using C2Rust, we encountered
-some edge cases where Rust cannot quite replicate C features (or at least gcc&rsquo;s variant of C).
+some edge cases where Rust cannot quite replicate C features (or at least gcc's variant of C).
 If we want Rust to be an ABI-compatible replacement for C, these are a few
 of the issues that we need to resolve.</p>
-
 <h3 id="long-double-types"><code>long double</code> types</h3>
-
 <p><code>long double</code> types in C are specified as being at least as long as <code>double</code> but are
 generally implemented as 80-bit floating point values on x86, although implementations are
 platform-dependent. To be fully ABI-compatible with C code, Rust needs to support long
 flointing-point types that match the implementations used on supported platforms, i.e.,
 <code>f80</code> and <code>f128</code>. A <a href="https://internals.rust-lang.org/t/pre-rfc-introduction-of-half-and-quadruple-precision-floats-f16-and-f128/7521">Pre-RFC thread</a> was started to discuss alternative floating-point types. Adding
 these types under <code>std::arch</code> was suggested, which seems like a good path forward.</p>
-
 <p>We ran into <code>long double</code> types in the wild when trying to translate the newlib C library,
-which can optionally be built with support for the <code>long
-double</code> type, including in its <code>printf</code> implementation. The best available alternative for
+which can optionally be built with support for the <code>long double</code> type, including in its <code>printf</code> implementation. The best available alternative for
 long floating-point types is the <code>f128</code> crate, which internally implements
 it as <a href="https://github.com/jkarns275/f128/blob/master/f128_internal/src/f128_t.rs#L10">an array of bytes</a>
 and implements all operations in
@@ -235,54 +222,50 @@ implemented by the <code>f128</code> crate. This poses problems not only for <co
 in variadics (which is how we initially
 <a href="https://github.com/immunant/c2rust/issues/154">encountered</a> this problem), but
 also when passing <code>long double</code> values between C and Rust.</p>
-
 <h3 id="gcc-extensions">GCC extensions</h3>
-
 <p>Many gcc extensions to C do not have Rust equivalents. For example, we ran
 into issues with the following extensions:</p>
-
 <ul>
-<li><p>Symbol aliases (link to open <a href="https://github.com/rust-lang/compiler-builtins/issues/70">issue</a>),
+<li>
+<p>Symbol aliases (link to open <a href="https://github.com/rust-lang/compiler-builtins/issues/70">issue</a>),
 i.e., <code>__attribute__((alias(&quot;foo&quot;)))</code>, used by
 <a href="https://github.com/immunant/libxml2-rs/blob/master/elfgcchack.h#L69">libxml2</a>.
 This attribute exports the same function or global variable as multiple symbols (which
 may even have different visibilities). Rust provides <code>#[no_mangle]</code> and
 <code>#[link_name=&quot;...&quot;]</code> which let us rename a global, but no equivalent attribute
-to export it under a second name.</p></li>
-
-<li><p>Packed structures that also have alignment requirements, e.g.,
+to export it under a second name.</p>
+</li>
+<li>
+<p>Packed structures that also have alignment requirements, e.g.,
 <a href="https://github.com/torvalds/linux/blob/master/arch/x86/include/asm/fpu/types.h#L253"><code>xregs_state</code></a> from the kernel.
 We opened an <a href="https://github.com/rust-lang/rust/issues/59154">issue</a> on this on GitHub,
-and the discussion is still ongoing.</p></li>
-
-<li><p>Aligned globals, e.g., <a href="https://github.com/immunant/ioq3/blob/master/code/asm/snapvector.c#L31"><code>ssemask</code> from ioq3</a>.
+and the discussion is still ongoing.</p>
+</li>
+<li>
+<p>Aligned globals, e.g., <a href="https://github.com/immunant/ioq3/blob/master/code/asm/snapvector.c#L31"><code>ssemask</code> from ioq3</a>.
 We could handle these cases by replacing them with aligned structures, but that
 would not be perfectly equivalent with the original C code. For example, for
 this C code:</p>
-
+</li>
+</ul>
 <pre><code class="language-C">struct Foo {
-char x[5];
+    char x[5];
 };
 
 struct Foo16 {
-char x[5];
+    char x[5];
 } __attribute__((aligned(16)));
 
 struct Foo foo __attribute__((aligned(16))) = { .x = &quot;foo&quot; };
 struct Foo16 foo16;
-</code></pre></li>
-</ul>
-
+</code></pre>
 <p>the alignments of variables <code>foo</code> and <code>foo16</code> are both 16, but their sizes are
 5 and 16 respectively.</p>
-
 <h3 id="static-library-sizes">Static library sizes</h3>
-
 <p>Most of the time we want to build a C shared library (cdylib) when building drop-in
 replacement Rust code. However, when we want to build a static library, the resulting library
-is huge. For example, building the minimal <code>no_std</code> rust module below, which doesn&rsquo;t depend
+is huge. For example, building the minimal <code>no_std</code> rust module below, which doesn't depend
 on any of the Rust standard library, results in a 1.6M static library!</p>
-
 <pre><code class="language-Rust">#![no_std]
 extern &quot;C&quot; {
     fn printk(fmt: *const u8, ...);
@@ -293,9 +276,7 @@ pub unsafe extern &quot;C&quot; fn rb_xcheck(tag: u8, val: u64) {
     printk(b&quot;XCHECK(%u):%lu/%#lx\n\x00&quot; as *const u8, tag as u32, val, val);
 }
 </code></pre>
-
 <p>results in the following crate file sizes:</p>
-
 <table>
 <thead>
 <tr>
@@ -303,74 +284,70 @@ pub unsafe extern &quot;C&quot; fn rb_xcheck(tag: u8, val: u64) {
 <th align="right">Size</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td><code>staticlib</code></td>
 <td align="right">1.6M</td>
 </tr>
-
 <tr>
 <td><code>rlib</code></td>
 <td align="right">5K</td>
 </tr>
-
 <tr>
 <td><code>cdylib</code></td>
 <td align="right">15K</td>
 </tr>
 </tbody>
 </table>
-
-<p>Because we needed to embed this code inside a kernel module, we couldn&rsquo;t use <code>cdylib</code>
+<p>Because we needed to embed this code inside a kernel module, we couldn't use <code>cdylib</code>
 (kernel modules are <code>.ko</code> files which are object files, the kernel does not
 support loading shared libraries). <code>rlib</code> is built with the assumption that
 it will be linked into another Rust target, so we decided to avoid it.
 The <code>staticlib</code> output was what we really wanted, but it was far larger.</p>
-
 <p>Incidentally, cargo produces an ELF archive when specifying <code>crate-type = &quot;staticlib&quot;</code>,
-but certain build systems like the kernel&rsquo;s only accept object files.
+but certain build systems like the kernel's only accept object files.
 We were able to work around this by linking a relocatable object file using
 <code>ld -r</code> (we have another blog post on kernel modules coming soon).</p>
-
 <h2 id="moving-forward">Moving forward</h2>
-
 <p>Summarizing our findings and our experiences with low-level Rust, here are a
 few ideas for the directions Rust could go in 2020:</p>
-
 <ul>
-<li><p>Compatibility with GCC: A few of the current edge cases were covered
+<li>
+<p>Compatibility with GCC: A few of the current edge cases were covered
 above. Potential improvements include support for more types like <code>long double</code>
 (maybe by exposing all LLVM types to Rust somehow). Additionally, there are
 <a href="https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#Common-Function-Attributes">many</a>
 <a href="https://gcc.gnu.org/onlinedocs/gcc/Variable-Attributes.html#Variable-Attributes">GCC</a>
 <a href="https://gcc.gnu.org/onlinedocs/gcc/Type-Attributes.html#Type-Attributes">attributes</a>
-that Rust could support.</p></li>
-
-<li><p>Linking: We have a few ideas for small improvements to Rust linking:</p>
-
+that Rust could support.</p>
+</li>
+<li>
+<p>Linking: We have a few ideas for small improvements to Rust linking:</p>
 <ul>
-<li><p>Embedding Rust code into certain build systems would be easier if Cargo
+<li>
+<p>Embedding Rust code into certain build systems would be easier if Cargo
 produced object files instead of libraries, e.g., by adding a new
-<code>crate-type = &quot;object&quot;</code> crate type.</p></li>
-
-<li><p>As noted above, the output archive for <code>staticlib</code> can be large even
+<code>crate-type = &quot;object&quot;</code> crate type.</p>
+</li>
+<li>
+<p>As noted above, the output archive for <code>staticlib</code> can be large even
 for small inputs, and reducing its size would make a difference in contexts
-where the final file is not a linked binary.</p></li>
-</ul></li>
-
-<li><p>Inline assembly: Currently Rust inline assembly maps very closely to LLVM&rsquo;s,
-which is a different format from gcc&rsquo;s, so we have had to work around mismatches.
+where the final file is not a linked binary.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Inline assembly: Currently Rust inline assembly maps very closely to LLVM's,
+which is a different format from gcc's, so we have had to work around mismatches.
 We are looking forward to Rust getting <a href="https://internals.rust-lang.org/t/pre-rfc-2-inline-assembly/11310">stable support for inline assembly</a> someday.
 Care needs to be taken in this process so that existing inline assembly can be rewritten into
-semantically equivalent assembly in whatever syntax is settled upon.</p></li>
+semantically equivalent assembly in whatever syntax is settled upon.</p>
+</li>
 </ul>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Right now, Rust covers <em>almost</em> everything one might want to do in C. While the issues we
 discuss here are fairly minor, they are holding back full feature parity and replacement of
-real-world C software. We&rsquo;ve been able to transpile most C code to FFI-compatible,
+real-world C software. We've been able to transpile most C code to FFI-compatible,
 equivalent Rust: lua, nginx and zstd currently transpile
 without any changes, and ioq3 only requires a single small change in the Rust
 output to run (the <code>ssemask</code> issue illustrated above). We hope that as Rust matures, we can resolve
@@ -386,7 +363,7 @@ these edge cases standing in the way of full compatibility between C and Rust.</
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/migration">migration</a></span><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span>
                 </p>
 
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1534 Words</p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1531 Words</p>
 
             <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-11-11 16:00 -0800</p>
         </div>
@@ -399,6 +376,13 @@ these edge cases standing in the way of full compatibility between C and Rust.</
                 </div>
 
                 <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="/blog/2019/12/header_merging/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">Source Code Linking: Merging C Headers into Rust Modules</span>
+                            </a>
+                        </span>
                     
 
                     
@@ -442,7 +426,7 @@ these edge cases standing in the way of full compatibility between C and Rust.</
 
 
 
-<script type="text/javascript" src="/bundle.min.9f93cb02eb7bb5503eb288f77da6a393bfa29f10a464a92838007cd0e3583ca5fc0a847aa8a8df980601098035d781cb35692dde3c51cea8544d129886e02988.js" integrity="sha512-n5PLAut7tVA&#43;soj3faajk7&#43;inxCkZKkoOAB80ONYPKX8CoR6qKjfmAYBCYA114HLNWkt3jxRzqhUTRKYhuApiA=="></script>
+<script type="text/javascript" src="/bundle.min.8be9386f14488003ed9d31a8f370720d5e5085686a819113a72effc3507cc232c7dab0b924367678a7825280b86abbb5b00f5cc7bf0a13362c8d134a8febe1da.js" integrity="sha512-i&#43;k4bxRIgAPtnTGo83ByDV5QhWhqgZETpy7/w1B8wjLH2rC5JDZ2eKeCUoC4aru1sA9cx78KEzYsjRNKj&#43;vh2g=="></script>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

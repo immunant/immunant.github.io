@@ -24,7 +24,7 @@
 
 
 
-<link rel="stylesheet" href="/main.min.efebf3d66fb65cd25f0d7f425a6896aaf2fe7fe163cd428e36613168b478c4f1.css">
+<link rel="stylesheet" href="/main.min.9a236353d760abb5a7e86ed48beffd5b635f7dd438e88d74ee6ff5290838d430.css">
 
 
 
@@ -52,16 +52,14 @@
 <link rel="icon" href="/images/favicon.ico " type="image/x-icon">
 <meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Introduction to C2Rust">
 <meta itemprop="description" content="We believe that software should be both fast and safe. Languages like C and C&#43;&#43; deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. Rust delivers on speed and interoperability while making memory safety the default.">
-
-
 <meta itemprop="datePublished" content="2019-08-16T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2019-08-16T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="533">
+<meta itemprop="image" content="/images"/>
 
 
 
-<meta itemprop="keywords" content="migration,Rust,c2rust," />
-<meta name="twitter:card" content="summary_large_image"/>
+<meta itemprop="keywords" content="migration,Rust,c2rust," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="/images"/>
 
 <meta name="twitter:title" content="Introduction to C2Rust"/>
@@ -139,63 +137,40 @@
             
 
             <div class="post-content">
-                
-
-<p>We believe that software should be both fast and safe. Languages like C and C++ deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. <a href="https://www.rust-lang.org/">Rust</a> delivers on speed and interoperability while making memory safety the default. We see it as a practical fit for incrementally moving systems software in a safer direction; and we&rsquo;re not the <a href="https://msrc-blog.microsoft.com/2019/07/16/a-proactive-approach-to-more-secure-code/">only ones</a>.</p>
-
-<p>To make that safer world a reality, we need a way to migrate existing software into more developer-friendly and secure languages. While many great projects such as Servo, Redox, and ripgrep are implementing new software in Rust, manual re-implementation efforts are costly and don&rsquo;t scale well. This is where C2Rust enters the picture. Our goal is to build useful tools that make it easier to take existing C code and get up and running with Rust. We aim to automate much of the translation and rewriting process so that migrating legacy systems is practical and scalable with minimal manual effort.</p>
-
-<p>We&rsquo;re excited to announce that a milestone long in the making is finally here! You can now install C2Rust from <a href="https://crates.io/crates/c2rust">crates.io</a> with a simple <code>cargo install</code> on Linux and OS X. We&rsquo;ve been hard at work improving C2Rust, so go install and give it a spin! You can find the necessary prerequisites in the <a href="https://github.com/immunant/c2rust#prerequisites">C2Rust README</a>.</p>
-
+                <p>We believe that software should be both fast and safe. Languages like C and C++ deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. <a href="https://www.rust-lang.org/">Rust</a> delivers on speed and interoperability while making memory safety the default. We see it as a practical fit for incrementally moving systems software in a safer direction; and we're not the <a href="https://msrc-blog.microsoft.com/2019/07/16/a-proactive-approach-to-more-secure-code/">only ones</a>.</p>
+<p>To make that safer world a reality, we need a way to migrate existing software into more developer-friendly and secure languages. While many great projects such as Servo, Redox, and ripgrep are implementing new software in Rust, manual re-implementation efforts are costly and don't scale well. This is where C2Rust enters the picture. Our goal is to build useful tools that make it easier to take existing C code and get up and running with Rust. We aim to automate much of the translation and rewriting process so that migrating legacy systems is practical and scalable with minimal manual effort.</p>
+<p>We're excited to announce that a milestone long in the making is finally here! You can now install C2Rust from <a href="https://crates.io/crates/c2rust">crates.io</a> with a simple <code>cargo install</code> on Linux and OS X. We've been hard at work improving C2Rust, so go install and give it a spin! You can find the necessary prerequisites in the <a href="https://github.com/immunant/c2rust#prerequisites">C2Rust README</a>.</p>
 <pre><code class="language-bash">cargo +nightly-2019-06-22 install c2rust
 </code></pre>
-
-<p><strong>Important!</strong> C2Rust depends on specific Rust nightly Rust version, so you&rsquo;ll need to specify the correct version when installing. Check <a href="https://crates.io/crates/c2rust">https://crates.io/crates/c2rust</a> for the latest required Rust nightly version.</p>
-
+<p><strong>Important!</strong> C2Rust depends on specific Rust nightly Rust version, so you'll need to specify the correct version when installing. Check <a href="https://crates.io/crates/c2rust">https://crates.io/crates/c2rust</a> for the latest required Rust nightly version.</p>
 <h2 id="trying-out-c2rust">Trying out C2Rust</h2>
-
-<p>Here&rsquo;s a quick example of how to use the C2Rust translator on a simple <a href="https://github.com/clibs/buffer">buffer library</a>. C2Rust reliably translates far larger projects but that&rsquo;s a topic for a another blog post.</p>
-
-<p>If you haven&rsquo;t already, install C2Rust:</p>
-
+<p>Here's a quick example of how to use the C2Rust translator on a simple <a href="https://github.com/clibs/buffer">buffer library</a>. C2Rust reliably translates far larger projects but that's a topic for a another blog post.</p>
+<p>If you haven't already, install C2Rust:</p>
 <pre><code class="language-bash">cargo +nightly-2019-06-22 install c2rust
 </code></pre>
-
 <p>Then check out the clibs buffer library:</p>
-
 <pre><code class="language-bash">git clone https://github.com/clibs/buffer.git
 cd buffer
 </code></pre>
-
 <p>Next, we need to generate a <code>compile_commands.json</code> file describing the build. We recommend <code>intercept-build</code> for simplicity but <a href="https://github.com/immunant/c2rust#generating-compile_commandsjson-files">many other tools</a> do the same thing.</p>
-
 <pre><code class="language-bash">pip install scan-build
 intercept-build make
 </code></pre>
-
-<p>Now we&rsquo;re ready to translate the code!</p>
-
+<p>Now we're ready to translate the code!</p>
 <pre><code class="language-bash">c2rust transpile --emit-build-files --binary test compile_commands.json
 </code></pre>
-
-<p>Here&rsquo;s what the flags do:</p>
-
+<p>Here's what the flags do:</p>
 <ul>
 <li><code>--binary test</code> tells the transpiler that we want to build a binary with the main function from the <code>test</code> module (<code>test.c</code>)</li>
-
-<li><p><code>--emit-build-files</code> will produce cargo build files for the project. Now we can build and run the Rust project with:</p>
-
+<li><code>--emit-build-files</code> will produce cargo build files for the project. Now we can build and run the Rust project with:</li>
+</ul>
 <pre><code class="language-bash">cargo +nightly build
 cargo +nightly run
-</code></pre></li>
-</ul>
-
+</code></pre>
 <p>Translated programs require nightly Rust for several reasons, including support for defining C variadic functions in Rust. This is gated by the <code>c_variadic</code> <a href="https://doc.rust-lang.org/beta/unstable-book/language-features/c-variadic.html">feature</a>.
-When C-compatible variadic functions and a <a href="https://github.com/immunant/c2rust/issues/46">few other features</a> are stabilized, translated projects won&rsquo;t require nightly Rust. If your translated code doesn&rsquo;t use any of the unstable features, you won&rsquo;t need nightly after translation.</p>
-
+When C-compatible variadic functions and a <a href="https://github.com/immunant/c2rust/issues/46">few other features</a> are stabilized, translated projects won't require nightly Rust. If your translated code doesn't use any of the unstable features, you won't need nightly after translation.</p>
 <h2 id="getting-in-touch">Getting in touch</h2>
-
-<p>Hit a roadblock? Is it one of our <a href="https://github.com/immunant/c2rust/blob/master/docs/known-limitations.md">known limitations</a>? If not, jump onto our <a href="https://discord.gg/ANSrTuu">discord channel</a> to tell us about it or send a mail to <a href="mailto:c2rust@immunant.com">c2rust@immunant.com</a>. We&rsquo;d love to hear from you.</p>
+<p>Hit a roadblock? Is it one of our <a href="https://github.com/immunant/c2rust/blob/master/docs/known-limitations.md">known limitations</a>? If not, jump onto our <a href="https://discord.gg/ANSrTuu">discord channel</a> to tell us about it or send a mail to <a href="mailto:c2rust@immunant.com">c2rust@immunant.com</a>. We'd love to hear from you.</p>
 
             </div>
         </article>
@@ -270,7 +245,7 @@ When C-compatible variadic functions and a <a href="https://github.com/immunant/
 
 
 
-<script type="text/javascript" src="/bundle.min.9f93cb02eb7bb5503eb288f77da6a393bfa29f10a464a92838007cd0e3583ca5fc0a847aa8a8df980601098035d781cb35692dde3c51cea8544d129886e02988.js" integrity="sha512-n5PLAut7tVA&#43;soj3faajk7&#43;inxCkZKkoOAB80ONYPKX8CoR6qKjfmAYBCYA114HLNWkt3jxRzqhUTRKYhuApiA=="></script>
+<script type="text/javascript" src="/bundle.min.8be9386f14488003ed9d31a8f370720d5e5085686a819113a72effc3507cc232c7dab0b924367678a7825280b86abbb5b00f5cc7bf0a13362c8d134a8febe1da.js" integrity="sha512-i&#43;k4bxRIgAPtnTGo83ByDV5QhWhqgZETpy7/w1B8wjLH2rC5JDZ2eKeCUoC4aru1sA9cx78KEzYsjRNKj&#43;vh2g=="></script>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

@@ -79,3 +79,52 @@ td {
     white-space: nowrap;
     border-bottom: 1px solid #3B3D41;
 }
+
+.multi-column-container {
+  height: 950px;
+}
+
+.multi-column {
+  border: 1px solid #3B3D41;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100em;
+  height: 950px;
+  overflow: auto;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  align-content: flex-start;
+}
+
+.multi-column .column {
+  min-width: 100px;
+  margin: 0 1em;
+  padding-left: 1.25em;
+}
+
+.multi-column .column pre {
+  font-size: 90%;
+}
+
+.multi-column .column h3 {
+  position: absolute;
+  width: 5em;
+  height: 1em;
+  margin-top: 5.5em;
+  margin-left: -1.5em;
+  text-align: right;
+  display: block;
+  transform: rotate(270deg);
+  transform-origin: 0 0;
+  text-transform: uppercase;
+  font-size: 150%;
+  padding-top: 0;
+}
+
+h2, h3 {
+  padding-top: 1em;
+}

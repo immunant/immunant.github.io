@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="">
+<meta name="description"
+    content="Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&#39;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&#39;s module system is a huge improvement over C header files." />
+<meta name="keywords" content="migration mitigation hardening research consulting" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/blog/2019/12/header_merging/" />
+
+
+<title>
+    
+    Source Code Linking: Merging C Headers into Rust Modules :: Immunant, Inc 
+    
+</title>
+
+
+
+
+
+
+<link rel="stylesheet" href="/main.min.9a236353d760abb5a7e86ed48beffd5b635f7dd438e88d74ee6ff5290838d430.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png ">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png ">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png ">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png ">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png ">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png ">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png ">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png ">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png ">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png ">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png ">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png ">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png ">
+<link rel="manifest" href="/images/favicon/manifest.json ">
+<meta name="msapplication-TileColor" content="#0A4F93">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
+<link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico " type="image/x-icon">
+<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Source Code Linking: Merging C Headers into Rust Modules">
+<meta itemprop="description" content="Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&#39;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&#39;s module system is a huge improvement over C header files.">
+<meta itemprop="datePublished" content="2019-12-18T16:00:00-08:00" />
+<meta itemprop="dateModified" content="2019-12-18T16:00:00-08:00" />
+<meta itemprop="wordCount" content="3119">
+<meta itemprop="image" content="/images"/>
+
+
+
+<meta itemprop="keywords" content="migration,Rust,c2rust,refactoring," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/images"/>
+
+<meta name="twitter:title" content="Source Code Linking: Merging C Headers into Rust Modules"/>
+<meta name="twitter:description" content="Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&#39;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&#39;s module system is a huge improvement over C header files."/>
+
+
+
+
+<meta property="article:published_time" content="2019-12-18 16:00:00 -0800 PST" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">Immunant</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/migration">Migration</a></li><li><a href="/mitigation">Mitigation</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>15 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="/blog/2019/12/header_merging/">Source Code Linking: Merging C Headers into Rust Modules</a></h1>
+                By
+                    
+                    <a href="/authors/stephen-crane">Stephen Crane</a>
+                
+            
+
+            
+
+            <div class="post-content">
+                <p>Producing readable, idiomatic Rust code is a major goal of <a href="https://www.github.com/immunant/c2rust/">C2Rust</a>, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they're both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust's module system is a huge improvement over C header files. Modules declare an interface of type declarations and functions for other modules to use. In contrast, C has no such modern conveniences, so declarations must be duplicated in each source file. If C2Rust is going to produce reasonable Rust code, we have to bridge that gap by de-duplicating and merging declarations across modules.</p>
+<p>TL;DR: As of the latest <a href="https://crates.io/crates/c2rust/0.14.0">C2Rust version (0.14)</a>, the transpiler now emits declarations from C headers as module imports in Rust, instead of duplicating them in each source file! Just use <code>--emit-build-files</code> to generate a cargo project for the transpiled code:</p>
+<pre><code class="language-bash">c2rust transpile --emit-build-files compile_commands.json
+</code></pre>
+<p>Besides being easier on the eyes, merging header declarations is a critical improvement to the maintainability of C2Rust generated code. You can now modify types and declarations once and rely on the Rust compiler to enforce type safety rather than duplicating error-prone edits across an entire codebase. This blog post is the story of how we did this, with all the tricky corner cases, weird C patterns, and dragons that we came across along the way.</p>
+<h2 id="the-problem-separate-compilation">The Problem: Separate Compilation</h2>
+<div class="dark">
+    <figure class="center" >
+        <img src="/images/blog/2019/12/compile-steps-dark.png"  alt="Compile Steps"   style="border-radius: 8px;"  />
+
+        
+            <figcaption class="center" >Compiling C headers and sources</figcaption>
+        
+    </figure>
+</div>    
+<div class="light">
+    <figure class="center" >
+        <img src="/images/blog/2019/12/compile-steps-light.png"  alt="Compile Steps"   style="border-radius: 8px;"  />
+
+        
+            <figcaption class="center" >Compiling C headers and sources</figcaption>
+        
+    </figure>
+</div>
+<p>When building C code, the compiler translates each C source file separately into object files, as in the figure above. The build system then passes these objects to the linker, which takes the objects and matches up each reference to a name to the definition of the name. Because the compiler handles each C file separately, it has no way to know what definitions or types are declared in other files. Enter header files: headers allow the programmer to separate declarations out into reusable files that can then be included into each source file as needed. In C2Rust we also transpile each C source file separately, including all header declarations that are included in it. While this configuration exactly replicates how a normal C compiler works, it results in lots of duplicated type and functions declarations in the output Rust code. For example, the following declarations would get duplicated in each module that used the <code>foo</code> function.</p>
+<pre><code class="language-Rust">struct Point {
+  x: libc::c_int,
+  y: libc::c_int,
+}
+
+extern &quot;C&quot; {
+  #[no_mangle]
+  fn foo(_: *const Point) -&gt; libc::c_int;
+}
+</code></pre>
+<p>Referencing functions and types via <code>extern</code> declarations works, but it's not at all idiomatic for Rust. If we wanted to change the type signature of the <code>foo</code> function, we would have to modify it in every file that contains its extern declaration, and forgetting any would silently fail. What we would really like instead is for the transpiler to produce is a single definition of function <code>foo</code> in the correct module, and import this declaration with <code>use mod_foo::foo;</code> wherever it is used. Having a single canonical definition of each function and type would then avoid error-prone duplication of declarations across the codebase.</p>
+<h2 id="the-solution-merging-declarations">The Solution: Merging Declarations</h2>
+<div class="dark">
+    <figure class="center" >
+        <img src="/images/blog/2019/12/transpile-steps-dark.png"  alt="Transpile Steps"   style="border-radius: 8px;"  />
+
+        
+            <figcaption class="center" >Transpiling C code and Refactoring the Rust output</figcaption>
+        
+    </figure>
+</div>    
+<div class="light">
+    <figure class="center" >
+        <img src="/images/blog/2019/12/transpile-steps-light.png"  alt="Transpile Steps"   style="border-radius: 8px;"  />
+
+        
+            <figcaption class="center" >Transpiling C code and Refactoring the Rust output</figcaption>
+        
+    </figure>
+</div>
+<p>One option to remove the duplicated declarations would be to modify the C2Rust transpiler to read in all C files, merge declarations and definitions, and emit more idiomatic, de-duplicated Rust code. However, all-at-once transpiling doesn't fit well into the separate compilation model of C; it would prevent parallelizing transpilation and might require significant changes to the current infrastructure. Instead, we can parse the Rust code after transpiling, merge declarations, and rewrite the Rust files, effectively implementing a source-level version of the linker (as shown in the figure above). We already have a framework for building Rust <a href="https://github.com/immunant/c2rust/tree/master/c2rust-refactor">refactorings</a>, so this fits well into the rest of the C2Rust project infrastructure.</p>
+<h3 id="an-example">An Example</h3>
+<p>Before we think about how to automate this refactoring, let's manually step through the process of merging the header declarations for a simple example. Let's assume the function <code>distance</code> is defined in <code>operations.c</code>, which we'll omit here.</p>
+<p>operations.h:</p>
+<pre><code class="language-c">typedef struct {
+  int x;
+  int y;
+} Point;
+
+unsigned distance(Point *p1, Point *p2);
+</code></pre>
+<p>main.c:</p>
+<pre><code class="language-c">#include &quot;operations.h&quot;
+
+void main(int argc, char *argv[]) {
+  Point p, q;
+  /* ... */
+  unsigned d = distance(&amp;p, &amp;q);
+}
+</code></pre>
+<p>After we run this through C2Rust, we get Rust code for main that looks something like:</p>
+<pre><code class="language-rust">extern &quot;C&quot; {
+    #[no_mangle]
+    fn distance(p1: *mut Point, p2: *mut Point) -&gt; libc::c_uint;
+}
+#[derive(Copy, Clone)]
+#[repr(C)]
+pub struct Point {
+    pub x: libc::c_int,
+    pub y: libc::c_int,
+}
+unsafe fn main(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) {
+    let mut p: Point = Point{x: 0, y: 0,};
+    let mut q: Point = Point{x: 0, y: 0,};
+    /* ... */
+    let mut d: libc::c_uint = distance(&amp;mut p, &amp;mut q);
+}
+</code></pre>
+<p>Then in <code>operations.rs</code> we get the same struct definition for <code>Point</code> again, along with the definition of the function <code>distance</code>. When the Rust compiler compiles the main module, it doesn't care where <code>distance</code> is defined, and just assumes that we will supply the symbol <code>distance</code> to the linker with a definition that matches the extern declaration above.</p>
+<p>The first step in cleaning this up looks pretty obvious: we should replace the <code>extern &quot;C&quot;</code> function declaration with an import of the function definition in Rust. Following our example, we should rewrite <code>main.rs</code> into:</p>
+<pre><code class="language-rust">use operations::distance;
+
+#[derive(Copy, Clone)]
+#[repr(C)]
+pub struct Point {
+    pub x: libc::c_int,
+    pub y: libc::c_int,
+}
+unsafe fn main(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) {
+    let mut p: Point = Point{x: 0, y: 0,};
+    let mut q: Point = Point{x: 0, y: 0,};
+    /* ... */
+    let mut d: libc::c_uint = distance(&amp;mut p, &amp;mut q);
+}
+</code></pre>
+<p>While this gets us the right function definition, the parameter types won't match. The <code>Point</code> struct in <code>main</code> is not the same <code>Point</code> as in <code>operations</code>. In C this isn't an issue, as these two type declarations are compatible, but Rust is strongly typed and treats each declaration as a different type. We need to unify the struct declarations and use the same type in both modules.</p>
+<p>For this example, let's remove the declaration of <code>Point</code> in <code>main.rs</code> and use the one from <code>operations</code>, so we get the following main module:</p>
+<pre><code class="language-rust">use operations::{distance, Point};
+
+unsafe fn main(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) {
+    let mut p: Point = Point{x: 0, y: 0,};
+    let mut q: Point = Point{x: 0, y: 0,};
+    /* ... */
+    let mut d: libc::c_uint = distance(&amp;mut p, &amp;mut q);
+}
+</code></pre>
+<h3 id="automating-the-refactoring">Automating the Refactoring</h3>
+<p>Now that we've seen how the refactoring process should work, we need to automate it. At a high level, the refactoring collects declarations from headers, then for each unique declaration, picks a canonical declaration or matches it against a definition and updates all references to point to that canonical declaration or definition.</p>
+<p>To make the refactoring process simpler to automate, we first make the transpiler separate out which Rust items came from shared headers and which were in the C file. This separation lets us quickly select declarations for merging. For example, the C2Rust transpiler marks declarations of <code>Point</code> and <code>distance</code> as coming from the header <code>operations.h</code> like this:</p>
+<pre><code class="language-rust">#[c2rust::header_src = &quot;operations.h&quot;]
+pub mod operations_h {
+    #[derive(Copy, Clone)]
+    #[repr(C)]
+    pub struct Point {
+        pub x: libc::c_int,
+        pub y: libc::c_int,
+    }
+    extern &quot;C&quot; {
+        #[no_mangle]
+        pub fn distance(p1: *mut Point, p2: *mut Point) -&gt; libc::c_uint;
+    }
+}
+
+pub use self::operations_h::{Point, distance};
+
+unsafe fn main(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) {
+    let mut p: Point = Point{x: 0, y: 0,};
+    let mut q: Point = Point{x: 0, y: 0,};
+    /* ... */
+    let mut d: libc::c_uint = distance(&amp;mut p, &amp;mut q);
+}
+</code></pre>
+<p>The refactoring engine then scans through the crate, de-duplicating declarations that can be merged. We de-duplicate declarations based on type equality and name. As we will see below, this comparison differs depending on the type of declaration. After de-duplicating all declarations, the refactoring needs to match declarations against defined globals and functions and replace uses of declarations with their definition if available. Finally, the refactoring relocates all remaining declarations from their header to new home modules and rewrites all uses to reference the new declaration paths.</p>
+<p>To understand how we compare and de-duplicate declarations, we must first take a quick detour into C and Rust's name space rules (not to be confused with C++ namespaces). In C (and Rust), a name space can be thought of as the category of a particular item. For example, functions in C are in the <em>ordinary identifier</em> namespace, while structs and enums are classified into the <em>tag</em> namespace (see C99 standard 6.2.3). C and Rust allow different declarations with the same name to co-exist, as long as they are in different namespaces. In C, this means that we can declare a <code>struct foo</code> and a function <code>foo</code> in the same scope without any conflict.</p>
+<p>Rust has three different namespaces: the <em>type</em>, <em>value</em>, and <em>macro</em> namespaces. For the purposes of refactoring transpiled code we can ignore the <em>macro</em> namespace since the transpiler never creates macros. However, the distinction between the <em>type</em> and <em>value</em> namespaces is important. All type declarations (<code>struct</code>, <code>enum</code>, <code>type</code>, etc.) are part of the <em>type</em> namespace. <code>fn</code> definitions, <code>static</code> globals and <code>const</code> declarations are in the <em>value</em> namespace. Thus we can declare both a <code>fn foo</code> and a <code>struct foo</code> in the same Rust module without conflicts.</p>
+<p>To de-duplicate declarations while we scan header modules, we keep a list of declarations that we have seen, indexed by namespace and name. Then for each declaration, we look up a list of potential matches with the same name in the same namespace. If we don't find an equivalent declaration (we'll clarify what we mean by equivalence later on) in this list, we add the declaration to the list. When this process finishes, we are left with a collection of all unique declarations from header modules.</p>
+<p>After the refactoring collects all unique declarations, it needs to match these declarations to definitions, when available. We want to match declarations against global variable and function definitions visible outside their translation unit (i.e. not <code>static</code> in the C sense). If we find a definition for a header declaration, the refactoring replaces uses of the header declaration with a Rust <code>use</code> import of the definition itself.</p>
+<p>Finally, for all remaining declarations we need to emit the declaration someplace and replace all uses of equivalent declarations with the one canonical version of that declaration. We'll discuss heuristics for where to place declarations later on, but the refactoring will be correct as long as we emit each declaration in a module where its name doesn't conflict with any other item in the same namespace.</p>
+<p>Putting everything together, here's a real example of the refactoring in action, taken from a transpiled version of libxml2:</p>
+
+
+<div class="multi-column-container">
+<div class="multi-column">
+  
+  <div class="column">
+    <h3 id="before">Before</h3>
+<pre><code class="language-Rust">extern &quot;C&quot; {
+    pub type _IO_wide_data;
+    pub type _IO_codecvt;
+    pub type _IO_marker;
+    #[no_mangle]
+    fn fclose(__stream: *mut FILE) -&gt; libc::c_int;
+    #[no_mangle]
+    fn fopen(_: *const libc::c_char, _: *const libc::c_char) -&gt; *mut FILE;
+    #[no_mangle]
+    fn fprintf(_: *mut FILE, _: *const libc::c_char, _: ...) -&gt; libc::c_int;
+    #[no_mangle]
+    fn sscanf(_: *const libc::c_char, _: *const libc::c_char, _: ...)
+     -&gt; libc::c_int;
+    #[no_mangle]
+    fn memset(_: *mut libc::c_void, _: libc::c_int, _: libc::c_ulong)
+     -&gt; *mut libc::c_void;
+    #[no_mangle]
+    fn strcpy(_: *mut libc::c_char, _: *const libc::c_char)
+     -&gt; *mut libc::c_char;
+    #[no_mangle]
+    fn strlen(_: *const libc::c_char) -&gt; libc::c_ulong;
+    #[no_mangle]
+    fn malloc(_: libc::c_ulong) -&gt; *mut libc::c_void;
+    #[no_mangle]
+    fn realloc(_: *mut libc::c_void, _: libc::c_ulong) -&gt; *mut libc::c_void;
+    #[no_mangle]
+    fn free(__ptr: *mut libc::c_void);
+    #[no_mangle]
+    fn getenv(__name: *const libc::c_char) -&gt; *mut libc::c_char;
+}
+pub type size_t = libc::c_ulong;
+pub type __off_t = libc::c_long;
+pub type __off64_t = libc::c_long;
+</code></pre>
+  </div>
+  
+  <div class="column">
+    <h3 id="after">After</h3>
+<pre><code class="language-Rust">pub use crate::stddef_h::size_t;
+pub use crate::stdlib::{
+    _IO_codecvt, _IO_marker, _IO_wide_data,
+    __off64_t, __off_t, FILE,
+};
+use crate::stdlib::{
+    fclose, fopen, fprintf, free, getenv, malloc,
+    memset, realloc, sscanf, strcpy, strlen,
+};
+</code></pre>
+  </div>
+  
+</div>
+</div>
+
+<h2 id="corner-cases-or-wait-why-is-the-compiler-still-yelling-at-me">Corner Cases, or wait, why is the compiler still yelling at me?</h2>
+<p>In the description above we've glossed over the corner cases we hit along the way. C programs have an unfortunate tendency to exercise all the weirdest corner cases one can imagine. Here's a few of the important ones we came across.</p>
+<h3 id="corner-case-1-what-even-is-equality">Corner Case #1: What even is Equality?</h3>
+<p>The C99 standard defines <em>compatible types</em> fairly narrowly (allowing, e.g., incomplete struct declarations to be compatible with the complete declaration, but not much else). C code with two incompatible type declarations for the same object or function has undefined behavior. In reality, however, compilers can't actually check that all declarations referring to an object or function in another translation unit have compatible types. Since the compiler processes each translation unit separately, it won't see the conflicting types in different translation units.</p>
+<p>Since C is extremely permissive in practice when it comes to declaration type mismatches, we will see declarations that don't strictly match the type of their definition but that we still want to unify. For example, a function might be declared with a non-const pointer parameter but the definition of the function specifies a const pointer. In cases like these we still want the declaration to match the function definition, even though it isn't equivalent.</p>
+<p>We can split C declarations into two categories: values and types. This happens to correspond (for good reasons) to the Rust namespaces we mentioned above. In this context, global variables and functions are values, and all other declarations (structs, unions, enums, typedefs) are types. The linker resolves value declarations to a single definition after compilation, while the compiler never actually resolves types across translation units. While the C99 standard says that incompatible types across translation units is undefined behavior, the compiler has no way to enforce this, so we can't always rely on the C99 definition of compatibility.</p>
+<p>Comparing two declarations of values is easy: we simply compare their names for equality. The linker only resolves references to values by name, regardless of type, so we can do the same. We added some extra sanity checking for global arrays and found real-world examples where the size of an array declaration didn't match its definition. Aside from that case, it seems that in practice most global declaration types match their definitions. Functions are another matter entirely. We match extern function declarations against any exported function definition with the same name, regardless of parameter and return types. Since we are merging function and global declarations that may not be type-compatible in Rust, we need to be sure to fix uses of these declarations after we replace them with their definitions when necessary. We insert casts to the appropriate types at uses of functions or globals where the expected type differs from our rewritten type.</p>
+<p>For type declarations, we found that most code does in fact comply with the C99 definition of compatible types, so we implemented a comparison based on this definition. In short, primitive types are compatible if they are the same, and structs are compatible if they have the same name and if all fields have the same name and type, in the same order. Incomplete structs are compatible with any struct having the same name. This definition of equality is conservative, but that is fine for our purposes since not unifying two types in different modules is always a safe default.</p>
+<h3 id="corner-case-2-unnamed-declarations">Corner Case #2: Unnamed Declarations</h3>
+<p>C allows nesting of anonymous structs and unions, for example, in the following the struct containing <code>x</code> and <code>y</code> doesn't have a name:</p>
+<pre><code class="language-C">struct S {
+    struct {
+        int x;
+        int y;
+    } point;
+};
+</code></pre>
+<p>Rust doesn't allow this syntax, each struct and union must be given a name. To deal with this, C2Rust creates new, artificial names for the nested structs, like so:</p>
+<pre><code class="language-rust">pub struct S {
+    pub point: C2RustUnnamed,
+}
+
+pub struct C2RustUnnamed {
+    pub x: libc::c_int,
+    pub y: libc::c_int,
+}
+</code></pre>
+<p>As discussed above, we compare struct declarations for equality by their names, in addition to their field names and types. However, the artificial names created for anonymous types by the transpiler won't match across translation units. Consequently we need to loosen our definition of type equality to ignore the names of structs and unions if they are artificial. As shown above, we give these artificial names a distinctive pattern, <code>C2RustUnnamed...</code>, so we can ignore these names when comparing types.</p>
+<h2 id="decisions-where-should-it-live">Decisions: Where should it live?</h2>
+<p>So far we've hand waved away an important aspect of this refactoring: now that we've merged all copies of a declaration, where should we emit it? For declarations of values (functions and globals) found elsewhere in the codebase, there is a clear answer: we leave the value in the module it was defined in and replace all other declarations with imports of the definition. However, for types or functions in other libraries there is not an obvious home for the merged declaration, so we resort to heuristics.</p>
+<p>The principle of least surprise is critical here; we want a programmer to easily locate type declarations where they expect to find them in the transpiled Rust code. We could imagine all sorts of ways to locate declarations, e.g., emitting each declaration in the module with the most references to it, or emitting declarations in the module containing their allocation site, but these heuristics are brittle and may not make sense to the programmer in all cases. For now we've settled on the following rules, although this may certainly evolve over time.</p>
+<p>We emit a declaration <code>d</code> in the module <code>M</code> if all of the following hold:</p>
+<ol>
+<li>The C file corresponding to <code>M</code> (<code>M.c</code>) included the header containing <code>d</code>.</li>
+<li><code>M</code> does not already contain an item with the same namespace and name as <code>d</code>.</li>
+<li><code>d</code> is declared in <code>M.h</code>. That is, the header has the same base name (ignoring suffixes) as <code>M.c</code>.</li>
+</ol>
+<p>For example, we would place a declaration <code>d</code> from <code>block.h</code> into the module for <code>block.c</code>.</p>
+<p>If any of the conditions above do not apply, emit <code>d</code> in a new header module which will contain declarations from that header. For example, we would make a new module <code>header_h</code> containing all declarations from <code>header.h</code> assuming we don't have a <code>header.c</code> module.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Source code linking of declarations from C headers is a critical step towards generating idiomatic Rust code. You can now refactor types and function signatures in transpiled code with ease; the Rust compiler will catch any resulting type mismatches at declaration use sites. Much work remains, of course, to further enhance the quality of the Rust code we output but we are nevertheless one step closer to rewriting the world in Rust!</p>
+<p>Give the new transpiler features a whirl, and let us <a href="/contact">know</a> what you'd like to see next.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/migration">migration</a></span><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span><span class="tag"><a href="/tags/refactoring">refactoring</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>3119 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2019-12-18 16:00 -0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h"></span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="/blog/2019/11/rust2020/">
+                                <span class="button__text">Rust 2020: Lessons learned by transpiling C to Rust</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2019</span>
+            
+            <span>Immunant, Inc.</span>
+            <span>
+                <div>
+                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                </div>
+            </span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.8be9386f14488003ed9d31a8f370720d5e5085686a819113a72effc3507cc232c7dab0b924367678a7825280b86abbb5b00f5cc7bf0a13362c8d134a8febe1da.js" integrity="sha512-i&#43;k4bxRIgAPtnTGo83ByDV5QhWhqgZETpy7/w1B8wjLH2rC5JDZ2eKeCUoC4aru1sA9cx78KEzYsjRNKj&#43;vh2g=="></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-44066564-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="/js/prism_custom.js"></script>
+	
+
+
+    </body>
+</html>

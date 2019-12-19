@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Tue, 12 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Dec 2019 16:00:00 -0800</lastBuildDate>
     
 	<atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title></title>
+      <link>/authors/stephen-crane/</link>
+      <pubDate>Wed, 18 Dec 2019 16:00:00 -0800</pubDate>
+      
+      <guid>/authors/stephen-crane/</guid>
+      <description>Stephen is a co-founder and CTO at Immunant. Amongst other topics, Stephen especially enjoys hacking on compiler-based systems security protections. He also loves games of all sorts.</description>
+    </item>
     
     <item>
       <title></title>
@@ -19,15 +28,6 @@
       
       <guid>/authors/andrei-homescu/</guid>
       <description>Andrei is a co-founder and chief mad scientist at Immunant. He is an expert in compiler and linker based security techniques and a veteran C++ and Rust programmer. In his free time, he enjoys video gaming, critically-acclaimed TV series, and urban hiking.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/authors/stephen-crane/</link>
-      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/authors/stephen-crane/</guid>
-      <description>Stephen is a co-founder and CTO at Immunant. Amongst other topics, Stephen especially enjoys hacking on compiler-based systems security protections. He also loves games of all sorts.</description>
     </item>
     
     <item>
