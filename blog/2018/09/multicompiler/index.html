@@ -345,7 +345,7 @@ print(distutils.sysconfig.get_config_var('CONFIG_ARGS'))
 <p>Where even higher levels of resilience are sought, diversified programs can run side by side in an MVEE and continually monitored for signs that the system is under attack. Galois has a detailed writeup on their <a href="https://galois.com/blog/2018/09/protecting-applications-with-automated-software-diversity/">blog</a> and covers important caveats in this <a href="https://galois.com/blog/2018/09/automated-software-diversity-sometimes-more-isnt-merrier/">followup post</a>.</p>
 <p>Although we've focused on compiling from source, it is also possible to randomize source-less binaries. Trail of Bits explains how to diversify binaries with the multicompiler in their <a href="https://blog.trailofbits.com/2018/09/10/protecting-software-against-exploitation-with-darpas-cfar/">excellent companion post</a>.</p>
 <h3 id="about-immunant">About Immunant</h3>
-<p>Immunant is a spin-off from UC Irvine and specializes in compiler-based exploit mitigation and <a href="https://www.c2rust.com">language migration</a>. We're located in Southern California. If you're interested in practical systems security, we'd love hear from you; reach us at <a href="mailto:%60team@immunant.com">`team@immunant.com</a><code>, </code>@immunant`, or via our <a href="https://immunant.com/#contact">contact form</a>.</p>
+<p>Immunant is a spin-off from UC Irvine and specializes in compiler-based exploit mitigation and <a href="https://www.c2rust.com">language migration</a>. We're located in Southern California. If you're interested in practical systems security, we'd love hear from you; reach us at <code>team@immunant.com</code>, <code>@immunant</code>, or via our <a href="https://immunant.com/#contact">contact form</a>.</p>
 <p>Besides the multicompiler, which is the focus of this post, we've also built a slightly different randomizer called <a href="https://www.github.com/immunant/selfrando">selfrando</a>. Selfrando is  <a href="https://blog.torproject.org/selfrando-q-and-georg-koppen">included</a> in the Experimental Tor Browser for Linux. We hope to help shield Tor users from certain kinds of zero-day attacks and monitoring. One of the advantages of selfrando over the multicompiler is that it works with your existing compiler and linker on Windows, Android, and Linux.</p>
 <h3 id="acknowledgements-and-disclaimer">Acknowledgements and Disclaimer</h3>
 <p>This material is based upon work supported by the United States Air Force and DARPA under Contract No. FA8750–15-C–0124.</p>
@@ -398,7 +398,7 @@ print(distutils.sysconfig.get_config_var('CONFIG_ARGS'))
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2019</span>
+            <span>&copy; 2020</span>
             
             <span>Immunant, Inc.</span>
             <span>
