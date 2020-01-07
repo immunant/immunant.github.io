@@ -3,28 +3,53 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/authors/andrei-homescu/</loc>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/authors/stephen-crane/</loc>
-    <lastmod>2019-12-18T16:00:00-08:00</lastmod>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/authors/</loc>
-    <lastmod>2019-12-18T16:00:00-08:00</lastmod>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/c2rust/</loc>
-    <lastmod>2019-12-18T16:00:00-08:00</lastmod>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-12-18T16:00:00-08:00</lastmod>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/migration/</loc>
-    <lastmod>2019-12-18T16:00:00-08:00</lastmod>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/authors/miguel-saldivar/</loc>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rust/</loc>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/2020/01/quake3/</loc>
+    <lastmod>2020-01-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -33,23 +58,8 @@
   </url>
   
   <url>
-    <loc>/tags/rust/</loc>
-    <lastmod>2019-12-18T16:00:00-08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/blog/2019/12/header_merging/</loc>
     <lastmod>2019-12-18T16:00:00-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2019-12-18T16:00:00-08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/authors/andrei-homescu/</loc>
-    <lastmod>2019-11-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>

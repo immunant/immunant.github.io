@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="">
+<meta name="description"
+    content="The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust." />
+<meta name="keywords" content="migration mitigation hardening research consulting" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/blog/2020/01/quake3/" />
+
+
+<title>
+    
+    Translating Quake 3 into Rust :: Immunant, Inc 
+    
+</title>
+
+
+
+
+
+
+<link rel="stylesheet" href="/main.min.9a236353d760abb5a7e86ed48beffd5b635f7dd438e88d74ee6ff5290838d430.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png ">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png ">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png ">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png ">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png ">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png ">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png ">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png ">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png ">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png ">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png ">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png ">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png ">
+<link rel="manifest" href="/images/favicon/manifest.json ">
+<meta name="msapplication-TileColor" content="#0A4F93">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
+<link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico " type="image/x-icon">
+<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Translating Quake 3 into Rust">
+<meta itemprop="description" content="The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust.">
+<meta itemprop="datePublished" content="2020-01-06T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-01-06T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2209">
+<meta itemprop="image" content="/images"/>
+
+
+
+<meta itemprop="keywords" content="migration,Rust,c2rust," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/images"/>
+
+<meta name="twitter:title" content="Translating Quake 3 into Rust"/>
+<meta name="twitter:description" content="The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust."/>
+
+
+
+
+<meta property="article:published_time" content="2020-01-06 00:00:00 &#43;0000 &#43;0000" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">Immunant</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/migration">Migration</a></li><li><a href="/mitigation">Mitigation</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>11 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="/blog/2020/01/quake3/">Translating Quake 3 into Rust</a></h1>
+                By
+                    
+                    <a href="/authors/andrei-homescu">Andrei Homescu</a>
+                
+                     & 
+                    <a href="/authors/stephen-crane">Stephen Crane</a>
+                
+                     & 
+                    <a href="/authors/miguel-saldivar">Miguel Saldivar</a>
+                
+            
+
+            
+
+            <div class="post-content">
+                
+    <img src="/images/blog/2019/12/frag.gif"  alt="Animated GIF of Rust Quake3 gameplay"  class="center"  style="border-radius: 8px;"  />
+
+
+<p>The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust. After a couple of days, we were likely the first people to ever play Quake3 in Rust!</p>
+<h2 id="setting-the-stage-quake-3-sources">Setting the stage: Quake 3 sources</h2>
+<p>After looking at the original Quake 3 source code and various forks, we settled on <a href="https://ioquake3.org/">ioquake3</a>. It is a community fork of Quake 3 that is still maintained and builds on modern platforms.</p>
+<p>As a starting point, we made sure we could build the project as is:</p>
+<pre><code class="language-bash">$ make release
+</code></pre>
+<p>The ioquake3 build produces a few different libraries and executables:</p>
+<pre><code class="language-bash">$ tree --prune -I missionpack -P &quot;*.so|*x86_64&quot;
+.
+└── build
+    └── debug-linux-x86_64
+        ├── baseq3
+        │   ├── cgamex86_64.so          # client
+        │   ├── qagamex86_64.so         # game server
+        │   └── uix86_64.so             # ui
+        ├── ioq3ded.x86_64              # dedicated server binary
+        ├── ioquake3.x86_64             # main binary
+        ├── renderer_opengl1_x86_64.so  # opengl1 renderer
+        └── renderer_opengl2_x86_64.so  # opengl2 renderer
+</code></pre>
+<p>Of these libraries, the UI, client, and server libraries can be built as either <a href="https://fabiensanglard.net/quake3/qvm.php">Quake VM</a> assembly or native X86 shared libraries. We opted to use the native versions of these libraries for our project. Translating just the VM into Rust and using the QVM versions would have been significantly simpler but we wanted to thoroughly test out C2Rust.</p>
+<p>We focused on the UI, game, client, OpenGL1 renderer and main binary for our translation. It would be possible to translate the OpenGL2 renderer as well, but it makes significant use of <code>.glsl</code> shader files which the shader compiler compiles down to C source code. Translating these autogenerated C sources to Rust would defeat the point of the shader language. Instead, we translated the OpenGL1 renderer library and forced the game to use it instead of the default renderer. Finally, we decided to skip the dedicated server and mission pack files, as they wouldn't be hard to translate but were also not necessary for our demonstration.</p>
+<h2 id="transpiling-quake-3">Transpiling Quake 3</h2>
+<p>To preserve the directory structure used by Quake 3 and not need to change its source code, we needed to produce exactly the same binaries as the native build, meaning four shared libraries and one executable.
+Since C2Rust produces Cargo build files, each binary needs its own Rust crate with a corresponding <code>Cargo.toml</code> file.
+For C2Rust to produce one crate per output binary, it would need a list of the binaries along with their corresponding object or source files, and linker invocation used to produce each binary (used to determine other details like library dependencies).</p>
+<p>However, we quickly ran into one limitation with the way C2Rust intercepts the native build process: C2Rust takes a <a href="https://sarcasm.github.io/notes/dev/compilation-database.html">compilation database</a> file as an input, which contains a list of compilation commands executed during the build.
+However, this database <strong>only</strong> contains compilation commands, and not any linker invocations.
+Most tools that produce this database have this intentional limitation, e.g., <code>cmake</code> with <code>CMAKE_EXPORT_COMPILE_COMMANDS</code>, <code>bear</code> and <code>compiledb</code>.
+To our knowledge, the only tool that does include linking commands is <a href="https://github.com/Ericsson/codechecker/tree/master/analyzer/tools/build-logger"><code>build-logger</code></a> from <code>CodeChecker</code>, which we didn't use because we only learned about it after writing our own wrappers (described below).
+This meant that we couldn't use a <code>compile_commands.json</code> file produced by any of the common tools to transpile a multi-binary C program.</p>
+<p>Instead, we wrote our own <a href="https://github.com/immunant/c2rust/blob/master/scripts/cc-wrappers/cc">compiler</a> and <a href="https://github.com/immunant/c2rust/blob/master/scripts/cc-wrappers/ld">linker</a> wrapper scripts that dump out all compiler and linker invocations to a database, and then convert that into an extended <code>compile_commands.json</code>. Instead of the normal build using a command like:</p>
+<pre><code class="language-bash">$ make release
+</code></pre>
+<p>we add wrappers to intercept the build using:</p>
+<pre><code class="language-bash">$ make release CC=/path/to/C2Rust/scripts/cc-wrappers/cc
+</code></pre>
+<p>The wrappers produce a directory full of JSON files, one per invocation.
+A second <a href="https://github.com/immunant/c2rust/blob/master/scripts/convert_build_commands.py">script</a> aggregates all of them into a new <code>compile_commands.json</code> file that contains both compilation and linking commands.
+We then extended C2Rust to read the linking commands from the database, and produce a separate crate per linked binary.
+Additionally, C2Rust now also reads the library dependencies of each binary and automatically adds them to that crate's <code>build.rs</code> file.</p>
+<p>As a quality of life improvement, all of the binaries can be built all at once by having them within a <a href="https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html">workspace</a>.
+C2Rust produces a top-level workspace <code>Cargo.toml</code> file, so we can build the project with a single <code>cargo build</code> command in the <code>quake3-rs</code> directory:</p>
+<pre><code class="language-bash">$ tree -L 1
+.
+├── Cargo.lock
+├── Cargo.toml
+├── cgamex86_64
+├── ioquake3
+├── qagamex86_64
+├── renderer_opengl1_x86_64
+├── rust-toolchain
+└── uix86_64
+
+$ cargo build --release
+</code></pre>
+<h2 id="fixing-a-few-papercuts">Fixing a few Papercuts</h2>
+<p>When we first tried to build the translated code, we hit a couple of issues with the Quake 3 sources, hitting corner cases that C2Rust couldn't handle (correctly or at all).</p>
+<h3 id="pointers-to-arrays">Pointers to Arrays</h3>
+<p>In a few places, the original source code contains expressions that point one past the last element of an array. Here is a simplified example of the C code:</p>
+<pre><code class="language-c">int array[1024];
+int *p;
+
+// ...
+
+if (p &gt;= &amp;array[1024]) {
+   // error...
+}
+</code></pre>
+<p>The C standard (see e.g. <a href="http://www.iso-9899.info/n1570.html">C11, Section 6.5.6</a>) allows pointers to an element one past the end of the array. However, Rust forbids this, even if we are only taking the address of the element. We found examples of this pattern in the <a href="https://github.com/immunant/ioq3/blob/quake3-rs/code/botlib/be_aas_sample.c#L645"><code>AAS_TraceClientBBox</code></a> function.</p>
+<p>The Rust compiler also flagged a similar but actually buggy example in <a href="https://github.com/immunant/ioq3/blob/quake3-rs/code/game/g_mover.c#L131"><code>G_TryPushingEntity</code></a> where the conditional is <code>&gt;</code>, not <code>&gt;=</code>. The out of bounds pointer was then dereferenced after the conditional, which is an actual memory safety bug.</p>
+<p>To avoid this issue in the future, we fixed the C2Rust transpiler to use pointer arithmetic to calculate the address of an array element instead of using an array indexing operation. With this fix, code that uses this &ldquo;address of element past the array end&rdquo; pattern will now correctly translate and run with no modifications necessary.</p>
+<h3 id="flexible-array-members">Flexible Array Members</h3>
+<p>We started up a game to test things out and immediately got a panic from Rust:</p>
+<pre><code>thread 'main' panicked at 'index out of bounds: the len is 4 but the index is 4', quake3-client/src/cm_polylib.rs:973:17
+</code></pre>
+<p>Taking a look at <code>cm_polylib.c</code>, we noticed that it was dereferencing the <code>p</code> field in the following struct:</p>
+<pre><code class="language-C">typedef struct
+{
+	int		numpoints;
+	vec3_t	p[4];		// variable sized
+} winding_t;
+</code></pre>
+<p>The <code>p</code> field in this struct is a pre-C99 non-compliant version of a <a href="https://en.wikipedia.org/wiki/Flexible_array_member">&ldquo;flexible array member&rdquo;</a> which is still accepted by <code>gcc</code>.
+C2Rust recognizes flexible array members with the C99 syntax (<code>vec3_t p[]</code>) and implements simple <a href="https://github.com/immunant/c2rust/blob/master/c2rust-transpile/src/c_ast/mod.rs#L363">heuristics</a> to also detect some pre-C99 versions of this pattern (0- and 1-sized arrays at the end of structures; we also found a few of those in the ioquake3 source code).</p>
+<p><a href="https://github.com/immunant/ioq3/commit/ace1fae43e736613544c8d33cc69dee794f5124a">Changing</a> the above struct to C99 syntax fixed the panic:</p>
+<pre><code class="language-C">typedef struct
+{
+	int		numpoints;
+	vec3_t	p[];		// variable sized
+} winding_t;
+</code></pre>
+<p>Trying to automatically fix this pattern in the general case (arrays of sizes other that 0 or 1) would be extremely difficult, since we would have to distinguish between regular arrays and flexible array members of arbitrary sizes.
+Instead, we recommend that the original C code is fixed manually &mdash; just like we did for ioquake3.</p>
+<h3 id="tied-operands-in-inline-assembly">Tied Operands in Inline Assembly</h3>
+<p>Another source of crashes was this C inline assembly code from the <code>/usr/include/bits/select.h</code> system header:</p>
+<pre><code class="language-C"># define __FD_ZERO(fdsp)                                            \
+  do {                                                              \
+    int __d0, __d1;                                                 \
+    __asm__ __volatile__ (&quot;cld; rep; &quot; __FD_ZERO_STOS               \
+                          : &quot;=c&quot; (__d0), &quot;=D&quot; (__d1)                \
+                          : &quot;a&quot; (0), &quot;0&quot; (sizeof (fd_set)           \
+                                          / sizeof (__fd_mask)),    \
+                            &quot;1&quot; (&amp;__FDS_BITS (fdsp)[0])             \
+                          : &quot;memory&quot;);                              \
+  } while (0)
+</code></pre>
+<p>which defines the internal version of the <code>__FD_ZERO</code> macro.
+This definition hits a rare corner case of <code>gcc</code> inline assembly: <a href="https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html#InputOperands">tied input/output operands</a> with different sizes.
+The <code>&quot;=D&quot; (__d1)</code> output operand binds the <code>edi</code> register to the <code>__d1</code> variable as a 32-bit value, while <code>&quot;1&quot; (&amp;__FDS_BITS (fdsp)[0])</code> binds the same register to the address of <code>fdsp-&gt;fds_bits</code> as a 64-bit pointer.
+<code>gcc</code> and <code>clang</code> fix this mismatch by using the 64-bit register <code>rdi</code> instead and then truncating its value before the assignment to <code>__d1</code>, while Rust defaults to LLVM's semantics which leave this case undefined.
+What we saw happening for debug builds (but not release builds, which behaved correctly) was that both operands would be assigned to the <code>edi</code> register, causing the pointer to be truncated to 32 bits before the inline assembly, which would cause crashes.</p>
+<p>Since <code>rustc</code> passes Rust inline assembly to LLVM with very few changes, we decided to fix this particular case in C2Rust.
+We implemented a new <a href="https://github.com/immunant/c2rust/tree/master/c2rust-asm-casts"><code>c2rust-asm-casts</code></a> crate that fixes the issue above via the Rust type system using a <a href="https://github.com/immunant/c2rust/blob/master/c2rust-asm-casts/src/lib.rs#L13">trait</a> and some helper functions that automatically extend and truncate the values of tied operands to an internal size that is large enough to hold both operands. The code above correctly transpiles to the following:</p>
+<pre><code class="language-Rust">let mut __d0: c_int = 0;
+let mut __d1: c_int = 0;
+// Reference to the output value of the first operand
+let fresh5 = &amp;mut __d0;
+// The internal storage for the first tied operand
+let fresh6;
+// Reference to the output value of the second operand
+let fresh7 = &amp;mut __d1;
+// The internal storage for the second tied operand
+let fresh8;
+// Input value of the first operand
+let fresh9 = (::std::mem::size_of::&lt;fd_set&gt;() as c_ulong).wrapping_div(::std::mem::size_of::&lt;__fd_mask&gt;() as c_ulong);
+// Input value of the second operand
+let fresh10 = &amp;mut *fdset.__fds_bits.as_mut_ptr().offset(0) as *mut __fd_mask;
+asm!(&quot;cld; rep; stosq&quot;
+     : &quot;={cx}&quot; (fresh6), &quot;={di}&quot; (fresh8)
+     : &quot;{ax}&quot; (0),
+       // Cast the input operands into the internal storage type
+       // with optional zero- or sign-extension
+       &quot;0&quot; (AsmCast::cast_in(fresh5, fresh9)),
+       &quot;1&quot; (AsmCast::cast_in(fresh7, fresh10))
+     : &quot;memory&quot;
+     : &quot;volatile&quot;);
+// Cast the operands out (types are inferred) with truncation
+AsmCast::cast_out(fresh5, fresh9, fresh6);
+AsmCast::cast_out(fresh7, fresh10, fresh8);
+</code></pre>
+<p>Note that the code above does not require the types for any input or output values in the assembly statement, relying instead on Rust's type inference to resolve those types (mainly the types of <code>fresh6</code> and <code>fresh8</code> above).</p>
+<h3 id="aligned-global-variables">Aligned Global Variables</h3>
+<p>The final source of crashes we encountered was the following global variable that stores a SSE constant:</p>
+<pre><code>static unsigned char ssemask[16] __attribute__((aligned(16))) =
+{
+	&quot;\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x00\x00\x00\x00&quot;
+};
+</code></pre>
+<p>Rust currently supports the alignment attribute on structure types, but not on global variables, i.e., <code>static</code> items.
+We are looking into ways to solve this in the general case in either Rust or C2Rust, but have decided to fix this issue manually for ioquake3 with a short <a href="https://github.com/immunant/ioq3/blob/master/asm-snapvector.patch">patch</a> file for now.
+This patch file replaces the Rust equivalent of <code>ssemask</code> with:</p>
+<pre><code class="language-Rust">#[repr(C, align(16))]
+struct SseMask([u8; 16]);
+static mut ssemask: SseMask = SseMask([
+    255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0,
+]);
+</code></pre>
+<h2 id="running-quake3-rs">Running quake3-rs</h2>
+<p>Running <code>cargo build --release</code> emits the binaries, but they are all emitted under <code>target/release</code> using a directory structure that the <code>ioquake3</code> binary does not recognize. We wrote a <a href="https://github.com/immunant/ioq3/blob/master/make_quake3_rs_links.sh">script</a> that creates symbolic links in the current directory to replicate the correct directory structure (including links to the <code>.pk3</code> files containing the game assets):</p>
+<pre><code class="language-bash">$ /path/to/make_quake3_rs_links.sh /path/to/quake3-rs/target/release /path/to/paks
+</code></pre>
+<p>The <code>/path/to/paks</code> path should point to a directory containing the <code>.pk3</code> files.</p>
+<p>Now let's run the game! We need to pass <code>+set vm_game 0</code>, etc., so that we load these modules as Rust shared libraries instead of QVM assembly, and <code>cl_renderer</code> to use the OpenGL1 renderer.</p>
+<pre><code class="language-bash">$ ./ioquake3 +set sv_pure 0 +set vm_game 0 +set vm_cgame 0 +set vm_ui 0 +set cl_renderer &quot;opengl1&quot;
+</code></pre>
+<p>And&hellip;</p>
+
+    <img src="/images/blog/2019/12/quake3_startup.png"  alt="Image of Quake3 console startup running in Rust"  class="center"  style="border-radius: 8px;"  />
+
+
+<p>We have Quake3 running in Rust!</p>
+
+    <img src="/images/blog/2019/12/quake3-rs.png"  alt="Image of Quake3 transpiled to Rust"  class="center"  style="border-radius: 8px;"  />
+
+
+<p>Here is a video of us transpiling Quake 3, loading the game and playing for a bit:</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/lQjvSJLDXW4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<h2 id="transpiling-instructions">Transpiling Instructions</h2>
+<p>If you want to try translating Quake 3 and run it yourself, please be aware that you will need to own the original Quake 3 game assets or download the demo assets from the web. You'll also need to install C2Rust (the required Rust nightly version at the time of writing is <code>nightly-2019-12-05</code>, but we recommend you check the C2Rust <a href="https://github.com/immunant/c2rust">repository</a> or <a href="https://crates.io/crates/c2rust">crates.io</a> for the latest one):</p>
+<pre><code>$ cargo +nightly-2019-12-05 install c2rust
+</code></pre>
+<p>and copies of our C2Rust and ioquake3 repositories:</p>
+<pre><code>$ git clone git@github.com:immunant/c2rust.git
+$ git clone git@github.com:immunant/ioq3.git
+</code></pre>
+<p>As an alternative to installing <code>c2rust</code> with the command above, you may build C2Rust manually using <code>cargo build --release</code>. In either case, the C2Rust repository is still required as it contains the compiler wrapper scripts that are required to transpile ioquake3.</p>
+<p>We provide a <a href="https://github.com/immunant/ioq3/blob/master/transpile.sh">script</a> that automatically transpiles the C code and applies the <code>ssemask</code> patch. To use it, run the following command from the top level of the <code>ioq3</code> repository:</p>
+<pre><code class="language-bash">$ ./transpile.sh &lt;/path/to/C2Rust repository&gt; &lt;/path/to/c2rust binary&gt;
+</code></pre>
+<p>This command should produce a <code>quake3-rs</code> subdirectory containing the Rust code, where you can subsequently run <code>cargo build --release</code> and the rest of the steps described earlier.</p>
+<h1 id="whats-next">What's Next?</h1>
+<p>As we continue to develop C2Rust, we'd love to hear what you want to see translated next. Drop us a line at <a href="mailto:team@immunant.com">team@immunant.com</a> and let us know! If you have legacy C code you need modernized and translated, the team here at Immunant is here to help. We are available for consulting and contracting engagements ranging from one-time support to full-service code modernization.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/migration">migration</a></span><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>2209 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-01-05 16:00 -0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h"></span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="/blog/2019/12/header_merging/">
+                                <span class="button__text">Source Code Linking: Merging C Headers into Rust Modules</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+            <span>Immunant, Inc.</span>
+            <span>
+                <div>
+                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                </div>
+            </span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.8be9386f14488003ed9d31a8f370720d5e5085686a819113a72effc3507cc232c7dab0b924367678a7825280b86abbb5b00f5cc7bf0a13362c8d134a8febe1da.js" integrity="sha512-i&#43;k4bxRIgAPtnTGo83ByDV5QhWhqgZETpy7/w1B8wjLH2rC5JDZ2eKeCUoC4aru1sA9cx78KEzYsjRNKj&#43;vh2g=="></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-44066564-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="/js/prism_custom.js"></script>
+	
+
+
+    </body>
+</html>
