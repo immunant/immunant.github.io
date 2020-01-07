@@ -226,7 +226,7 @@ if (p &gt;= &amp;array[1024]) {
 <p>To avoid this issue in the future, we fixed the C2Rust transpiler to use pointer arithmetic to calculate the address of an array element instead of using an array indexing operation. With this fix, code that uses this &ldquo;address of element past the array end&rdquo; pattern will now correctly translate and run with no modifications necessary.</p>
 <h3 id="flexible-array-members">Flexible Array Members</h3>
 <p>We started up a game to test things out and immediately got a panic from Rust:</p>
-<pre><code>thread 'main' panicked at 'index out of bounds: the len is 4 but the index is 4', quake3-client/src/cm_polylib.rs:973:17
+<pre><code class="language-text">thread 'main' panicked at 'index out of bounds: the len is 4 but the index is 4', quake3-client/src/cm_polylib.rs:973:17
 </code></pre>
 <p>Taking a look at <code>cm_polylib.c</code>, we noticed that it was dereferencing the <code>p</code> field in the following struct:</p>
 <pre><code class="language-C">typedef struct
@@ -296,7 +296,7 @@ AsmCast::cast_out(fresh7, fresh10, fresh8);
 <p>Note that the code above does not require the types for any input or output values in the assembly statement, relying instead on Rust's type inference to resolve those types (mainly the types of <code>fresh6</code> and <code>fresh8</code> above).</p>
 <h3 id="aligned-global-variables">Aligned Global Variables</h3>
 <p>The final source of crashes we encountered was the following global variable that stores a SSE constant:</p>
-<pre><code>static unsigned char ssemask[16] __attribute__((aligned(16))) =
+<pre><code class="language-C">static unsigned char ssemask[16] __attribute__((aligned(16))) =
 {
 	&quot;\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\x00\x00\x00\x00&quot;
 };
@@ -336,10 +336,10 @@ static mut ssemask: SseMask = SseMask([
 
 <h2 id="transpiling-instructions">Transpiling Instructions</h2>
 <p>If you want to try translating Quake 3 and run it yourself, please be aware that you will need to own the original Quake 3 game assets or download the demo assets from the web. You'll also need to install C2Rust (the required Rust nightly version at the time of writing is <code>nightly-2019-12-05</code>, but we recommend you check the C2Rust <a href="https://github.com/immunant/c2rust">repository</a> or <a href="https://crates.io/crates/c2rust">crates.io</a> for the latest one):</p>
-<pre><code>$ cargo +nightly-2019-12-05 install c2rust
+<pre><code class="language-bash">$ cargo +nightly-2019-12-05 install c2rust
 </code></pre>
 <p>and copies of our C2Rust and ioquake3 repositories:</p>
-<pre><code>$ git clone git@github.com:immunant/c2rust.git
+<pre><code class="language-bash">$ git clone git@github.com:immunant/c2rust.git
 $ git clone git@github.com:immunant/ioq3.git
 </code></pre>
 <p>As an alternative to installing <code>c2rust</code> with the command above, you may build C2Rust manually using <code>cargo build --release</code>. In either case, the C2Rust repository is still required as it contains the compiler wrapper scripts that are required to transpile ioquake3.</p>
