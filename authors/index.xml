@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Tue, 07 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jan 2020 00:00:00 -0800</lastBuildDate>
     
 	<atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title></title>
       <link>/authors/daniel-kolsoi/</link>
-      <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 27 Jan 2020 00:00:00 -0800</pubDate>
       
       <guid>/authors/daniel-kolsoi/</guid>
       <description>Dan is a Staff Software Engineer at Immunant. He enjoys compiler, programming language, and video game design. In his free time, he likes to work on FOSS projects, play board/video games, and dabble in embedded hardware.</description>

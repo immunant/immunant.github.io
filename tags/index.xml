@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Tue, 07 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jan 2020 00:00:00 -0800</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>bitfields</title>
       <link>/tags/bitfields/</link>
-      <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 27 Jan 2020 00:00:00 -0800</pubDate>
       
       <guid>/tags/bitfields/</guid>
       <description></description>
@@ -24,7 +24,7 @@
     <item>
       <title>c2rust</title>
       <link>/tags/c2rust/</link>
-      <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 27 Jan 2020 00:00:00 -0800</pubDate>
       
       <guid>/tags/c2rust/</guid>
       <description></description>
@@ -33,7 +33,7 @@
     <item>
       <title>Rust</title>
       <link>/tags/rust/</link>
-      <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 27 Jan 2020 00:00:00 -0800</pubDate>
       
       <guid>/tags/rust/</guid>
       <description></description>
@@ -42,7 +42,7 @@
     <item>
       <title>transpiler</title>
       <link>/tags/transpiler/</link>
-      <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 27 Jan 2020 00:00:00 -0800</pubDate>
       
       <guid>/tags/transpiler/</guid>
       <description></description>
