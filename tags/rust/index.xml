@@ -18,7 +18,7 @@
       <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/blog/2020/01/bitfields/</guid>
-      <description>What Are Bitfields? The C programming language was a product of a time where it was extremely important to use as little space as possible. Memory was generally much more limited than it is today. Naturally, bitfields were one attempt to reduce memory usage. However, bitfields aren&amp;rsquo;t just a relic of the yesteryear of computer programming, sitting atop a shelf collecting dust. They&amp;rsquo;re still used today! Some domains, like embedded hardware, still require minimal memory footprints.</description>
+      <description>What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields is a handy way to reduce memory usage. However, bitfields aren&amp;rsquo;t just a relic of yesteryear&amp;rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory.</description>
     </item>
     
     <item>
