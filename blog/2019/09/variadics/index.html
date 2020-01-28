@@ -172,7 +172,7 @@ first variadic argument.</p>
 <li>
 <p><code>va_arg(ap, type)</code> returns the value of the next argument from <code>ap</code>,
 under the assumption that the type of the argument at the variadic
-function's call site is <code>type</code>.</p>
+function&rsquo;s call site is <code>type</code>.</p>
 </li>
 <li>
 <p><code>va_copy(aq, ap)</code> copies the current state of <code>ap</code> into <code>aq</code>. Both
@@ -216,7 +216,7 @@ proposed an interface for Rust code to provide C-compatible variadic functions,
 which was later implemented as a <a href="https://github.com/rust-lang/rust/pull/49878">series</a>
 of <a href="https://github.com/rust-lang/rust/pull/57760">patches</a> by Dan Robertson that have been
 merged into nightly Rust from November 2018 to February 2019.</p>
-<p>The new interface provides a new <code>VaList</code> that is compatible with C's
+<p>The new interface provides a new <code>VaList</code> that is compatible with C&rsquo;s
 <code>va_list</code> and which implements the following interface (simplified for brevity):</p>
 <pre><code class="language-Rust">impl VaList {
     /// Rust equivalent of `va_arg`, extracts the next argument of type `T`.
@@ -245,7 +245,7 @@ and <code>va_end</code> for that parameter, e.g.:</p>
 }
 </code></pre>
 <h2 id="implementing-clone-for-valist">Implementing <code>Clone</code> for <code>VaList</code></h2>
-<p>While the <code>VaList</code> API above does not directly match C's macros,
+<p>While the <code>VaList</code> API above does not directly match C&rsquo;s macros,
 it provides a sufficient interface for the C2Rust transpiler to support
 conversion of C <code>va_start</code>, <code>va_arg</code> and <code>va_end</code> calls. However, some uses of <code>va_copy</code>
 cannot be translated to <code>with_copy</code>, such as</p>
@@ -290,12 +290,12 @@ and <code>VaList</code> used as the public C-compatible interface for the former
 the copy.</p>
 </li>
 </ul>
-<p>The <code>VaList</code> split brings Rust's data structures closer to their C equivalents,
+<p>The <code>VaList</code> split brings Rust&rsquo;s data structures closer to their C equivalents,
 since on some architectures <code>va_list</code> is defined, e.g., by
 <a href="https://github.com/llvm/llvm-project/blob/release/8.x/clang/lib/AST/ASTContext.cpp#L7413">clang</a>, as</p>
 <pre><code class="language-C">typedef struct __va_list_tag va_list[1];
 </code></pre>
-<p>Due to C's implicit array-to-pointer decay, <code>va_list</code> decays to the
+<p>Due to C&rsquo;s implicit array-to-pointer decay, <code>va_list</code> decays to the
 <code>struct __va_list_tag*</code> pointer type when used in function signatures, but
 remains a single-element array (with the same size as the structure itself)
 when used to declare a local variable.
@@ -411,7 +411,7 @@ into their Rust equivalents using the following rules:</p>
 <p>The rules above are generally straightforward, with a few notable exceptions.
 First, since <code>VaListImpl</code> does not provide a constructor or a <code>start</code> function,
 we actually implement <code>va_start</code> using the <code>clone</code> function.
-We use the function's ellipsis argument as the source for every such <code>clone</code>
+We use the function&rsquo;s ellipsis argument as the source for every such <code>clone</code>
 call. Since this requires that the argument is named, we assign it a unique
 name of <code>args</code> plus an optional suffix.
 Second, since <code>VaListImpl</code> values are automatically dropped, we simply ignore

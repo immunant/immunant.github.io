@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="">
+<meta name="description"
+    content="What Are Bitfields? The C programming language was a product of a time where it was extremely important to use as little space as possible. Memory was generally much more limited than it is today. Naturally, bitfields were one attempt to reduce memory usage. However, bitfields aren&amp;rsquo;t just a relic of the yesteryear of computer programming, sitting atop a shelf collecting dust. They&amp;rsquo;re still used today! Some domains, like embedded hardware, still require minimal memory footprints." />
+<meta name="keywords" content="migration mitigation hardening research consulting" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/blog/2020/01/bitfields/" />
+
+
+<title>
+    
+    Bitfields Forever: Why we need a C-compatible Rust Crate :: Immunant, Inc 
+    
+</title>
+
+
+
+
+
+
+<link rel="stylesheet" href="/main.min.9a236353d760abb5a7e86ed48beffd5b635f7dd438e88d74ee6ff5290838d430.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png ">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png ">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png ">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png ">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png ">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png ">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png ">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png ">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png ">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png ">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png ">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png ">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png ">
+<link rel="manifest" href="/images/favicon/manifest.json ">
+<meta name="msapplication-TileColor" content="#0A4F93">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
+<link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico " type="image/x-icon">
+<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Bitfields Forever: Why we need a C-compatible Rust Crate">
+<meta itemprop="description" content="What Are Bitfields? The C programming language was a product of a time where it was extremely important to use as little space as possible. Memory was generally much more limited than it is today. Naturally, bitfields were one attempt to reduce memory usage. However, bitfields aren&rsquo;t just a relic of the yesteryear of computer programming, sitting atop a shelf collecting dust. They&rsquo;re still used today! Some domains, like embedded hardware, still require minimal memory footprints.">
+<meta itemprop="datePublished" content="2020-01-07T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-01-07T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2098">
+<meta itemprop="image" content="/images"/>
+
+
+
+<meta itemprop="keywords" content="Rust,c2rust,transpiler,bitfields," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/images"/>
+
+<meta name="twitter:title" content="Bitfields Forever: Why we need a C-compatible Rust Crate"/>
+<meta name="twitter:description" content="What Are Bitfields? The C programming language was a product of a time where it was extremely important to use as little space as possible. Memory was generally much more limited than it is today. Naturally, bitfields were one attempt to reduce memory usage. However, bitfields aren&rsquo;t just a relic of the yesteryear of computer programming, sitting atop a shelf collecting dust. They&rsquo;re still used today! Some domains, like embedded hardware, still require minimal memory footprints."/>
+
+
+
+
+<meta property="article:published_time" content="2020-01-07 00:00:00 &#43;0000 &#43;0000" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">Immunant</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/migration">Migration</a></li><li><a href="/mitigation">Mitigation</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>10 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="/blog/2020/01/bitfields/">Bitfields Forever: Why we need a C-compatible Rust Crate</a></h1>
+                By
+                    
+                    <a href="/authors/daniel-kolsoi">Daniel Kolsoi</a>
+                
+            
+
+            
+
+            <div class="post-content">
+                <h2 id="what-are-bitfields">What Are Bitfields?</h2>
+<p>The C programming language was a product of a time where it was extremely important to use as
+little space as possible. Memory was generally much more limited than it is today. Naturally,
+bitfields were one attempt to reduce memory usage. However, bitfields aren&rsquo;t just a relic of the
+yesteryear of computer programming, sitting atop a shelf collecting dust. They&rsquo;re still used today!
+Some domains, like embedded hardware, still require minimal memory footprints. Projects like Nginx
+as well as many Linux kernel modules also improve their spatial usage this way. And some
+hardware interfaces expect bits to be laid out in a particular format.</p>
+<p>So, how do bitfields actually work? The idea is that if you have multiple integers values you
+have to keep track of but know that they wouldn&rsquo;t use all possible values in the integer type,
+you can compact them together by assigning a maximum bit size to the integer. For example,
+suppose we&rsquo;d like to write a very contrived compact date <code>struct</code> in C:</p>
+<pre><code class="language-C">struct Date {
+    unsigned char day: 5;
+    unsigned char month: 4;
+    signed short year: 15;
+} __attribute__((packed));
+</code></pre>
+<p>We use 5 bits of space for <code>day</code> because that&rsquo;s the minimum size (<code>2 ^ 5 = 32</code>) to store the largest
+number of days in any given month (31). Similarly, we give <code>month</code> 4 bits to minimally represent
+12 months. Finally, we give <code>year</code> enough bits to be able to represent the current year
+(and then some!) and make it signed to signify the era. This should give us a nice three-byte
+<code>struct</code><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p>Clang can helpfully confirm our <code>struct</code> is laid out as expected:</p>
+<pre><code class="language-bash">clang -Xclang -fdump-record-layouts date.c
+</code></pre>
+<pre><code class="language-C">*** Dumping AST Record Layout
+     0 | struct Date
+ 0:0-4 |   unsigned char day
+ 0:5-8 |   unsigned char month
+1:1-15 |   signed short year
+       | [sizeof=3, align=1]
+</code></pre>
+<p>The bitfields <code>day</code> and <code>month</code> share the first byte, but the last bit of <code>month</code> straddles the
+second byte followed by <code>year</code> taking up the remainder of the last two bytes.</p>
+<h2 id="translation-requirements">Translation Requirements</h2>
+<p>The goal of <a href="https://github.com/immunant/c2rust">C2Rust</a> is to translate any standard C code into Rust. To translate bitfields from C, we therefore
+require drop-in compatible bitfield support. Since the Rust ecosystem revolves around sharing
+code in libraries (called crates), we decided to look at the few most promising crates to see what was
+available. Unfortunately, we found that not all of them provided byte compatibility with equivalent C
+structures which C2Rust must ensure so that its output is FFI compatible with the original C
+input. Section 6.7.2.1 of the C standard states that you cannot take pointers to bitfields. This is
+because pointers can only refer to whole bytes, not individual bits. However, since a <code>struct</code> may
+contain a mix of bitfields and non-bitfields, we must still be able to take pointers (and references)
+to non-bitfield fields. Although a softer requirement, most of the crates did provide an abstraction
+layer so that users didn&rsquo;t have to think about or manage bitfield boilerplate directly.</p>
+<p>In summary, our crate requirements are as follows:</p>
+<ol>
+<li>ABI compatibility with C</li>
+<li>Able to take pointers to non-bitfields</li>
+<li>Abstraction layer with minimal boilerplate</li>
+</ol>
+<p>Here is an overview of the 3rd party crates we looked at and how they stacked up to our requirements:</p>
+<h3 id="the-rust-bitfield-crate">The <code>rust-bitfield</code> Crate</h3>
+<p>The <a href="https://github.com/dzamlo/rust-bitfield">rust-bitfield</a> crate provides a nifty <code>bitfield!</code>
+macro_rules macro:</p>
+<pre><code class="language-Rust">bitfield!{
+    struct Date(MSB0 [u8]);
+    u32;
+    get_day, set_day: 4, 0;
+    get_month, set_month: 8, 5;
+    get_year, set_year: 23, 9;
+}
+
+fn main() {
+    let mut date = Date([0, 0, 0]);
+
+    date.set_day(7);
+    date.set_month(1);
+    date.set_year(2020);
+
+    assert_eq!(date.get_day(), 7);
+    assert_eq!(date.get_month(), 1);
+    assert_eq!(date.get_year(), 2020);
+}
+</code></pre>
+<p>We liked that the bit specification was easy to read and that
+you could specify most or least significant bit ordering. However, since the <code>struct</code> must be
+backed by a byte array, there are no directly addressible non-bitfield fields, let alone pointers to
+them(<code>#2</code>). Another issue we had was that <code>macro_rules!</code> macros are hard to format automatically.
+Passing them into our <a href="https://github.com/immunant/c2rust/tree/master/c2rust-refactor">refactoring tool</a>
+would cause them to be formatted unexpectedly. This is because the refactorer has to re-print
+source code to file and does not know what the expected format of the non-standard macro is. The nice
+thing about this approach is that it abstracts the complexity of bitfields behind helper methods(<code>#3</code>).</p>
+<h3 id="the-packed_struct-crate">The <code>packed_struct</code> Crate</h3>
+<p>The feature-packed <a href="https://github.com/hashmismatch/packed_struct.rs">packed_struct</a> crate:</p>
+<pre><code class="language-Rust">#[derive(PackedStruct)]
+#[packed_struct(bit_numbering=&quot;msb0&quot;)]
+pub struct Date {
+    #[packed_field(bits=&quot;0..=4&quot;)]
+    day: u8,
+    #[packed_field(bits=&quot;5..=8&quot;)]
+    month: u8,
+    #[packed_field(bits=&quot;9..=23&quot;, endian=&quot;msb&quot;)]
+    year: i16,
+}
+
+fn main() {
+    let mut date = Date { day: 0, month: 0, year: 0 };
+
+    date.day = 7;
+    date.month = 1;
+    date.year = 2020;
+
+    assert_eq!(date.day, 7);
+    assert_eq!(date.month, 1);
+    assert_eq!(date.year, 2020);
+}
+</code></pre>
+<p>We really wanted to use this crate. It seems to have a ton of neat configuration options,
+e.g., you can turn bitfields into enums. And more importantly, it uses actual fields rather
+than an internal byte representation, unlike <code>rust-bitfield</code>.</p>
+<p>A big problem we had with it was
+usability. It seems to be <a href="https://github.com/hashmismatch/packed_struct.rs/issues/39">very particular</a>
+about the type signatures you provide to it, and the compiler errors weren&rsquo;t that helpful. It took
+half an hour to figure out how to get the above example compiling after fiddling around with its <code>Integer</code>
+type<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. And we&rsquo;re still not sure why <code>year</code> needs its endianness explicitly specified when the <code>struct</code>
+already has a default. This crate may just still require a lot of macro polish.
+However, the biggest problem we had with this crate was that the generated <code>struct</code>s are not byte compatible
+with their C counterparts(<code>#1</code>). <code>Date</code>, in the above example, is four bytes large! Instead, there&rsquo;s a
+helper method to build a correctly sized byte array from scratch. On the plus side, the derive macro
+and <code>struct</code> attributes seemed like a great approach in general.</p>
+<h3 id="the-bindgen-crate">The <code>bindgen</code> Crate</h3>
+<p>The <a href="https://github.com/rust-lang/rust-bindgen">bindgen</a> crate emits Rust <code>struct</code>s based on C
+code for interoperability and therefore is a bit closer to what we need in <code>C2Rust</code> than the previous two crates.
+Running the C date example through bindgen would get you the following, trimmed for brevity:</p>
+<pre><code class="language-Rust">#[repr(C)]
+pub struct __BindgenBitfieldUnit&lt;Storage, Align&gt; {
+    storage: Storage,
+    align: [Align; 0],
+}
+impl&lt;Storage, Align&gt; __BindgenBitfieldUnit&lt;Storage, Align&gt;
+where
+    Storage: AsRef&lt;[u8]&gt; + AsMut&lt;[u8]&gt;,
+{
+    pub fn get_bit(&amp;self, index: usize) -&gt; bool {
+        // ...
+    }
+    pub fn set_bit(&amp;mut self, index: usize, val: bool) {
+        // ...
+    }
+    pub fn get(&amp;self, bit_offset: usize, bit_width: u8) -&gt; u64 {
+        // ...
+    }
+    pub fn set(&amp;mut self, bit_offset: usize, bit_width: u8, val: u64) {
+        // ...
+    }
+}
+#[repr(C, packed)]
+pub struct Date {
+    pub _bitfield_1: __BindgenBitfieldUnit&lt;[u8; 4usize], u16&gt;,
+}
+
+impl Date {
+    pub fn day(&amp;self) -&gt; ::std::os::raw::c_uchar {
+        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 5u8) as u8) }
+    }
+    pub fn set_day(&amp;mut self, val: ::std::os::raw::c_uchar) {
+        unsafe {
+            let val: u8 = ::std::mem::transmute(val);
+            self._bitfield_1.set(0usize, 5u8, val as u64)
+        }
+    }
+
+    // ...
+}
+</code></pre>
+<p>Note that the amount of boilerplate can quickly balloon(<code>#3</code>). Despite this,
+the above is a really neat approach because the <code>align</code> field treats the alignment
+as if it were an actual field that can be customized through generics. <code>#1</code> is satisfied
+because byte compatability is maintained. Furthermore, it&rsquo;s very clever that consecutive
+bitfields are combined into a single byte array. Lastly, <code>#2</code> is satisfied because the
+<code>Date</code> <code>struct</code> has concrete fields which could have pointers taken to them if needed.</p>
+<h3 id="honorable-mention-the-bitvec-crate">Honorable Mention: The <code>bitvec</code> Crate</h3>
+<p>Unfortunately, we didn&rsquo;t catch wind of this crate when we first researched existing bitfield support,
+so we never did a thorough evaluation of it. It seems to have existed in some capacity at that point,
+though. Check out this <a href="https://myrrlyn.net/blog/misc/bitfields-in-rust">blog post</a> to learn more.</p>
+<p>It appears to have the same problem as <code>rust-bitfield</code> insofar that bitfields are backed by a byte array.
+Therefore it doesn&rsquo;t meet requirement <code>#2</code>. Bits are read in a novel way though. A generic load method reads from
+(and another writes to) the backing bytes like so:</p>
+<pre><code class="language-Rust">bitvec[10..23].load::&lt;u16&gt;().unwrap();
+</code></pre>
+<p>Here the index represents bits, not bytes. A big advantage <code>bitvec</code> does have over <code>rust-bitfield</code>
+and <code>packed_struct</code> is that it seems to still be actively developed as of this writing.</p>
+<h2 id="our-approach-the-c2rust-bitfields-crate">Our Approach: The <code>c2rust-bitfields</code> Crate</h2>
+<p>Learning from the first three of the above crates, we tried to find a middle ground which could satisfy
+all of our requirements:</p>
+<pre><code class="language-Rust">#[repr(C, align(1))]
+#[derive(BitfieldStruct)]
+struct Date {
+    #[bitfield(name = &quot;day&quot;, ty = &quot;libc::c_uchar&quot;, bits = &quot;0..=4&quot;)]
+    #[bitfield(name = &quot;month&quot;, ty = &quot;libc::c_uchar&quot;, bits = &quot;5..=8&quot;)]
+    #[bitfield(name = &quot;year&quot;, ty = &quot;libc::c_short&quot;, bits = &quot;9..=23&quot;)]
+    day_month_year: [u8; 3]
+}
+
+fn main() {
+    let mut date = Date {
+        day_month_year: [0; 3]
+    };
+
+    date.set_day(7);
+    date.set_month(1);
+    date.set_year(2020);
+
+    assert_eq!(date.day(), 7);
+    assert_eq!(date.month(), 1);
+    assert_eq!(date.year(), 2020);
+}
+</code></pre>
+<p>We are ABI compatible with C(<code>#1</code>) because we use a <code>struct</code> format with actual fields
+and combine adjacent bitfields into a single byte array field. This format also allows for pointers
+(and references) to be taken of non-bitfield fields, satisfying <code>#2</code>. Lastly, <code>#3</code> is satisfied by
+having method generation boilerplate automatically derived from the macro with very little of it
+user-facing.</p>
+<p>The way this works is two-fold. Firstly, a transparent <code>c2rust-bitfields-derive</code> crate exports the
+<code>BitfieldStruct</code> derive macro which handles all of the attribute parsing and method generation.
+These generated methods assume the existence of a <code>FieldType</code> trait which is implemented for all
+integer types as well as <code>bool</code>. It allows the generated code to determine whether a bitfield type
+is signed, what is its total number of bits, and also provides internal getters and setters<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>.
+Secondly, the <code>c2rust-bitfields</code> crate re-exports <code>BitfieldStruct</code> and provides the <code>FieldType</code>
+trait and implementations.</p>
+<p>Originally, this project only consisted of the <code>c2rust-bitfield</code> crate containing the derive macro code.
+We then realized that we did not support booleans. So we added the <code>FieldType</code> trait which enabled
+us to write more generic code over both integer and boolean types. However, the gotcha was that proc
+macro crates can only export proc macros and nothing else. And so we had to split the crate in two
+to account for this limitation (which might be removed in the future).</p>
+<h3 id="bitfields-in-the-wild-nginx">Bitfields in the Wild: Nginx</h3>
+<p>Adding bitfield support to C2Rust was necessary to successfully translate and compile
+Nginx in Rust. One Nginx <code>struct</code> with bitfields looks like this in C:</p>
+<pre><code class="language-C">typedef struct {
+    ngx_file_t file;
+    off_t offset;
+    ngx_path_t *path;
+    ngx_pool_t *pool;
+    char *warn;
+    ngx_uint_t access;
+    unsigned log_level:8;
+    unsigned persistent:1;
+    unsigned clean:1;
+    unsigned thread_write:1;
+} ngx_temp_file_t;
+</code></pre>
+<p>Rather than the last four fields being four unsigned ints in size(16 bytes on many platforms), it
+only needs to occupy two bytes. And when transpiled into Rust, it looks like this:</p>
+<pre><code class="language-Rust">#[repr(C)]
+#[derive(BitfieldStruct, Clone, Copy)]
+pub struct ngx_temp_file_t {
+    pub file: ngx_file_t,
+    pub offset: off_t,
+    pub path: *mut ngx_path_t,
+    pub pool: *mut ngx_pool_t,
+    pub warn: *mut libc::c_char,
+    pub access: ngx_uint_t,
+    #[bitfield(name = &quot;log_level&quot;, ty = &quot;libc::c_uint&quot;, bits = &quot;0..=7&quot;)]
+    #[bitfield(name = &quot;persistent&quot;, ty = &quot;libc::c_uint&quot;, bits = &quot;8..=8&quot;)]
+    #[bitfield(name = &quot;clean&quot;, ty = &quot;libc::c_uint&quot;, bits = &quot;9..=9&quot;)]
+    #[bitfield(name = &quot;thread_write&quot;, ty = &quot;libc::c_uint&quot;, bits = &quot;10..=10&quot;)]
+    pub log_level_persistent_clean_thread_write: [u8; 2],
+    pub _pad: [u8; 6],
+}
+</code></pre>
+<p>Interestingly, there are 6 trailing bytes for padding. This is necessary to be equivalent to the original
+C <code>struct</code>. But the resulting struct is still 8 bytes(<code>16 - 2 - 6 = 8</code>) smaller than if bitfields were
+not used.</p>
+<h2 id="possible-crate-improvements-prs-welcome">Possible Crate Improvements (PRs Welcome!)</h2>
+<ol>
+<li>
+<p>Big Endian architectures are not currently supported. They currently produce a hard compiler error.</p>
+</li>
+<li>
+<p>We currently only support the inclusive range format <code>..=</code> for the <code>bits</code> attribute param.
+This means specifying a single bit looks like <code>7..=7</code>. We could support a single-digit value
+or an alternative <code>bit</code> attribute param. The exclusive range <code>..</code> could also be supported.</p>
+</li>
+</ol>
+<h2 id="first-class-bitfield-support-in-rust">First-Class Bitfield Support in Rust?</h2>
+<p>Josh Triplett <a href="https://youtu.be/l9hM0h6IQDo?t=1132">recently mentioned</a> that the FFI working group
+is looking to explore Rust support for bitfields. A syntax for this might simply use attributes:</p>
+<pre><code class="language-Rust">#[repr(C, packed)]
+struct Date {
+    #[bits(5)] day: libc::c_uchar,
+    #[bits(4)] month: libc::c_uchar,
+    #[bits(15)] year: libc::c_short,
+}
+
+fn main() {
+    let mut date = Date {
+        day: 0,
+        month: 0,
+        year: 0,
+    };
+
+    date.day = 7;
+    date.month = 1;
+    date.year = 2020;
+
+    assert_eq!(date.day, 7);
+    assert_eq!(date.month, 1);
+    assert_eq!(date.year, 2020);
+    assert_eq!(std::mem::size_of::&lt;Date&gt;(), 3);
+}
+</code></pre>
+<h1 id="whats-next">What&rsquo;s Next?</h1>
+<p>As we continue to develop C2Rust, we&rsquo;d love to hear what you want to see translated next. Drop us a line at <a href="mailto:team@immunant.com">team@immunant.com</a> and let us know! If you have legacy C code you need modernized and translated, the team here at Immunant is here to help. We are available for consulting and contracting engagements ranging from one-time support to full-service code modernization.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>The packed attribute is used to ensure the bytes are consecutive without any padding in between. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>Not shown in the example since we figured out a simpler version. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>Technically, trait methods can&rsquo;t be private. But users are not expected to use any of them, so we
+consider them internal. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span><span class="tag"><a href="/tags/transpiler">transpiler</a></span><span class="tag"><a href="/tags/bitfields">bitfields</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>2098 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-01-06 16:00 -0800</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h"></span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="/blog/2020/01/quake3/">
+                                <span class="button__text">Translating Quake 3 into Rust</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+            <span>Immunant, Inc.</span>
+            <span>
+                <div>
+                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                </div>
+            </span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.8be9386f14488003ed9d31a8f370720d5e5085686a819113a72effc3507cc232c7dab0b924367678a7825280b86abbb5b00f5cc7bf0a13362c8d134a8febe1da.js" integrity="sha512-i&#43;k4bxRIgAPtnTGo83ByDV5QhWhqgZETpy7/w1B8wjLH2rC5JDZ2eKeCUoC4aru1sA9cx78KEzYsjRNKj&#43;vh2g=="></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-44066564-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="/js/prism_custom.js"></script>
+	
+
+
+    </body>
+</html>

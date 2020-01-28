@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Mon, 06 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/rust/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bitfields Forever: Why we need a C-compatible Rust Crate</title>
+      <link>/blog/2020/01/bitfields/</link>
+      <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2020/01/bitfields/</guid>
+      <description>What Are Bitfields? The C programming language was a product of a time where it was extremely important to use as little space as possible. Memory was generally much more limited than it is today. Naturally, bitfields were one attempt to reduce memory usage. However, bitfields aren&amp;rsquo;t just a relic of the yesteryear of computer programming, sitting atop a shelf collecting dust. They&amp;rsquo;re still used today! Some domains, like embedded hardware, still require minimal memory footprints.</description>
+    </item>
     
     <item>
       <title>Translating Quake 3 into Rust</title>
@@ -27,7 +36,7 @@
       <pubDate>Wed, 18 Dec 2019 16:00:00 -0800</pubDate>
       
       <guid>/blog/2019/12/header_merging/</guid>
-      <description>Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&#39;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&#39;s module system is a huge improvement over C header files.</description>
+      <description>Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&amp;rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&amp;rsquo;s module system is a huge improvement over C header files.</description>
     </item>
     
     <item>
@@ -36,7 +45,7 @@
       <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
       
       <guid>/blog/2019/11/rust2020/</guid>
-      <description>The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&#39;ve uncovered some dark corners of C as it&#39;s written in practice, and found places where Rust can&#39;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C.</description>
+      <description>The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&amp;rsquo;ve uncovered some dark corners of C as it&amp;rsquo;s written in practice, and found places where Rust can&amp;rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C.</description>
     </item>
     
     <item>

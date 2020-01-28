@@ -18,7 +18,7 @@
       <pubDate>Wed, 18 Dec 2019 16:00:00 -0800</pubDate>
       
       <guid>/blog/2019/12/header_merging/</guid>
-      <description>Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&#39;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&#39;s module system is a huge improvement over C header files.</description>
+      <description>Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&amp;rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&amp;rsquo;s module system is a huge improvement over C header files.</description>
     </item>
     
   </channel>

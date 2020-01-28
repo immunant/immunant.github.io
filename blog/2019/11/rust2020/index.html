@@ -7,7 +7,7 @@
 <meta name="author"
     content="">
 <meta name="description"
-    content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&#39;ve uncovered some dark corners of C as it&#39;s written in practice, and found places where Rust can&#39;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C." />
+    content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&amp;rsquo;ve uncovered some dark corners of C as it&amp;rsquo;s written in practice, and found places where Rust can&amp;rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C." />
 <meta name="keywords" content="migration mitigation hardening research consulting" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="/blog/2019/11/rust2020/" />
@@ -51,7 +51,7 @@
 <link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
 <link rel="icon" href="/images/favicon.ico " type="image/x-icon">
 <meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Rust 2020: Lessons learned by transpiling C to Rust">
-<meta itemprop="description" content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&#39;ve uncovered some dark corners of C as it&#39;s written in practice, and found places where Rust can&#39;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C.">
+<meta itemprop="description" content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&rsquo;ve uncovered some dark corners of C as it&rsquo;s written in practice, and found places where Rust can&rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C.">
 <meta itemprop="datePublished" content="2019-11-12T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2019-11-12T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="1531">
@@ -63,7 +63,7 @@
 <meta name="twitter:image" content="/images"/>
 
 <meta name="twitter:title" content="Rust 2020: Lessons learned by transpiling C to Rust"/>
-<meta name="twitter:description" content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&#39;ve uncovered some dark corners of C as it&#39;s written in practice, and found places where Rust can&#39;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C."/>
+<meta name="twitter:description" content="The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&rsquo;ve uncovered some dark corners of C as it&rsquo;s written in practice, and found places where Rust can&rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C."/>
 
 
 
@@ -148,8 +148,8 @@
                 <p>The <a href="https://www.github.com/immunant/c2rust/">C2Rust</a> project is all about translating C
 code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our
 C2Rust introductory blog post <a href="/blog/2019/08/introduction-to-c2rust/">here</a>.)
-Along the way we've uncovered  some dark corners of C as it's written in practice, and
-found places where Rust can't quite replicate the same code with the same ABI. This is
+Along the way we&rsquo;ve uncovered  some dark corners of C as it&rsquo;s written in practice, and
+found places where Rust can&rsquo;t quite replicate the same code with the same ABI. This is
 the story of those dark corners and the areas we think Rust needs to improve to be fully
 FFI compatible with C.</p>
 <h2 id="background">Background</h2>
@@ -161,12 +161,12 @@ pattern, which is also enforced at compile-time by calling local objects&rsquo;
 destructors at the end of each scope. Conversely, other programming languages
 solve these problems using garbage collection or <a href="https://en.wikipedia.org/wiki/Reference_counting">reference counting</a>. However, the garbage collector
 is usually a significant part of the language runtime and its existence
-influences the design of the rest of the language, including the language's FFI. Passing GC'ed objects through the FFI to another language, e.g., C,
+influences the design of the rest of the language, including the language&rsquo;s FFI. Passing GC&rsquo;ed objects through the FFI to another language, e.g., C,
 poses significant challenges since the GC must track pointers across languages
-or risk freeing them prematurely; alternatively, the GC'ed language may
-disallow passing GC'ed pointers through the FFI completely, like in <a href="https://golang.org/cmd/cgo/#hdr-Passing_pointers">Go</a>,
+or risk freeing them prematurely; alternatively, the GC&rsquo;ed language may
+disallow passing GC&rsquo;ed pointers through the FFI completely, like in <a href="https://golang.org/cmd/cgo/#hdr-Passing_pointers">Go</a>,
 or shift the burden of memory allocation back to the developer.</p>
-<p>Rust's static enforcement of memory safety (as opposed to dynamic management via garbage collection or reference counting) positions it as a valuable alternative to C or C++ in a lot of use cases. These include situations where:</p>
+<p>Rust&rsquo;s static enforcement of memory safety (as opposed to dynamic management via garbage collection or reference counting) positions it as a valuable alternative to C or C++ in a lot of use cases. These include situations where:</p>
 <ul>
 <li>multiple languages must coexist in a process and communicate over a FFI,</li>
 <li>adding a heavyweight language runtime is infeasible, and</li>
@@ -198,9 +198,9 @@ with C as a significant factor in systems language adoption, and concluded with
 a list of current problems and future improvements on this front.
 In this blog post, we give some real-world examples where Rust is not yet
 fully compatible with C, some of which already mentioned by Josh in his talk.</p>
-<h2 id="opportunities-to-improve-rusts-compatibility-with-c">Opportunities to improve Rust's compatibility with C</h2>
+<h2 id="opportunities-to-improve-rusts-compatibility-with-c">Opportunities to improve Rust&rsquo;s compatibility with C</h2>
 <p>While converting C code to Rust using C2Rust, we encountered
-some edge cases where Rust cannot quite replicate C features (or at least gcc's variant of C).
+some edge cases where Rust cannot quite replicate C features (or at least gcc&rsquo;s variant of C).
 If we want Rust to be an ABI-compatible replacement for C, these are a few
 of the issues that we need to resolve.</p>
 <h3 id="long-double-types"><code>long double</code> types</h3>
@@ -264,7 +264,7 @@ struct Foo16 foo16;
 <h3 id="static-library-sizes">Static library sizes</h3>
 <p>Most of the time we want to build a C shared library (cdylib) when building drop-in
 replacement Rust code. However, when we want to build a static library, the resulting library
-is huge. For example, building the minimal <code>no_std</code> rust module below, which doesn't depend
+is huge. For example, building the minimal <code>no_std</code> rust module below, which doesn&rsquo;t depend
 on any of the Rust standard library, results in a 1.6M static library!</p>
 <pre><code class="language-Rust">#![no_std]
 extern &quot;C&quot; {
@@ -299,13 +299,13 @@ pub unsafe extern &quot;C&quot; fn rb_xcheck(tag: u8, val: u64) {
 </tr>
 </tbody>
 </table>
-<p>Because we needed to embed this code inside a kernel module, we couldn't use <code>cdylib</code>
+<p>Because we needed to embed this code inside a kernel module, we couldn&rsquo;t use <code>cdylib</code>
 (kernel modules are <code>.ko</code> files which are object files, the kernel does not
 support loading shared libraries). <code>rlib</code> is built with the assumption that
 it will be linked into another Rust target, so we decided to avoid it.
 The <code>staticlib</code> output was what we really wanted, but it was far larger.</p>
 <p>Incidentally, cargo produces an ELF archive when specifying <code>crate-type = &quot;staticlib&quot;</code>,
-but certain build systems like the kernel's only accept object files.
+but certain build systems like the kernel&rsquo;s only accept object files.
 We were able to work around this by linking a relocatable object file using
 <code>ld -r</code> (we have another blog post on kernel modules coming soon).</p>
 <h2 id="moving-forward">Moving forward</h2>
@@ -337,8 +337,8 @@ where the final file is not a linked binary.</p>
 </ul>
 </li>
 <li>
-<p>Inline assembly: Currently Rust inline assembly maps very closely to LLVM's,
-which is a different format from gcc's, so we have had to work around mismatches.
+<p>Inline assembly: Currently Rust inline assembly maps very closely to LLVM&rsquo;s,
+which is a different format from gcc&rsquo;s, so we have had to work around mismatches.
 We are looking forward to Rust getting <a href="https://internals.rust-lang.org/t/pre-rfc-2-inline-assembly/11310">stable support for inline assembly</a> someday.
 Care needs to be taken in this process so that existing inline assembly can be rewritten into
 semantically equivalent assembly in whatever syntax is settled upon.</p>
@@ -347,7 +347,7 @@ semantically equivalent assembly in whatever syntax is settled upon.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Right now, Rust covers <em>almost</em> everything one might want to do in C. While the issues we
 discuss here are fairly minor, they are holding back full feature parity and replacement of
-real-world C software. We've been able to transpile most C code to FFI-compatible,
+real-world C software. We&rsquo;ve been able to transpile most C code to FFI-compatible,
 equivalent Rust: lua, nginx and zstd currently transpile
 without any changes, and ioq3 only requires a single small change in the Rust
 output to run (the <code>ssemask</code> issue illustrated above). We hope that as Rust matures, we can resolve

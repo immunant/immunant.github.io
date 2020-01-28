@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>transpiler on Immunant, Inc</title>
+    <link>/tags/transpiler/</link>
+    <description>Recent content in transpiler on Immunant, Inc</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Immunant, Inc.</copyright>
+    <lastBuildDate>Tue, 07 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/transpiler/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bitfields Forever: Why we need a C-compatible Rust Crate</title>
+      <link>/blog/2020/01/bitfields/</link>
+      <pubDate>Tue, 07 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2020/01/bitfields/</guid>
+      <description>What Are Bitfields? The C programming language was a product of a time where it was extremely important to use as little space as possible. Memory was generally much more limited than it is today. Naturally, bitfields were one attempt to reduce memory usage. However, bitfields aren&amp;rsquo;t just a relic of the yesteryear of computer programming, sitting atop a shelf collecting dust. They&amp;rsquo;re still used today! Some domains, like embedded hardware, still require minimal memory footprints.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -137,15 +137,15 @@
             
 
             <div class="post-content">
-                <p>We believe that software should be both fast and safe. Languages like C and C++ deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. <a href="https://www.rust-lang.org/">Rust</a> delivers on speed and interoperability while making memory safety the default. We see it as a practical fit for incrementally moving systems software in a safer direction; and we're not the <a href="https://msrc-blog.microsoft.com/2019/07/16/a-proactive-approach-to-more-secure-code/">only ones</a>.</p>
-<p>To make that safer world a reality, we need a way to migrate existing software into more developer-friendly and secure languages. While many great projects such as Servo, Redox, and ripgrep are implementing new software in Rust, manual re-implementation efforts are costly and don't scale well. This is where C2Rust enters the picture. Our goal is to build useful tools that make it easier to take existing C code and get up and running with Rust. We aim to automate much of the translation and rewriting process so that migrating legacy systems is practical and scalable with minimal manual effort.</p>
-<p>We're excited to announce that a milestone long in the making is finally here! You can now install C2Rust from <a href="https://crates.io/crates/c2rust">crates.io</a> with a simple <code>cargo install</code> on Linux and OS X. We've been hard at work improving C2Rust, so go install and give it a spin! You can find the necessary prerequisites in the <a href="https://github.com/immunant/c2rust#prerequisites">C2Rust README</a>.</p>
+                <p>We believe that software should be both fast and safe. Languages like C and C++ deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. <a href="https://www.rust-lang.org/">Rust</a> delivers on speed and interoperability while making memory safety the default. We see it as a practical fit for incrementally moving systems software in a safer direction; and we&rsquo;re not the <a href="https://msrc-blog.microsoft.com/2019/07/16/a-proactive-approach-to-more-secure-code/">only ones</a>.</p>
+<p>To make that safer world a reality, we need a way to migrate existing software into more developer-friendly and secure languages. While many great projects such as Servo, Redox, and ripgrep are implementing new software in Rust, manual re-implementation efforts are costly and don&rsquo;t scale well. This is where C2Rust enters the picture. Our goal is to build useful tools that make it easier to take existing C code and get up and running with Rust. We aim to automate much of the translation and rewriting process so that migrating legacy systems is practical and scalable with minimal manual effort.</p>
+<p>We&rsquo;re excited to announce that a milestone long in the making is finally here! You can now install C2Rust from <a href="https://crates.io/crates/c2rust">crates.io</a> with a simple <code>cargo install</code> on Linux and OS X. We&rsquo;ve been hard at work improving C2Rust, so go install and give it a spin! You can find the necessary prerequisites in the <a href="https://github.com/immunant/c2rust#prerequisites">C2Rust README</a>.</p>
 <pre><code class="language-bash">cargo +nightly-2019-06-22 install c2rust
 </code></pre>
-<p><strong>Important!</strong> C2Rust depends on specific Rust nightly Rust version, so you'll need to specify the correct version when installing. Check <a href="https://crates.io/crates/c2rust">https://crates.io/crates/c2rust</a> for the latest required Rust nightly version.</p>
+<p><strong>Important!</strong> C2Rust depends on specific Rust nightly Rust version, so you&rsquo;ll need to specify the correct version when installing. Check <a href="https://crates.io/crates/c2rust">https://crates.io/crates/c2rust</a> for the latest required Rust nightly version.</p>
 <h2 id="trying-out-c2rust">Trying out C2Rust</h2>
-<p>Here's a quick example of how to use the C2Rust translator on a simple <a href="https://github.com/clibs/buffer">buffer library</a>. C2Rust reliably translates far larger projects but that's a topic for a another blog post.</p>
-<p>If you haven't already, install C2Rust:</p>
+<p>Here&rsquo;s a quick example of how to use the C2Rust translator on a simple <a href="https://github.com/clibs/buffer">buffer library</a>. C2Rust reliably translates far larger projects but that&rsquo;s a topic for a another blog post.</p>
+<p>If you haven&rsquo;t already, install C2Rust:</p>
 <pre><code class="language-bash">cargo +nightly-2019-06-22 install c2rust
 </code></pre>
 <p>Then check out the clibs buffer library:</p>
@@ -156,10 +156,10 @@ cd buffer
 <pre><code class="language-bash">pip install scan-build
 intercept-build make
 </code></pre>
-<p>Now we're ready to translate the code!</p>
+<p>Now we&rsquo;re ready to translate the code!</p>
 <pre><code class="language-bash">c2rust transpile --emit-build-files --binary test compile_commands.json
 </code></pre>
-<p>Here's what the flags do:</p>
+<p>Here&rsquo;s what the flags do:</p>
 <ul>
 <li><code>--binary test</code> tells the transpiler that we want to build a binary with the main function from the <code>test</code> module (<code>test.c</code>)</li>
 <li><code>--emit-build-files</code> will produce cargo build files for the project. Now we can build and run the Rust project with:</li>
@@ -168,9 +168,9 @@ intercept-build make
 cargo +nightly run
 </code></pre>
 <p>Translated programs require nightly Rust for several reasons, including support for defining C variadic functions in Rust. This is gated by the <code>c_variadic</code> <a href="https://doc.rust-lang.org/beta/unstable-book/language-features/c-variadic.html">feature</a>.
-When C-compatible variadic functions and a <a href="https://github.com/immunant/c2rust/issues/46">few other features</a> are stabilized, translated projects won't require nightly Rust. If your translated code doesn't use any of the unstable features, you won't need nightly after translation.</p>
+When C-compatible variadic functions and a <a href="https://github.com/immunant/c2rust/issues/46">few other features</a> are stabilized, translated projects won&rsquo;t require nightly Rust. If your translated code doesn&rsquo;t use any of the unstable features, you won&rsquo;t need nightly after translation.</p>
 <h2 id="getting-in-touch">Getting in touch</h2>
-<p>Hit a roadblock? Is it one of our <a href="https://github.com/immunant/c2rust/blob/master/docs/known-limitations.md">known limitations</a>? If not, jump onto our <a href="https://discord.gg/ANSrTuu">discord channel</a> to tell us about it or send a mail to <a href="mailto:c2rust@immunant.com">c2rust@immunant.com</a>. We'd love to hear from you.</p>
+<p>Hit a roadblock? Is it one of our <a href="https://github.com/immunant/c2rust/blob/master/docs/known-limitations.md">known limitations</a>? If not, jump onto our <a href="https://discord.gg/ANSrTuu">discord channel</a> to tell us about it or send a mail to <a href="mailto:c2rust@immunant.com">c2rust@immunant.com</a>. We&rsquo;d love to hear from you.</p>
 
             </div>
         </article>
