@@ -7,7 +7,7 @@
 <meta name="author"
     content="">
 <meta name="description"
-    content="What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields is a handy way to reduce memory usage. However, bitfields aren&amp;rsquo;t just a relic of yesteryear&amp;rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory." />
+    content="What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren&amp;rsquo;t just a relic of yesteryear&amp;rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory." />
 <meta name="keywords" content="migration mitigation hardening research consulting" />
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="/blog/2020/01/bitfields/" />
@@ -51,7 +51,7 @@
 <link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
 <link rel="icon" href="/images/favicon.ico " type="image/x-icon">
 <meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Bitfields Forever: Why we need a C-compatible Rust Crate">
-<meta itemprop="description" content="What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields is a handy way to reduce memory usage. However, bitfields aren&rsquo;t just a relic of yesteryear&rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory.">
+<meta itemprop="description" content="What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren&rsquo;t just a relic of yesteryear&rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory.">
 <meta itemprop="datePublished" content="2020-01-07T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-01-07T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="2095">
@@ -63,7 +63,7 @@
 <meta name="twitter:image" content="/images"/>
 
 <meta name="twitter:title" content="Bitfields Forever: Why we need a C-compatible Rust Crate"/>
-<meta name="twitter:description" content="What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields is a handy way to reduce memory usage. However, bitfields aren&rsquo;t just a relic of yesteryear&rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory."/>
+<meta name="twitter:description" content="What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren&rsquo;t just a relic of yesteryear&rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory."/>
 
 
 
@@ -144,7 +144,7 @@
             <div class="post-content">
                 <h2 id="what-are-bitfields">What Are Bitfields?</h2>
 <p>The C programming language is a product of a time where it was important to use as
-few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields is a handy way to reduce memory usage. However, bitfields aren&rsquo;t just a relic of yesteryear&rsquo;s computer programming; they remain frequently used today.
+few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren&rsquo;t just a relic of yesteryear&rsquo;s computer programming; they remain frequently used today.
 Some domains, like embedded hardware, still require programmers to be frugal with memory. Projects like Nginx as well as many Linux kernel modules also improve reduce memory usage this way. Moreover, some
 hardware interfaces expect bits to be laid out in a particular format.</p>
 <p>So, how do bitfields actually work? The idea is that if you have multiple integers values you
