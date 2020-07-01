@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author"
+    content="">
+<meta name="description"
+    content="Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we&amp;rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&amp;rsquo;ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules." />
+<meta name="keywords" content="migration mitigation hardening research consulting" />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="/blog/2020/06/kernel_modules/" />
+
+
+<title>
+    
+    Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly :: Immunant, Inc 
+    
+</title>
+
+
+
+
+
+
+<link rel="stylesheet" href="/main.min.9a236353d760abb5a7e86ed48beffd5b635f7dd438e88d74ee6ff5290838d430.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png ">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png ">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png ">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png ">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png ">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png ">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png ">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png ">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png ">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png ">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png ">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png ">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png ">
+<link rel="manifest" href="/images/favicon/manifest.json ">
+<meta name="msapplication-TileColor" content="#0A4F93">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
+<link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico " type="image/x-icon">
+<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly">
+<meta itemprop="description" content="Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we&rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&rsquo;ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules.">
+<meta itemprop="datePublished" content="2020-06-01T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-06-01T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1271">
+<meta itemprop="image" content="/images"/>
+
+
+
+<meta itemprop="keywords" content="migration,Rust,c2rust," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/images"/>
+
+<meta name="twitter:title" content="Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly"/>
+<meta name="twitter:description" content="Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we&rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&rsquo;ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules."/>
+
+
+
+
+<meta property="article:published_time" content="2020-06-01 00:00:00 &#43;0000 &#43;0000" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">Immunant</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/migration">Migration</a></li><li><a href="/mitigation">Mitigation</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>6 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="/blog/2020/06/kernel_modules/">Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly</a></h1>
+                By
+                    
+                    <a href="/authors/andrei-homescu">Andrei Homescu</a>
+                
+            
+
+            
+
+            <div class="post-content">
+                <p>Earlier this year, we used the C2Rust framework to translate applications such as <a href="/blog/2020/01/quake3">Quake 3</a> to Rust. In this post, we&rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&rsquo;ll use a small, 3-file kernel module which is part of the <a href="https://github.com/Bareflank/hypervisor">Bareflank Hypervisor SDK</a> developed by <a href="https://ainfosec.com">Assured Information Security</a> but you can use the same techniques to translate other kernel modules. The basic steps we&rsquo;ll cover are:</p>
+<ul>
+<li>translating the C files into Rust,</li>
+<li>compiling generated Rust, and</li>
+<li>linking everything into a loadable kernel module.</li>
+</ul>
+<h1 id="the-good">The Good</h1>
+<p>We transpiled the kernel module of Bareflank which consists of a small number
+of C files: <code>common.c</code>, <code>entry.c</code> and <code>platform.c</code>. For the first step, we
+needed to extract the kernel&rsquo;s compilation flags and pass them to the
+transpiler, so we would perfectly replicate the configuration settings and
+macro expansions from the kernel build. We used the
+<a href="https://github.com/rizsotto/Bear">Bear</a> tool to pseudo-build the original
+kernel module and produce a <code>compile_commands.json</code> file containing the
+compilation database:</p>
+<pre><code class="language-shell">$ cd .../bareflank/bfdriver/src/platform/linux
+$ make clean
+$ bear make CC=clang
+</code></pre>
+<p>The kernel build system compiles C files differently (enabling or disabling
+some language features) depending on the compiler used. Since the C2Rust
+transpiler uses clang as its front-end, we had to use clang for the
+pseudo-build as well. One complication we ran into were <em>asm gotos</em>, which are
+a new extension to gcc&rsquo;s inline assembly syntax that Linux started using in the
+5.0 release, but were
+<a href="https://releases.llvm.org/9.0.0/tools/clang/docs/ReleaseNotes.html#linux-kernel">added</a>
+to LLVM/clang in version 9.0. When we initially performed this experiment
+(April 2019), that version of clang hadn&rsquo;t come out so we were forced to revert
+to an older 4.x kernel that did not use <em>asm gotos</em> just to get clang to parse
+the C code. <em>Asm gotos</em> are now supported by clang, but the transpiler doesn&rsquo;t
+support them yet. We need to first investigate whether Rust&rsquo;s inline assembly
+(either the legacy version or the recently added
+<a href="https://blog.rust-lang.org/inside-rust/2020/06/08/new-inline-asm.html">redesign</a>)
+even supports this feature right now.</p>
+<p>After producing the compilation database, we transpiled the C files into Rust:</p>
+<pre><code class="language-shell">$ # Remove compiler flags we can't handle
+$ sed -i -e 's/&quot;-Werror.*&quot;,//' ./compile_commands.json
+$ c2rust transpile ./compile_commands.json --emit-no-std \
+  --emit-modules -o bareflank-rs &quot;$@&quot;
+</code></pre>
+<p>After making some fixes and additions to C2Rust and fix the subsequent
+compilation errors, we compiled the resulting Rust code with:</p>
+<pre><code class="language-shell"># cargo build --release --target x86_64-linux-kernel -Zbuild-std=core
+</code></pre>
+<p>We had originally used
+<a href="https://github.com/rust-osdev/cargo-xbuild"><code>cargo-xbuild</code></a> to accomplish
+this without support from the Rust compiler, but the Rust team  added the
+kernel module target to Cargo at the end of August 2019. Once that happened,
+we could use <code>cargo build</code> directly to build our kernel module.</p>
+<p>We had to make a few minor manual changes to the Rust files:</p>
+<ul>
+<li>
+<p>Replace <code>use libc;</code> with <code>use crate::libc;</code> since we had some problems
+using the libc crate from crates.io inside a kernel module. C2Rust uses the
+basic C type definitions from this crate, and we had to redefine them manually.
+This may not be a problem anymore.</p>
+</li>
+<li>
+<p>Manually remove a couple of duplicate <code>current_stack_pointer</code> definitions.
+This variable is defined in a header in C and the transpiler emits it in
+every transpiled <code>.rs</code> file as <code>#[no_mangle]</code>, which is a Rust error. We
+had to manually remove all but one definitions of this symbol (the symbol
+wasn&rsquo;t even used anywhere, so we could have removed all of them, but didn&rsquo;t
+need to).</p>
+</li>
+</ul>
+<p>Once all the fixes were in, we successfully compiled the module but still had
+to fix a couple of issues. First, Cargo produces a static library called
+<code>libbareflank_rs.a</code>, but the kernel build system only supports object files and
+not static libraries. We turned one into the other by calling the system linker
+from our kernel module <code>Makefile</code>:</p>
+<pre><code class="language-Make">$(M)/libbareflank_rs.o: target/x86_64-linux-kernel/release/bareflank_rs.a
+        $(LD) -r -o $@ --whole-archive $^
+</code></pre>
+<p>The second issue was that we were initially also transpiling the
+<code>bareflank.mod.c</code> file that the kernel build system auto-generates from the input
+object files. We were producing a <code>libbareflank_rs.o</code> that already included a copy of it,
+then passing that to the kernel build system that would produce a second
+<code>bareflank.mod.c</code> and link that together with <code>libbareflank_rs.o</code> to produce
+<code>bareflank.ko</code>. Having two copies of the contents of <code>bareflank.mod.c</code> was
+causing crashes.  Once we removed the transpiled <code>bareflank.mod.rs</code> file from the build,
+the kernel module loaded and ran successfully.</p>
+<h1 id="the-bad">The Bad</h1>
+<p>We encountered many C features and gcc-specific extensions that the kernel
+headers use and we had to add to C2Rust:</p>
+<ul>
+<li>
+<p>A series of gcc attributes: <code>inline</code>, <code>cold</code>, <code>alias</code>, <code>used</code>, <code>section</code>
+and more</p>
+</li>
+<li>
+<p>Updates to the C2Rust bitfields crate: support for <code>no_std</code> and booleans</p>
+</li>
+<li>
+<p>A gcc intrinsic used by some kernel memory functions: <code>__builtin_object_size</code></p>
+</li>
+<li>
+<p>Inline assembly support in C2Rust for memory-only, read-write and early-clobber
+operands</p>
+</li>
+<li>
+<p>Structures that are both packed and aligned, mainly
+<a href="https://elixir.bootlin.com/linux/latest/source/arch/x86/include/asm/fpu/types.h#L253"><code>xregs_state</code></a>.
+This particular combination is not currently supported in Rust, so we had
+to implement a work-around in C2Rust by emitting a pair of nested
+structures (aligned outer structure, packed inner structure) instead:</p>
+</li>
+</ul>
+<pre><code class="language-Rust">#[repr(C, align(64))]
+pub struct xregs_state(pub xregs_state_Inner);
+#[repr(C, packed)]
+pub struct xregs_state_Inner {
+  // ...
+}
+</code></pre>
+<p>All of these issues have been implemented in C2Rust and should work for all
+kernel modules, but different modules may expose new unimplemented C features.</p>
+<h1 id="the-ugly">The Ugly</h1>
+<p>C2Rust maps C types to their definitions in the libc crate, but we were
+unable (at the time) to use this crate in our kernel module. Instead, we
+redefined some of its types manually:</p>
+<pre><code class="language-Rust">pub mod libc {
+    pub type c_char = i8;
+    pub type c_schar = i8;
+    pub type c_ulong = u64;
+    pub type c_uint = u32;
+    // ...all the others
+}
+</code></pre>
+<p>We also had to implement a couple of libc functions that the compiler relies on:</p>
+<pre><code class="language-Rust">pub unsafe fn memset(s: *mut c_void, c: c_int, n: size_t) -&gt; *mut c_void {
+    core::ptr::write_bytes(s as *mut u8, c as u8, n as usize);
+    s
+}
+
+pub unsafe fn memcpy(dest: *mut c_void, src: *const c_void, n: size_t) -&gt; *mut c_void {
+    core::ptr::copy_nonoverlapping(src as *const u8, dest as *mut u8, n as usize);
+    dest
+}
+</code></pre>
+<p>Finally, we added stubs for a few missing kernel functions, and for the Rust
+panic handler (we decided to implement it properly at a later date):</p>
+<pre><code class="language-Rust">#[no_mangle]
+pub extern &quot;C&quot; fn __bad_size_call_parameter() -&gt; ! {
+    unreachable!(&quot;__bad_size_call_parameter&quot;)
+}
+
+#[no_mangle]
+pub extern &quot;C&quot; fn __bad_percpu_size() -&gt; ! {
+    unreachable!(&quot;__bad_percpu_size&quot;)
+}
+
+#[panic_handler]
+fn panic(_info: &amp;PanicInfo) -&gt; ! {
+    // FIXME: call into the kernel
+    loop {}
+}
+</code></pre>
+<p>The main remaining &ldquo;ugliness&rdquo; is that the transpiler fully expands C macros, so
+the transpiled code is not always pleasant to look at:</p>
+<pre><code class="language-Rust">   match ::core::mem::size_of::&lt;libc::c_int&gt;() as libc::c_ulong {
+	1 =&gt; {
+	    pscr_ret__ = ({
+		let mut pfo_ret__: libc::c_int = 0;
+		match ::core::mem::size_of::&lt;libc::c_int&gt;() as libc::c_ulong {
+		    1 =&gt; asm!(&quot;movb %gs:$1,$0&quot; :
+					       &quot;=q&quot; (pfo_ret__) :
+					       &quot;*m&quot; (&amp;cpu_number)
+					       : : &quot;volatile&quot;),
+		    2 =&gt; asm!(&quot;movw %gs:$1,$0&quot; :
+					       &quot;=r&quot; (pfo_ret__) :
+					       &quot;*m&quot; (&amp;cpu_number)
+					       : : &quot;volatile&quot;),
+		    4 =&gt; asm!(&quot;movl %gs:$1,$0&quot; :
+					       &quot;=r&quot; (pfo_ret__) :
+					       &quot;*m&quot; (&amp;cpu_number)
+					       : : &quot;volatile&quot;),
+		    8 =&gt; asm!(&quot;movq %gs:$1,$0&quot; :
+					       &quot;=r&quot; (pfo_ret__) :
+					       &quot;*m&quot; (&amp;cpu_number)
+					       : : &quot;volatile&quot;),
+		    _ =&gt; {
+			__bad_percpu_size();
+		    }
+		}
+		pfo_ret__
+	    })
+	}
+</code></pre>
+<p>C2Rust uses clang as a front-end which currently expands macros very early before parsing,
+so modifying it to produce an AST with unexpanded macros would be a significant undertaking.
+We are currently considering other alternatives, but it is unclear whether any
+of them would be simpler. For the foreseeable future, C2Rust will
+not be able to transpile non-trivial function-like C macros to Rust macros.</p>
+<p>We’d love to hear what you want to see translated next. Drop us a line at <a href="mailto:team@immunant.com">team@immunant.com</a> and let us know! If you have legacy C/C++ code you need modernized, translated or integrated with Rust, we are here to help.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/migration">migration</a></span><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1271 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-05-31 17:00 -0700</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h"></span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="/blog/2020/01/bitfields/">
+                                <span class="button__text">Bitfields Forever: Why we need a C-compatible Rust Crate</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+            <span>Immunant, Inc.</span>
+            <span>
+                <div>
+                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                </div>
+            </span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.8be9386f14488003ed9d31a8f370720d5e5085686a819113a72effc3507cc232c7dab0b924367678a7825280b86abbb5b00f5cc7bf0a13362c8d134a8febe1da.js" integrity="sha512-i&#43;k4bxRIgAPtnTGo83ByDV5QhWhqgZETpy7/w1B8wjLH2rC5JDZ2eKeCUoC4aru1sA9cx78KEzYsjRNKj&#43;vh2g=="></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-44066564-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="/js/prism_custom.js"></script>
+	
+
+
+    </body>
+</html>

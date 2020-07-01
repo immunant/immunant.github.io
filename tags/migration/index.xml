@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Mon, 06 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/migration/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly</title>
+      <link>/blog/2020/06/kernel_modules/</link>
+      <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2020/06/kernel_modules/</guid>
+      <description>Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we&amp;rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&amp;rsquo;ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules.</description>
+    </item>
     
     <item>
       <title>Translating Quake 3 into Rust</title>
