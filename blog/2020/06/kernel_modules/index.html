@@ -54,7 +54,7 @@
 <meta itemprop="description" content="Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we&rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&rsquo;ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules.">
 <meta itemprop="datePublished" content="2020-06-01T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-06-01T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1271">
+<meta itemprop="wordCount" content="1298">
 <meta itemprop="image" content="/images"/>
 
 
@@ -124,7 +124,7 @@
     <main class="post">
 
         <div class="post-info">
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>6 minutes
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>7 minutes
 
             
 
@@ -197,12 +197,12 @@ we could use <code>cargo build</code> directly to build our kernel module.</p>
 <p>Replace <code>use libc;</code> with <code>use crate::libc;</code> since we had some problems
 using the libc crate from crates.io inside a kernel module. C2Rust uses the
 basic C type definitions from this crate, and we had to redefine them manually.
-This may not be a problem anymore.</p>
+This might not be a problem anymore.</p>
 </li>
 <li>
 <p>Manually remove a couple of duplicate <code>current_stack_pointer</code> definitions.
 This variable is defined in a header in C and the transpiler emits it in
-every transpiled <code>.rs</code> file as <code>#[no_mangle]</code>, which is a Rust error. We
+every transpiled <code>.rs</code> file as <code>#[no_mangle]</code>, which causes Rust linking errors. We
 had to manually remove all but one definitions of this symbol (the symbol
 wasn&rsquo;t even used anywhere, so we could have removed all of them, but didn&rsquo;t
 need to).</p>
@@ -211,14 +211,15 @@ need to).</p>
 <p>Once all the fixes were in, we successfully compiled the module but still had
 to fix a couple of issues. First, Cargo produces a static library called
 <code>libbareflank_rs.a</code>, but the kernel build system only supports object files and
-not static libraries. We turned one into the other by calling the system linker
-from our kernel module <code>Makefile</code>:</p>
+not static libraries. We turned the static library into an object file by
+calling the system linker from our kernel module <code>Makefile</code>:</p>
 <pre><code class="language-Make">$(M)/libbareflank_rs.o: target/x86_64-linux-kernel/release/bareflank_rs.a
         $(LD) -r -o $@ --whole-archive $^
 </code></pre>
 <p>The second issue was that we were initially also transpiling the
 <code>bareflank.mod.c</code> file that the kernel build system auto-generates from the input
-object files. We were producing a <code>libbareflank_rs.o</code> that already included a copy of it,
+object files. We were producing a <code>libbareflank_rs.o</code> that already included
+a transpiled copy of this auto-generated file,
 then passing that to the kernel build system that would produce a second
 <code>bareflank.mod.c</code> and link that together with <code>libbareflank_rs.o</code> to produce
 <code>bareflank.ko</code>. Having two copies of the contents of <code>bareflank.mod.c</code> was
@@ -271,6 +272,7 @@ redefined some of its types manually:</p>
     // ...all the others
 }
 </code></pre>
+<p>(The <a href="https://crates.io/crates/cty"><code>cty</code></a> crate also provides the necessary type aliases<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.)</p>
 <p>We also had to implement a couple of libc functions that the compiler relies on:</p>
 <pre><code class="language-Rust">pub unsafe fn memset(s: *mut c_void, c: c_int, n: size_t) -&gt; *mut c_void {
     core::ptr::write_bytes(s as *mut u8, c as u8, n as usize);
@@ -337,6 +339,14 @@ We are currently considering other alternatives, but it is unclear whether any
 of them would be simpler. For the foreseeable future, C2Rust will
 not be able to transpile non-trivial function-like C macros to Rust macros.</p>
 <p>We’d love to hear what you want to see translated next. Drop us a line at <a href="mailto:team@immunant.com">team@immunant.com</a> and let us know! If you have legacy C/C++ code you need modernized, translated or integrated with Rust, we are here to help.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>Thanks to reddit user thelights0123 for <a href="https://www.reddit.com/r/rust/comments/hjkuwf/transpiling_a_kernel_module_to_rust_the_good_the/fwpnhlg/">pointing</a> this out to us. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
 
             </div>
         </article>
@@ -348,7 +358,7 @@ not be able to transpile non-trivial function-like C macros to Rust macros.</p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/migration">migration</a></span><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span>
                 </p>
 
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1271 Words</p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1298 Words</p>
 
             <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-05-31 17:00 -0700</p>
         </div>
