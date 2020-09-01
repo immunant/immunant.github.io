@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="canonical" href="/blog/2020/09/transpiled_c_safety/" />
+<title>
+    Refactoring Rust Transpiled from C :: Immunant, Inc 
+</title>
+
+
+
+
+
+
+<link rel="stylesheet" href="/main.min.9a236353d760abb5a7e86ed48beffd5b635f7dd438e88d74ee6ff5290838d430.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png ">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png ">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png ">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png ">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png ">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png ">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png ">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png ">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png ">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png ">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png ">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png ">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png ">
+<link rel="manifest" href="/images/favicon/manifest.json ">
+<meta name="msapplication-TileColor" content="#0A4F93">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
+<link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico " type="image/x-icon">
+<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Refactoring Rust Transpiled from C">
+<meta itemprop="description" content="Memory management errors are responsible for 70 to 80 percent of security vulnerabilities1 2. This would be much less of a problem if computers were running more Rust and less (if any) C code.
+So do we rewrite every widely used C project in Rust? Doing so entirely by hand is infeasible. Doing so in an entirely mechanized way is impossible. Between these extremes lies a point that strikes the optimal balance between the efficiency of automation and the intelligence of humans.">
+<meta itemprop="datePublished" content="2020-09-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-09-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2456">
+<meta itemprop="image" content="/images"/>
+
+
+
+<meta itemprop="keywords" content="migration,Rust,c2rust," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/images"/>
+
+<meta name="twitter:title" content="Refactoring Rust Transpiled from C"/>
+<meta name="twitter:description" content="Memory management errors are responsible for 70 to 80 percent of security vulnerabilities1 2. This would be much less of a problem if computers were running more Rust and less (if any) C code.
+So do we rewrite every widely used C project in Rust? Doing so entirely by hand is infeasible. Doing so in an entirely mechanized way is impossible. Between these extremes lies a point that strikes the optimal balance between the efficiency of automation and the intelligence of humans."/>
+
+
+
+
+<meta property="article:published_time" content="2020-09-01 00:00:00 &#43;0000 &#43;0000" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">Immunant</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/migration">Migration</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>12 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="/blog/2020/09/transpiled_c_safety/">Refactoring Rust Transpiled from C</a></h1>
+                By
+                    
+                    <a href="/authors/per-larsen">Per Larsen</a>
+                
+            
+
+            
+
+            <div class="post-content">
+                <p>Memory management errors are responsible for 70 to 80 percent of security vulnerabilities<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>. This would be much less of a problem if computers were running more Rust and less (if any) C code.</p>
+<p>So do we rewrite every widely used C project in Rust? Doing so entirely by hand is infeasible. Doing so in an entirely mechanized way is impossible. Between these extremes lies a point that strikes the optimal balance between the efficiency of automation and the intelligence of humans.</p>
+<p>The <a href="https://github.com/immunant/c2rust">C2Rust</a> project shows that most C code can be converted into something that is technically Rust. That is not to say that we’ve exhausted all opportunities for automation; far from it. What we can do today is making syntactic changes. The structure of the program is preserved including the way memory is managed. Therefore, the Rust output is as unsafe as the input C. To take advantage of Rust’s type system, we must also make semantic changes so the code comports with Rust’s ownership-based model which is how we enforce memory safety.</p>
+<p>This post explores how the current output of the C2Rust translator can be further hardened. Most blog posts on porting C code to Rust rely on human intelligence. The goal here is to explore the smallest set of changes we can make to get to safe Rust without a human in the loop. The idea is that the simpler the changes, the greater the odds that we can automate them.</p>
+<h2 id="retyping-the-central-data-structure-of-a-library">Retyping the Central Data Structure of a Library</h2>
+<p>To keep things manageable, we’ll work on a small and easy-to-test <a href="https://github.com/immunant/buffer">buffer library</a>.</p>
+<p>If we grep for <code>malloc</code>, we see code like this: <code>buffer_t *self = malloc(sizeof(buffer_t));</code> so we’ll focus on the <code>buffer_t</code> structure. Is defined like this in C and Rust (transpiled from C):</p>
+<pre><code class="language-C">// C definition 
+typedef struct {
+ size_t len;
+ char *alloc;
+ char *data;
+} buffer_t;
+</code></pre>
+<pre><code class="language-Rust">// Transpiled Rust
+#[repr(C)]
+pub struct buffer_t {
+   pub len: size_t,
+   pub alloc: *mut libc::c_char,
+   pub data: *mut libc::c_char,
+}
+</code></pre>
+<p>Notice that the transpiled Rust code uses raw pointers for the <code>alloc</code> and <code>data</code> fields. To retype these fields, we must first analyze how they are used. Let’s take a closer look at how <code>buffer_t</code> structures are allocated and deallocated.</p>
+<pre><code class="language-C">// C allocation 
+buffer_t *
+buffer_new_with_size(size_t n) {
+ buffer_t *self =   
+   malloc(sizeof(buffer_t));
+ if (!self) return NULL;
+ self-&gt;len = n;
+ self-&gt;data = self-&gt;alloc = calloc(n + 1, 1);
+ return self;
+}
+
+// C deallocation
+void
+buffer_free(buffer_t *self) {
+ free(self-&gt;alloc);
+ free(self);
+}
+</code></pre>
+<p>The next to last statement in <code>buffer_new_with_size</code> tells us that <code>data</code> and <code>alloc</code> initially point to the heap allocation returned from <code>calloc</code>. From <code>buffer_free</code> we learn that <code>alloc</code> owns the pointer returned by <code>calloc</code> meaning that <code>data</code> is probably a view into the allocation. Looking at some functions that use the <code>data</code> pointer confirms the hypothesis that <code>data</code> is a view into <code>alloc</code>.</p>
+<pre><code class="language-C">void
+buffer_trim_left(buffer_t *self) {
+  int c;
+  while ((c = *self-&gt;data) &amp;&amp; isspace(c)) {
+    ++self-&gt;data;
+  }
+}
+
+int
+buffer_equals(buffer_t *self, buffer_t *other) {
+  return 0 == strcmp(self-&gt;data, other-&gt;data);
+}
+</code></pre>
+<p>As programmers, we recognize these functions as string operations whereas an automated analysis would pay no attention to the function names and thus only see operations on strings. With our human knowledge, we can confirm that <code>data</code> points to the beginning of the string which may or may not coincide with the beginning of alloc. For automation purposes, we can look at all the way <code>data</code> and <code>alloc</code> can interact with well-known C APIs. For instance, we see that alloc is passed as the first parameter to <code>realloc</code> which means it must point to an allocation returned by an allocation function such as malloc. The call to realloc suggests that wes should retype alloc as a <code>Vec&lt;c_char&gt;</code> rather than <code>Box&lt;[c_char]&gt;</code>. As for <code>data</code>, we can statically determine that it initially points to the same memory as <code>alloc</code> but the pointer manipulations are (or can easily be) too complex to reason about with static program analysis. What we can do instead, is to run the program and see if any program execution violates the assumption that <code>data</code> points into <code>alloc</code> (or one element beyond if not dereferenced) in the same <code>buffer_t</code> instance. A dynamic analysis can also help us observe the lifetimes of <code>data</code> or <code>alloc</code> pointers in relation to the lifetimes of <code>buffer_t</code> instances.</p>
+<p>Now, let’s consider a couple of ways to express <code>buffer_t</code> in the Rust type system.</p>
+<pre><code class="language-Rust">// Unsafe
+#[repr(C)]
+pub struct buffer_t {
+   pub len: size_t,
+   pub alloc: *mut c_char,
+   pub data: *mut c_char,
+}
+</code></pre>
+<h3 id="first-try">First try</h3>
+<pre><code class="language-Rust">// data as mutable slice of alloc
+pub struct buffer_t&lt;'a&gt; {
+   pub len: size_t,
+   pub alloc: Vec&lt;c_char&gt;,
+   pub data: &amp;'a mut [c_char],
+}
+</code></pre>
+<p>Since our starting point is a mutable raw pointer, the closest safe equivalent is a mutable reference. That gets us into trouble with Rust’s borrow checker once we start instantiating buffers however. The problem is that <code>buffer_t</code> is self-referential because the <code>data</code> field is initialized by borrowing the structure itself (<code>buf.data = &amp;mut buf.alloc</code>). Unlike in C, Rust moves structures around which is troublesome because self-referential structures cannot simply be copied from one memory address to another.</p>
+<h3 id="second-try">Second try</h3>
+<pre><code class="language-Rust">// alloc as Rc&lt;..&gt; data as Weak&lt;..&gt;
+pub struct buffer_t {
+   pub len: size_t,
+   pub alloc: Rc&lt;Vec&lt;c_char&gt;&gt;,
+   pub data: Weak&lt;Vec&lt;c_char&gt;&gt;
+}
+</code></pre>
+<p>When borrowing patterns are too complex to be understood by the compiler, we can use Rust’s smart pointer types to have ownership rules enforced at runtime instead. At first glance, it might seem that we can model the relationship between the owning pointer (<code>alloc</code>) and non-owning pointer (<code>data</code>) using the Rc and Weak smart-pointer types respectively. However, that doesn’t quite satisfy our needs since data needs to be able to point to any element of alloc, not just the first one. We could of course type data as a tuple: <code>(Weak&lt;Vec&lt;c_char&gt;&gt;, size_t)</code> but at that point, we don’t really need the reference anymore.</p>
+<h3 id="third-try">Third try</h3>
+<pre><code class="language-Rust">// data as index into alloc
+pub struct buffer_t {
+   pub len: size_t,
+   pub alloc: Vec&lt;c_char&gt;,
+   pub data: size_t,
+}
+</code></pre>
+<p>We’ve arrived at a common workaround in Rust: using indexes in place of references. This means that in every expression where data was used as a pointer, we create a slice of alloc starting at data like so:</p>
+<pre><code class="language-Rust">impl buffer_t {
+   pub fn data_slice(&amp;self) -&gt; &amp;[libc::c_char] {
+       &amp;self.alloc[self.data as usize..]
+   }
+   pub fn data_mut_slice(&amp;mut self) -&gt; &amp;mut [libc::c_char] {
+       &amp;mut self.alloc[self.data as usize..]
+   }
+}
+</code></pre>
+<p>This means that we must call one of these two functions everywhere data is dereferenced in the original C code.</p>
+<p>No matter how we use <code>buffer_t</code> outside of unsafe blocks, it must adhere to Rust’s ownership rules. For instance, we cannot store the return value of <code>data_mut_slice</code> into a variable and then access <code>alloc</code> while it is borrowed mutably. The equivalent pattern in C is perfectly legitimate (as long as the pointers do not have the restrict qualifier). This means some uses of <code>buffer_t</code> may fall outside of the set of patterns we can reasonably expect to handle automatically. Luckily, we did not encounter any such patterns in this code base.</p>
+<h2 id="propagating-the-change">Propagating the Change</h2>
+<p>Let’s see what the <code>buffer_new_with_size</code> function looks like using our safe <code>buffer_t</code> struct:</p>
+<pre><code class="language-Rust">pub fn buffer_new_with_size(mut n: size_t) -&gt; buffer_t {
+    let mut self_0 = buffer_t { len: 0, alloc: vec![], data: 0 };
+    self_0.len = n;
+    self_0.alloc = vec![0; n as usize + 1];
+    self_0.data = 0;
+    self_0
+}
+</code></pre>
+<p>Two things stand out. First, the code contains no unsafe code, which is an improvement over the initial code output by the transpiler. Second, the buffer structure is initialized twice. A human can easily detect and remove such redundancy by moving the expressions that initialize each field into the instantiation of the <code>buffer_t</code> struct. Automatically rewriting the code to avoid double initialization is, in the general case, much harder. This is because we’d have to make certain that there are no data dependencies that prevent such reordering; reasoning about data dependencies in presence of loops and pointer aliasing is often not possible. We could also have used <code>MaybeUninit&lt;buffer_t&gt;</code> to avoid double initialization without having to reorder any statements. Writing to a <code>MaybeUninit</code> instance is an unsafe operation, however, so this strategy would have left us with some initialization code in an <code>unsafe</code> block. Sometimes the juice just isn’t worth the squeeze.</p>
+<p>Next, let’s update <code>buffer_trim_left</code> and <code>buffer_equals</code> to use the safe <code>buffer_t</code>:</p>
+<pre><code class="language-Rust">pub fn buffer_trim_left(self_0: &amp;mut buffer_t) {
+   loop {
+       let mut c = self_0.data_slice()[0] as c_int;
+       if !(c != 0 &amp;&amp; isspace(c) != 0) {
+           break;
+       }
+       self_0.data += 1;
+   }
+}
+pub fn buffer_equals(mut self_0: &amp;buffer_t, mut other: &amp;buffer_t) -&gt; c_int {
+   (strcmp(self_0.data_slice(), other.data_slice()) == 0) as c_int
+}
+</code></pre>
+<p>Again we note that a Rust programmer could certainly express these functions more elegantly. For instance, <code>buffer_trim_left</code> could use the position iterator to find the first non-null character. At the same time, we have gone from having entirely unsafe Rust code to fully safe code in a way that lends itself to automation. One might object that <code>strcmp</code> is an unsafe function but note that it is accepting two slice arguments – it is actually a safe replacement that we provide to help change from raw pointers to slices. We intend to provide safe replacement functions for the most common C APIs to avoid having to convert safe Rust types such as slices back to raw pointers that we can pass to external, unsafe library code.</p>
+<p>Finally, let’s look at <code>buffer_resize</code> and <code>buffer_fill</code> in C and safe, transpiled Rust.</p>
+<pre><code class="language-C">int 
+buffer_resize(buffer_t *self, size_t n) {
+  n = nearest_multiple_of(1024, n);
+  self-&gt;len = n;
+  self-&gt;alloc = self-&gt;data = realloc(self-&gt;alloc, n + 1);
+  if (!self-&gt;alloc) return -1;
+  self-&gt;alloc[n] = '\0';
+  return 0;
+}
+</code></pre>
+<pre><code class="language-Rust">pub fn buffer_resize(
+    self_0: &amp;mut buffer_t,
+    mut n: size_t
+) -&gt; libc::c_int {
+    n = nearest_multiple_of(1024, n);
+    self_0.len = n;
+    self_0.data = 0;
+    self_0.alloc.resize_with(n + 1, Default::default);
+    // this store is dead because resize_with zero-initializes
+    self_0.alloc[n] = 0;
+    return 0;
+}
+</code></pre>
+<p>The call to <code>realloc</code> (and the early return on error) has been replaced with a call to <code>resize_with</code>. This performs more work than <code>realloc</code> since the new slice elements are zero-initialized but is otherwise an entirely safe replacement for the C API.</p>
+<pre><code class="language-C">buffer_t * 
+buffer_slice(buffer_t *buf, size_t from, ssize_t to) {
+  size_t len = strlen(buf-&gt;data);
+  if (to &lt; from) return NULL;   // bad range
+  if (to &lt; 0) to = len - ~to;   // relative to end
+  if (to &gt; len) to = len;       // cap end
+  size_t n = to - from;
+  buffer_t *self = buffer_new_with_size(n);
+  memcpy(self-&gt;data, buf-&gt;data + from, n);
+  return self;
+}
+</code></pre>
+<pre><code class="language-Rust">pub fn buffer_slice(
+    mut buf: &amp;buffer_t,
+    mut from: size_t,
+    mut to: ssize_t,
+) -&gt; Option&lt;buffer_t&gt; {
+    let mut len: size_t = strlen(buf.data_slice());
+    if (to as size_t) &lt; from { return None }      // bad range
+    if to &lt; 0 {
+        to = (len - (!to as usize)) as ssize_t
+    }                                             // relative to end
+    if to as size_t &gt; len { to = len as ssize_t } // cap end
+    let mut n: size_t = (to as size_t) - from;
+    let mut self_0 = buffer_new_with_size(n);
+    let src = &amp;buf.data_slice()[from..from + n];  // buf-&gt; data + from
+    let dst = &amp;mut self_0.data_mut_slice()[..n];  // self-&gt;data
+    dst.copy_from_slice(src);                     // memcpy(dst,src,n)
+    return Some(self_0);
+}
+</code></pre>
+<p>The buffer_slice function is interesting because the C version returns a null pointer to signal errors. Moreover, it creates a new buffer and transfers ownership of it to the caller; thus the appropriate return type is Option&lt;buffer_t&gt; and we must refactor the caller to properly handle options. In this case, it is clear from the source code that the return value can be null; in other complex cases, we may need to execute the code to find out. Finally, the memcpy call in the C version is replaced by a call to copy_from_slice. That is straightforward but translating the pointer expressions into slice expressions is more difficult and it is thus likely that we will be limited in the types of pointer expressions we’ll be able to handle.</p>
+<p>The converted buffer library and a few safe helper methods are available on this <a href="https://github.com/immunant/buffer/tree/rust_refactored">branch</a>.</p>
+<h2 id="the-road-to-automation">The Road to Automation</h2>
+<p>Let’s step back and recap what we learned from refactoring a small string handling library:</p>
+<ul>
+<li>C memory management APIs provide us with a lot of useful information. By looking at <code>malloc</code> calls in the sources, we identified the data structure we should focus on and by looking at calls to <code>free</code> helps us differentiate owning pointers from non-owning pointers. Similarly, calls to <code>calloc</code> is an indicator that the allocation is likely for an array-like type.</li>
+<li>We likely need to execute programs to observe how data is referenced through pointers. Because C puts few restrictions on pointers, their relationships to allocations and other pointers are very hard to determine via static analysis. The drawback is that the programs we can handle must include a large test suite or some other way to execute a large number of paths through the code we are migrating. Guided fuzzing can help but it is no silver bullet.</li>
+<li>We believe that it is feasible to eliminate large swaths of unsafe code automatically. At the same time, the code will not become fully idiomatic as a result of using safe Rust types. The C-style of coding will still be apparent and the output will not be as elegant as hand-written Rust code using iterators, generics, and closures. On the other hand, we think the transformed code we show in this post provides a better starting point than the original C code does. The semantic distance is less after refactoring and each additional refactoring performed by hand can be tested against the original test suite.</li>
+<li>While many C allocation and deallocation can be replaced with Rust types that are automatically allocated and dropped, we must offer safe replacements for frequently used C APIs such those defined in <code>string.h</code> and used extensively in the buffer code.</li>
+<li>C memory management routines such as <code>realloc</code>, <code>memset</code>, and <code>memcpy</code> can be replaced with operations on built-in Rust types via pattern matching and rewriting in the common case but likely not in complex cases.</li>
+</ul>
+<p><strong>Let us know what you think!</strong> The work required to perform the semantic changes we cover here is substantial. The effort is underway and we remain optimistic that reaching a meaningful level of automation is possible.  Like the development of the Rust language itself, this has to be a collaborative effort. In other words, we need your inputs and insights if we are to have a shot at succeeding. If you have concerns, share them with us, if you have a good idea, share it with us. If you’d like to help us test out an early prototype, get in touch with us.</p>
+<p>Also, <strong>we are <a href="https://immunant.com/jobs">hiring</a>!</strong></p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://security.googleblog.com/2019/05/queue-hardening-enhancements.html">https://security.googleblog.com/2019/05/queue-hardening-enhancements.html</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://twitter.com/epakskape/status/1093488162318491648?lang=en">https://twitter.com/epakskape/status/1093488162318491648?lang=en</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/migration">migration</a></span><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>2456 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-09-01 02:00 &#43;0200</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h"></span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="/blog/2020/06/kernel_modules/">
+                                <span class="button__text">Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+            <span>Immunant, Inc.</span>
+            <span>
+                <div>
+                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                </div>
+            </span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.8be9386f14488003ed9d31a8f370720d5e5085686a819113a72effc3507cc232c7dab0b924367678a7825280b86abbb5b00f5cc7bf0a13362c8d134a8febe1da.js" integrity="sha512-i&#43;k4bxRIgAPtnTGo83ByDV5QhWhqgZETpy7/w1B8wjLH2rC5JDZ2eKeCUoC4aru1sA9cx78KEzYsjRNKj&#43;vh2g=="></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-44066564-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="/js/prism_custom.js"></script>
+	
+
+
+    </body>
+</html>

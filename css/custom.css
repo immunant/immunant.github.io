@@ -81,7 +81,6 @@ td {
 }
 
 .multi-column-container {
-  height: 950px;
 }
 
 .multi-column {
@@ -91,7 +90,6 @@ td {
   right: 0;
   width: 100%;
   max-width: 100em;
-  height: 950px;
   overflow: auto;
   margin: 0 auto;
   display: flex;

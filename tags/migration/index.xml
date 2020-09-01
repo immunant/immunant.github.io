@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/migration/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Refactoring Rust Transpiled from C</title>
+      <link>/blog/2020/09/transpiled_c_safety/</link>
+      <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2020/09/transpiled_c_safety/</guid>
+      <description>Memory management errors are responsible for 70 to 80 percent of security vulnerabilities1 2. This would be much less of a problem if computers were running more Rust and less (if any) C code.
+So do we rewrite every widely used C project in Rust? Doing so entirely by hand is infeasible. Doing so in an entirely mechanized way is impossible. Between these extremes lies a point that strikes the optimal balance between the efficiency of automation and the intelligence of humans.</description>
+    </item>
     
     <item>
       <title>Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly</title>
