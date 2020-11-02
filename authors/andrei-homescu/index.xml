@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/authors/andrei-homescu/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="/authors/andrei-homescu/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly</title>
       <link>/blog/2020/06/kernel_modules/</link>
