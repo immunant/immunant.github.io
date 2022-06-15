@@ -9,6 +9,16 @@
     <copyright>Immunant, Inc.</copyright>
     <lastBuildDate>Thu, 12 Jul 2018 18:19:33 +0600</lastBuildDate><atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>C2Rust is Back</title>
+      <link>/blog/2022/06/back/</link>
+      <pubDate>Tue, 14 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2022/06/back/</guid>
+      <description>tl;dr: c2rust (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust. As always, we welcome new users and are eager for any feedback!
+After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by Immunant in collaboration with our friends at Galois.</description>
+    </item>
+    
+    <item>
       <title>Refactoring Rust Transpiled from C</title>
       <link>/blog/2020/09/transpiled_c_safety/</link>
       <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>

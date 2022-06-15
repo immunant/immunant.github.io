@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="canonical" href="/blog/2022/06/back/" />
+<title>
+    C2Rust is Back :: Immunant, Inc 
+</title>
+
+
+
+
+
+
+<link rel="stylesheet" href="/main.min.1f0ca5de9fac925dba9a1915e01d6851539e742ec145025a80fa5bab054a1299.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png ">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png ">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png ">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png ">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png ">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png ">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png ">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png ">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png ">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png ">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png ">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png ">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png ">
+<link rel="manifest" href="/images/favicon/manifest.json ">
+<meta name="msapplication-TileColor" content="#0A4F93">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
+<link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico " type="image/x-icon">
+<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="C2Rust is Back">
+<meta itemprop="description" content="tl;dr: c2rust (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust. As always, we welcome new users and are eager for any feedback!
+After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by Immunant in collaboration with our friends at Galois."><meta itemprop="datePublished" content="2022-06-14T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-06-14T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1279"><meta itemprop="image" content="/images"/>
+<meta itemprop="keywords" content="migration,Rust,c2rust," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/images"/>
+
+<meta name="twitter:title" content="C2Rust is Back"/>
+<meta name="twitter:description" content="tl;dr: c2rust (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust. As always, we welcome new users and are eager for any feedback!
+After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by Immunant in collaboration with our friends at Galois."/>
+
+
+
+
+<meta property="article:published_time" content="2022-06-14 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">Immunant</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/migration">Migration</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>7 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="/blog/2022/06/back/">C2Rust is Back</a></h1>
+                By
+                    
+                    <a href="/authors/frances-wingerter">Frances Wingerter</a>
+                
+            
+
+            
+
+            <div class="post-content">
+                <p><strong>tl;dr</strong>: <a href="https://github.com/immunant/c2rust">c2rust</a> (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust.
+As always, we welcome new users and are eager for any feedback!</p>
+<p>After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by <a href="https://immunant.com/">Immunant</a> in collaboration with our friends at <a href="https://https://galois.com/">Galois</a>.
+The code had bitrotted a fair bit since 2019, so the first order of business was modernizing dependencies and compatibility.
+c2rust used <code>rustc</code>&rsquo;s internal representation of the Rust language AST (<code>libsyntax</code>) to build and process the Rust code it generated, which
+meant that we depended on the compiler&rsquo;s internal libraries and could not simply get and version our AST representation via Cargo like our other dependencies.
+Every time we wanted to support building with a newer <code>rustc</code> nightly, we had to do whatever forward-porting work was needed throughout the codebase.
+This meant we couldn&rsquo;t get unrelated <code>rustc</code> improvements (shortened compile times, bug fixes, etc.) without committing to a bunch of unrelated code churn.</p>
+<p>To break this frustrating linkage, we&rsquo;ve ported the c2rust transpiler from <code>libsyntax</code> to <a href="https://crates.io/crates/syn"><code>syn</code></a>
+so that we no longer need to depend on <code>rustc</code> internals just to emit Rust code.
+Unlike the transpiler, the c2rust refactoring tool does more than just emitting Rust code, and relies quite deeply on a bunch of <code>rustc</code> internals from AST to HIR and MIR.
+While looking at forward-porting the refactoring tool, we concluded that its approach
+isn&rsquo;t quite the right one.
+It worked for some quite useful but relatively shallow cleanups, but for more interesting rewrites from unsafe to safe code,
+it&rsquo;s necessary to do more analysis of the programs being rewritten.
+We&rsquo;ve started work on a successor to the rewriting tool that does this analysis and will hopefully enable these more involved transformations.
+In the meantime, we&rsquo;ve disabled the old refactoring tool.
+In addition to its deep usage of lots of <code>rustc</code> internals, it wasn&rsquo;t clear that the community was making wide use of it relative to the transpiler.
+This frees us of some maintenance burden and lets the rest of c2rust evolve more quickly while we work on the successor to the rewriting tool.</p>
+<h2 id="what-does-this-get-us">What does this get us?</h2>
+<ul>
+<li>
+<p>It&rsquo;s much easier to install c2rust&hellip;</p>
+<p>c2rust now builds with <code>rustc</code> 1.58 stable, nightly-2021-11-22, or any later nightly! This makes it a lot easier to install c2rust: just</p>
+<pre><code class="language-sh">cargo install c2rust
+</code></pre>
+<p>(Compiling transpiled code still requires a nightly compiler because the transpilation output relies on some nightly features, so you&rsquo;ll have to install a nightly and <code>cargo +nightly build</code> your transpiled codebase.)</p>
+</li>
+<li>
+<p>&hellip;including on Macs with Apple Silicon:</p>
+<p>This means we can now <a href="https://github.com/immunant/c2rust/issues/353">support folks with M1 Macs</a>, as the previous nightly that c2rust required was so old that <code>aarch64-apple-darwin</code> was not yet <a href="https://blog.rust-lang.org/2020/12/31/Rust-1.49.0.html#64-bit-arm-macos-and-windows-reach-tier-2">a Tier-2 platform</a>!</p>
+</li>
+<li>
+<p>Support for <code>asm!</code> and non-x86 asm translation</p>
+<p>c2rust previously translated inline assembly to the old (pre-2020) <code>asm!</code> macro, which was later renamed to <code>llvm_asm!</code>, and then removed entirely.
+As part of the forward-porting effort, we&rsquo;ve updated our assembly translation to generate the new native,
+<a href="https://github.com/rust-lang/rust/issues/72016#issuecomment-1022332954">stable (as of early 2022)</a> <code>asm!</code> macro.</p>
+<p>Along the way, we did a fair bit of work to improve support for translation of inline assembly for non-x86 architectures.
+Rust supports four major architectures: <code>aarch64</code>, <code>arm</code>, <code>riscv</code>, and <code>x86</code>[<code>_64</code>].
+All of these now have <a href="https://doc.rust-lang.org/nightly/reference/inline-assembly.html#template-modifiers">operand modifiers</a>
+and <a href="https://gcc.gnu.org/onlinedocs/gcc/Machine-Constraints.html">machine constraints</a>
+<a href="https://github.com/immunant/c2rust/blob/master/c2rust-transpile/src/translator/assembly.rs">translated</a> into their Rust-native equivalents.
+That said, this support is very fresh and would benefit from being exercised by more testers.
+Anyone with a low-level C codebase targeting one of these architectures is encouraged to throw it at c2rust and <a href="https://github.com/immunant/c2rust/issues/new/choose">let us know how it goes</a>.
+The intersection of architectures for which we have inline assembly in our existing test suite
+(which is mostly older open-source C code where inline asm targets x86, Sparc, MIPS, etc.)
+with the more recent set of architectures that Rust fully supports for inline asm
+leaves us with only a few test cases, so any additional validation would be greatly appreciated.</p>
+</li>
+<li>
+<p>Loads of miscellaneous fixes</p>
+<p>This release also contains all the minor fixes and new features we&rsquo;ve added since the last release.
+Since then, we&rsquo;ve notably gained:</p>
+<ul>
+<li>Correct translation of structs whose canonical declaration did not mark them as packed but another declaration did. This <a href="">fixes</a> many users of <code>epoll</code>.</li>
+<li>Newer LLVM versions are supported, including <a href="https://github.com/immunant/c2rust/pull/250">10</a>, <a href="https://github.com/immunant/c2rust/pull/313">11</a>, <a href="https://github.com/immunant/c2rust/commit/dfa995c89ede1f803dd361d67309ee8b681d0d29">12</a>, and <a href="https://github.com/immunant/c2rust/pull/358">13</a>.</li>
+<li>Packed <code>union</code>s are <a href="https://github.com/immunant/c2rust/pull/347">now translated correctly</a>.</li>
+<li><code>va_list</code> values are <a href="https://github.com/immunant/c2rust/pull/375">supported even as struct fields</a>, which is a pattern that shows up in Apache HTTPd.</li>
+</ul>
+</li>
+<li>
+<p>A few gotchas</p>
+<p>Unfortunately not everything is good news. c2rust has lost some functionality in the course of the forward port,
+and, while there&rsquo;s no reason things can&rsquo;t be reimplemented, in the meantime the following features have been removed:</p>
+<ul>
+<li>
+<p>Support for MMX</p>
+<p>SIMD (single-instruction, multiple data) instruction support is critical for many performance-oriented codebases that C and Rust get used for,
+but one particular instruction set extension has fallen out of popularity: MMX.
+MMX extended the x86 architecture in the late &rsquo;90s, helping to accelerate multimedia/math workloads of the era,
+but has nowadays been superseded multiple times and is now all but obsolete&ndash;upstream Rust
+<a href="https://github.com/rust-lang/stdarch/issues/823">removed support for it</a> in late 2019.
+As a result, forward-porting c2rust meant we also dropped our corresponding support. All other SIMD extensions that used to work still do, of course.
+If you have a specific need for MMX support, please <a href="https://github.com/immunant/c2rust/issues/369">let us know</a>.</p>
+</li>
+<li>
+<p>Translation of comments in C (temporarily)</p>
+<p>The way we handle construction and printing of the final Rust source code AST is substantially different with <code>syn</code> + <code>prettyplease</code> compared to <code>libsyntax</code>,
+and it&rsquo;s more difficult to reinsert comments with the new representation.
+There are fewer fewer locations at which comments can be placed, and identifying the right place to reinsert a given comment requires work that hasn&rsquo;t been finished yet.
+We intend to restore comment translation, but for now comments in C source code are dropped before Rust is generated.
+This regression is tracked <a href="https://github.com/immunant/c2rust/issues/387">here</a>.</p>
+</li>
+<li>
+<p>The refactoring tool and cross-checks</p>
+<p>As noted above, the refactoring tool has been dropped for now, and we&rsquo;re working on an exciting new tool for safening the output of c2rust.
+Expect news in this space at some point later this year!</p>
+<p>Cross-checks have also been <a href="https://github.com/immunant/c2rust/pull/368">dropped</a>.
+It&rsquo;s unlikely you&rsquo;ve heard of these, as they were a mostly-internal tool for validating translations of C programs by
+instrumenting the original program and inserting analogous instrumentation into translated programs.
+This allowed intermediate computations to be compared as programs ran, giving more detailed feedback than &ldquo;the original works fine, but the transpiled program crashes&rdquo;.
+Cross-checks were very useful while prototyping the transpiler, but they worked by inserting checking code into <code>rustc</code>&rsquo;s internal representation of the program,
+which meant that it relied heavily on <code>rustc</code> internals and would impose a significant maintenance burden to forward-port.
+Cross-checks were also a very finicky tool, as they observed program execution at a very fine-grained level,
+meaning that many of the observed values were not reproducible even across two runs of the same program,
+much less between separate runs of a C program and its transpiled Rust version.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="finally">Finally</h2>
+<p>If you&rsquo;re interested in working on projects like this, building Rust tools for making the computer world safer, consider applying for a <a href="https://immunant.com/jobs">job</a> at Immunant.</p>
+<p>I&rsquo;d like to give special thanks to <a href="https://github.com/chrysn">@chrysn</a>, who has contributed a large number of bug fixes and improvements in the course of their use of c2rust, many of which are present in this release, and to everyone who has contributed code or issues to the project.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/migration">migration</a></span><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1279 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2022-06-13 17:00 -0700</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h"></span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="/blog/2020/09/transpiled_c_safety/">
+                                <span class="button__text">Refactoring Rust Transpiled from C</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2022</span>
+            
+            <span>Immunant, Inc.</span>
+            <span>
+                <div>
+                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                </div>
+            </span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.d930ddd176189aa8309e241d227d66d79c33b335141039dcd721cc83dca4790138e9566c8dff1344095809ad05e765aaa1a66b6159a0b520c0fbdad89dd77b6f.js" integrity="sha512-2TDd0XYYmqgwniQdIn1m15wzszUUEDnc1yHMg9ykeQE46VZsjf8TRAlYCa0F52WqoaZrYVmgtSDA&#43;9rYndd7bw=="></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-44066564-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="/js/prism_custom.js"></script>
+	
+
+
+    </body>
+</html>
