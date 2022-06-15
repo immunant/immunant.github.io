@@ -43,7 +43,7 @@
 <meta itemprop="description" content="tl;dr: c2rust (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust. As always, we welcome new users and are eager for any feedback!
 After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by Immunant in collaboration with our friends at Galois."><meta itemprop="datePublished" content="2022-06-14T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2022-06-14T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1279"><meta itemprop="image" content="/images"/>
+<meta itemprop="wordCount" content="1317"><meta itemprop="image" content="/images"/>
 <meta itemprop="keywords" content="migration,Rust,c2rust," /><meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="/images"/>
 
@@ -151,7 +151,7 @@ This frees us of some maintenance burden and lets the rest of c2rust evolve more
 <ul>
 <li>
 <p>It&rsquo;s much easier to install c2rust&hellip;</p>
-<p>c2rust now builds with <code>rustc</code> 1.58 stable, nightly-2021-11-22, or any later nightly! This makes it a lot easier to install c2rust: just</p>
+<p>c2rust now builds with <code>rustc</code> 1.58 stable, nightly-2021-11-22<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, or any later nightly! This makes it a lot easier to install c2rust: just</p>
 <pre><code class="language-sh">cargo install c2rust
 </code></pre>
 <p>(Compiling transpiled code still requires a nightly compiler because the transpilation output relies on some nightly features, so you&rsquo;ll have to install a nightly and <code>cargo +nightly build</code> your transpiled codebase.)</p>
@@ -231,6 +231,16 @@ much less between separate runs of a C program and its transpiled Rust version.<
 <h2 id="finally">Finally</h2>
 <p>If you&rsquo;re interested in working on projects like this, building Rust tools for making the computer world safer, consider applying for a <a href="https://immunant.com/jobs">job</a> at Immunant.</p>
 <p>I&rsquo;d like to give special thanks to <a href="https://github.com/chrysn">@chrysn</a>, who has contributed a large number of bug fixes and improvements in the course of their use of c2rust, many of which are present in this release, and to everyone who has contributed code or issues to the project.</p>
+<p><em>Distribution Statement &ldquo;A&rdquo; Approved for Public Release, Distribution Unlimited.</em></p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>The effort to allow c2rust to build on a newer toolchain has been underway since late 2021;
+this post was cleared for publication by DARPA on Jun 8th, 2022.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
             </div>
         </article>
@@ -242,7 +252,7 @@ much less between separate runs of a C program and its transpiled Rust version.<
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/migration">migration</a></span><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span>
                 </p>
 
-            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1279 Words</p>
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1317 Words</p>
 
             <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2022-06-13 17:00 -0700</p>
         </div>
