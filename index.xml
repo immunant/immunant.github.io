@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Tue, 14 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 01 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>C2Rust is Back</title>
       <link>/blog/2022/06/back/</link>
@@ -80,7 +80,7 @@ So do we rewrite every widely used C project in Rust? Doing so entirely by hand 
       
       <guid>/blog/2019/09/variadics/</guid>
       <description>Introduction to C Variadics The C language provides a special class of functions called variadic functions that can be called with a variable number of arguments. The declaration of a variadic function ends with an ellipsis, e.g.:
-void variadic_function(int x, ...);  Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).
+void variadic_function(int x, ...); Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).
 The C runtime provides a set of helper macros that developers use to retrieve the values of the variadic arguments.</description>
     </item>
     
@@ -99,7 +99,7 @@ The C runtime provides a set of helper macros that developers use to retrieve th
       <pubDate>Tue, 21 May 2019 00:00:00 +0000</pubDate>
       
       <guid>/contact/</guid>
-      <description> Name:   Email:   Message:   Send Message   </description>
+      <description> Name: Email: Message: Send Message </description>
     </item>
     
     <item>

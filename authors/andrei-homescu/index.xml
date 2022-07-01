@@ -42,7 +42,7 @@
       
       <guid>/blog/2019/09/variadics/</guid>
       <description>Introduction to C Variadics The C language provides a special class of functions called variadic functions that can be called with a variable number of arguments. The declaration of a variadic function ends with an ellipsis, e.g.:
-void variadic_function(int x, ...);  Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).
+void variadic_function(int x, ...); Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).
 The C runtime provides a set of helper macros that developers use to retrieve the values of the variadic arguments.</description>
     </item>
     

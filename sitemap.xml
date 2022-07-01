@@ -2,6 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/</loc>
+    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/jobs/</loc>
+    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/authors/</loc>
     <lastmod>2022-06-14T00:00:00+00:00</lastmod>
   </url><url>
@@ -12,9 +18,6 @@
     <lastmod>2022-06-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/authors/frances-wingerter/</loc>
-    <lastmod>2022-06-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/</loc>
     <lastmod>2022-06-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/migration/</loc>
