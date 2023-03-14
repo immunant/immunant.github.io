@@ -1,0 +1,53 @@
++++
+title = "Jobs"
+date = "2020-08-20"
+expiryDate =  "2022-01-01"
++++
+
+
+## Systems Programmer/Researcher/Rustacean
+### What we offer
+
+- Flexibility:
+  + Morning person? Not a morning person? You know when you're most productive.
+  + Looking to work remote? No problem, about half our team is remote.
+- Agency:
+  + You're in charge of the task before you. We'll do our best to help plan the
+    approach, draft the design docs, review and test the code but our main task
+    is not to get in your way.
+  + We strive to stay nimble and minimize bureaucracy; you'll have a say in how
+    your workplace runs.
+- Growth:
+  + We perform high-risk, high-reward research. The path ahead is often unclear
+    and we often have to work around the fundamental limits of compiler construction
+    and program analysis. One thing is certain, however, you'll learn a lot.
+  + Our clients know their stuff very well; we learn a lot from every engagement.
+
+Successful candidates will receive a competitive compensation package including
+health and dental benefits and a flexible time-off/vacation policy.
+
+### What we expect
+
+- Demonstrated expertise in systems programming
+    + Maybe that's already your day job?
+    + Maybe you have an impressive side project?
+    + Maybe that was the focal point of your BS, MS, or PhD?
+    + Maybe you've contributed to an open source project?
+    + Did you give a talk, blog, or write a paper on systems programming?
+
+- Ability to work independently with minimal supervision
+    + We trust you'll do your work to the best of your ability.
+    + We trust that you are genuinely interested the types of [work we do](https://www.github.com/immunant).
+    + You're organized and able to express your ideas ~~without excess prolixity~~ clearly.
+
+- If you are knowledgeable in one of these areas, we'd like to know more
+    + C/C++/Rust
+    + Information security (mitigations, sanitizers, fuzzers, crypto, etc.)
+    + Compiler construction or program analysis
+    + Operating systems design and implementation
+    + Build systems
+
+Candidates must have valid authorization to work in the United States; Immunant uses e-Verify.
+We do not sponsor visas. We are currently unable to consider applicants outside the United States.
+
+Email your résumé to team@immunant.com; please let us know why you think you're a good fit. We look forward to hear from you!
