@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Eddy Westbrook on Immunant, Inc</title>
+    <link>/authors/eddy-westbrook/</link>
+    <description>Recent content in Eddy Westbrook on Immunant, Inc</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Immunant, Inc.</copyright>
+    <lastBuildDate>Tue, 14 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="/authors/eddy-westbrook/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Emitting Safer Rust with C2Rust</title>
+      <link>/blog/2023/03/lifting/</link>
+      <pubDate>Tue, 14 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>/blog/2023/03/lifting/</guid>
+      <description>In this post, we will discuss recent results from Immunant and Galois in extending C2Rust to emit memory-safe Rust in certain cases. With this work we aim to shift a meaningful part of the translation burden from the human to the machine. Up until now, C2Rust has only been able to translate C to unsafe Rust that is no safer than the original input C code. Although this provides a starting point for manual refactoring into idiomatic and safe Rust, this work had to be done by the human.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -2,11 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/</loc>
-    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/jobs/</loc>
-    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
+    <loc>/authors/per-larsen/</loc>
+    <lastmod>2022-06-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/authors/</loc>
     <lastmod>2022-06-14T00:00:00+00:00</lastmod>
@@ -17,7 +14,19 @@
     <loc>/blog/2022/06/back/</loc>
     <lastmod>2022-06-14T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>/authors/eddy-westbrook/</loc>
+    <lastmod>2022-06-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/blog/2023/03/lifting/</loc>
+    <lastmod>2022-06-14T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/authors/frances-wingerter/</loc>
+    <lastmod>2022-06-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/</loc>
+    <lastmod>2022-06-14T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/lifting/</loc>
     <lastmod>2022-06-14T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/migration/</loc>
@@ -28,9 +37,6 @@
   </url><url>
     <loc>/tags/</loc>
     <lastmod>2022-06-14T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/authors/per-larsen/</loc>
-    <lastmod>2020-09-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/blog/2020/09/transpiled_c_safety/</loc>
     <lastmod>2020-09-01T00:00:00+00:00</lastmod>

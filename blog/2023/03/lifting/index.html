@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="canonical" href="/blog/2023/03/lifting/" />
+<title>
+    Emitting Safer Rust with C2Rust :: Immunant, Inc 
+</title>
+
+
+
+
+
+
+<link rel="stylesheet" href="/main.min.1f0ca5de9fac925dba9a1915e01d6851539e742ec145025a80fa5bab054a1299.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png ">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png ">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png ">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png ">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png ">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png ">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png ">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png ">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png ">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png ">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png ">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png ">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png ">
+<link rel="manifest" href="/images/favicon/manifest.json ">
+<meta name="msapplication-TileColor" content="#0A4F93">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
+<link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico " type="image/x-icon">
+<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Emitting Safer Rust with C2Rust">
+<meta itemprop="description" content="In this post, we will discuss recent results from Immunant and Galois in extending C2Rust to emit memory-safe Rust in certain cases. With this work we aim to shift a meaningful part of the translation burden from the human to the machine. Up until now, C2Rust has only been able to translate C to unsafe Rust that is no safer than the original input C code. Although this provides a starting point for manual refactoring into idiomatic and safe Rust, this work had to be done by the human."><meta itemprop="datePublished" content="2022-06-14T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-06-14T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1565"><meta itemprop="image" content="/images"/>
+<meta itemprop="keywords" content="migration,lifting,Rust,c2rust," /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/images"/>
+
+<meta name="twitter:title" content="Emitting Safer Rust with C2Rust"/>
+<meta name="twitter:description" content="In this post, we will discuss recent results from Immunant and Galois in extending C2Rust to emit memory-safe Rust in certain cases. With this work we aim to shift a meaningful part of the translation burden from the human to the machine. Up until now, C2Rust has only been able to translate C to unsafe Rust that is no safer than the original input C code. Although this provides a starting point for manual refactoring into idiomatic and safe Rust, this work had to be done by the human."/>
+
+
+
+
+<meta property="article:published_time" content="2022-06-14 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">Immunant</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/migration">Migration</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>8 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="/blog/2023/03/lifting/">Emitting Safer Rust with C2Rust</a></h1>
+                By
+                    
+                    <a href="/authors/per-larsen">Per Larsen</a>
+                
+                     & 
+                    <a href="/authors/eddy-westbrook">Eddy Westbrook</a>
+                
+            
+
+            
+
+            <div class="post-content">
+                <p>In this post, we will discuss recent results from Immunant and Galois in extending C2Rust to emit memory-safe Rust in certain cases. With this work we aim to shift a meaningful part of the translation burden from the human to the machine. Up until now, C2Rust has only been able to translate C to unsafe Rust that is no safer than the original input C code. Although this provides a starting point for manual refactoring into idiomatic and safe Rust, this work had to be done by the human. By using a combination of static and dynamic analysis, the current in-development version of C2Rust can now perform some of the lifting to safe Rust automatically. This post describes how this analysis works and how we are using it to make it easier to translate unsafe C programs into memory-safe Rust.</p>
+<p>Rust is definitely a batteries-included language, but suppose for the sake of exposition that it did not include the ability to sort an array of integers. Further, imagine that we decided to address this shortcoming by migrating an existing C implementation such as the one below:</p>
+<pre><code class="language-C">void insertion_sort(int const n, int * const p) {
+  for (int i = 1; i &lt; n; i++) {
+    int const tmp = p[i];
+    int j = i;
+    while (j &gt; 0 &amp;&amp; p[j-1] &gt; tmp) {
+      p[j] = p[j-1];
+      j--;
+    }
+    p[j] = tmp;
+  }
+}
+
+</code></pre>
+<p>If we feed this to C2Rust (try it yourself on (c2rust.com)[c2rust.com]), we get this Rust out the other end:</p>
+<pre><code class="language-Rust">pub unsafe extern &quot;C&quot; fn insertion_sort(
+        n: libc::c_int, p: *mut libc::c_int) {
+    let mut i: libc::c_int = 1 as libc::c_int;
+    while i &lt; n {
+        let tmp: libc::c_int = *p.offset(i as isize);
+        let mut j: libc::c_int = i;
+        while j &gt; 0 as libc::c_int &amp;&amp;
+                  *p.offset((j - 1 as libc::c_int) as isize) &gt; tmp {
+            *p.offset(j as isize) =
+                *p.offset((j - 1 as libc::c_int) as isize);
+            j -= 1
+        }
+        *p.offset(j as isize) = tmp;
+        i += 1
+    };
+}
+
+</code></pre>
+<p>This code could be rewritten to use fewer casts, but that’s a topic for another post; our goal here is to reduce unsafety by avoiding the use of raw pointers since they permit out of bounds accesses. If we change insertion_sort’s second formal parameter p, we’ll have to change the actual argument passed to insertion_sort at all call sites. Say we have a call in main:</p>
+<pre><code class="language-Rust">unsafe fn main_0() -&gt; libc::c_int {
+    let mut arr1: [libc::c_int; 3] = [1, 3, 2];
+    insertion_sort(
+        3 as libc::c_int, arr1.as_mut_ptr());
+    // …
+}
+</code></pre>
+<p>We need to understand how the pointer to arr1 flows from main_0 to insertion_sort. This is trivial in our simple example, but in the general case, no algorithm exists that always gives the correct answer to aliasing questions such as “can a pointer X be used to access allocation Y”? The problem, in a nutshell, is that most programs are sufficiently complex that we cannot analyze all the states they could possibly be in. We can build analyses that reason over all possible program states (also known as static program analyses) but they often fall back to conservatively correct answers such as “maybe” where a definite “yes/no” answer is required.
+For this reason, and to facilitate experimentation, we augment what we can learn from relatively simple types of static analysis with dynamic observations collected during program execution. Fuzz testing tools similarly eschew complicated static analyses and opt instead to detect access violations at runtime by feeding a large number of random inputs to programs. Our thinking is that we can similarly learn enough about how programs use pointers to discover how to express the same computation in the Rust type system. This won’t work all of the time, but that’s okay as long as it works sufficiently often to save programmers a meaningful amount of time. Just like a fuzzer, we instrument the generated Rust code and run it on some example inputs. We use the information we generate to build a pointer derivation graph or PDG.</p>
+
+    <img src="/images/blog/2023/03/pdg.png"  alt="Pointer derivation graph for array of integers"  class="center"  style="border-radius: 8px;"  />
+
+
+<p>The pointer derivation graph is a summary of observations that we’ll use to transform our program. (If we had a static analysis available that gave us the same information, we could have used that; alas, interprocedural points-to analysis is a dragon we’d rather not slay.) Now that we have a PDG for the pointer argument p, we can compute what permissions are needed at each point in the program where p is defined and used. The five permissions we care about are</p>
+<ul>
+<li>WRITE: when the program writes to the pointee</li>
+<li>UNIQUE: when the pointer is the only way to access a given memory location</li>
+<li>FREE: when the pointer will eventually be passed to free<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></li>
+<li>OFFSET_ADD: when we’ll add an offset to the pointer, e.g. to access an array element</li>
+<li>OFFSET_SUB: when we may subtract an offset from the pointer</li>
+</ul>
+<p>The permissions needed by a pointer map to Rust types according to the following (non-exhaustive<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>) table:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Write</th>
+<th style="text-align:center">Unique</th>
+<th style="text-align:center">Free</th>
+<th style="text-align:center">Offset</th>
+<th style="text-align:center">Resulting ptr type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">&amp;T</td>
+</tr>
+<tr>
+<td style="text-align:center">x</td>
+<td style="text-align:center">x</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">&amp;mut T</td>
+</tr>
+<tr>
+<td style="text-align:center">x</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">&amp;Cell<!-- raw HTML omitted --><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">x</td>
+<td style="text-align:center">x</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">Box<!-- raw HTML omitted --></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">x</td>
+<td style="text-align:center">&amp;[T]</td>
+</tr>
+<tr>
+<td style="text-align:center">x</td>
+<td style="text-align:center">x</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">x</td>
+<td style="text-align:center">&amp;mut [T]</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">x</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">&amp;[T]</td>
+</tr>
+</tbody>
+</table>
+<p>Let’s use this table and the PDG to rewrite the array of integers to insertion sort:</p>
+
+    <img src="/images/blog/2023/03/permissions.png"  alt="Pointer derivation graph for array of integers"  class="center"  style="border-radius: 8px;"  />
+
+
+<p>The parameter p needs the OFFSET<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup> permission because it is used as the base pointer in array indexing operations and the WRITE permission because one of these operations is a store. The last row permissions table gives us the safe type for data needing WRITE and OFFSET operations, which is <code>&amp;mut [T]</code>, meaning that <code>&amp;mut [libc::c_int]</code> is the appropriate concrete type for p. Once we update the type of the formal parameter p, we can propagate the change throughout the function body. We replace all uses of offset with proper array indexing operations, which in turn requires us to cast the index to a usize instead of a isize. We are not yet able to mechanically perform these rewriting operations but once we get there, the result should look like this:</p>
+<pre><code class="language-Rust">pub fn insertion_sort(n: libc::c_int, p: &amp;mut [libc::c_int]) {
+    let mut i: libc::c_int = 1 as libc::c_int;
+    while i &lt; n {
+        let tmp: libc::c_int = p[i as usize];
+        let mut j: libc::c_int = i;
+        while j &gt; 0 as libc::c_int &amp;&amp;
+                  p[(j - 1 as libc::c_int) as usize] &gt; tmp {
+            p[j as usize] =
+                p[(j - 1 as libc::c_int) as usize];
+            j -= 1
+        }
+        p[j as usize] = tmp;
+        i += 1
+    }
+}
+
+unsafe fn main_0() -&gt; libc::c_int {
+    let mut arr1: [libc::c_int; 3] = [1, 3, 2];
+    insertion_sort(3 as libc::c_int, &amp;mut arr1); // propagate type change to
+                                                 // caller
+    // …
+}
+</code></pre>
+<p>At the time of writing, we are implementing the ability to apply rewrites automatically. We are using (fragments of) the <a href="https://www.lighttpd.net/">lighttpd</a> web server as a model organism. While all code is available on the C2Rust GitHub <a href="https://github.com/immunant/c2rust">repository</a>, much work remains before we have a version that is suitable for anything beyond internal dogfooding. Expect a follow-up blog post covering how to try out lifting to safer Rust on your own code sometime in the second half of 2023.</p>
+<p>The million-dollar question is how close to idiomatic Rust code we can get with the current approach. As previously mentioned, the limits of static analysis are well known. We don’t have the resources to build the best possible static analysis, so we very quickly run up against the practical limits of what we can do in a fully automatic and correctness-preserving manner. (We use a liberal notion of correctness which allows us to convert a well-defined C program into Rust that panics, this will allow us to add bounds checking and use RefCell among other things). The results obtained via dynamic analysis can be used as an oracle to speculate on properties that are not available via static analysis. Whenever possible, we will perform speculative rewrites such that the code will panic in case of misspeculation. Programmer can remove asserts inserted to guard against misspeculation to confirm that a property will always hold. This too will be covered in a future post. In the meanwhile, you can always reach us in the C2Rust <a href="https://discord.com/invite/ANSrTuu">discord channel</a> and on the GitHub <a href="https://github.com/immunant/c2rust">repository</a>. We look forward to hearing from you!</p>
+<p><em>This research was developed with funding from the Defense Advanced Research Projects Agency (DARPA). The views, opinions and/or findings expressed are those of the author and should not be interpreted as representing the official views or policies of the Department of Defense or the U.S. Government.</em></p>
+<p><em>Distribution Statement &ldquo;A&rdquo; (Approved for Public Release, Distribution Unlimited)</em></p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>In program analysis, we say a node in the program is post-dominated by (i.e, will eventually reach) a node that frees the pointer.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>We have yet to determine the remaining mappings. For instance, we must rule out some otherwise plausible options like <code>&amp;[RefCell&lt;T&gt;]</code> for mutable, shared pointers if we need to preserve the memory layout.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Currently we only support <code>Cell</code> (partially), but we may eventually pick either <code>Cell</code> or <code>RefCell</code>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>The OFFSET permission is equivalent to OFFSET_ADD | OFFSET_SUB. Our example ignores the distinction but in practice, we’d need to prove that p.offset is only called with positive values (OFFSET_ADD) to perform the rewrites shown in this post. If our dynamic analysis only observes calls to p.offset with positive offsets, we can speculate that offsets are always positive as long we rewrite the code such that the program panic’s in case of misspeculation.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/migration">migration</a></span><span class="tag"><a href="/tags/lifting">lifting</a></span><span class="tag"><a href="/tags/rust">Rust</a></span><span class="tag"><a href="/tags/c2rust">c2rust</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1565 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2022-06-13 17:00 -0700</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h"></span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+                        <span class="button previous">
+                            <a href="/blog/2022/06/back/">
+                                <span class="button__icon">←</span>
+                                <span class="button__text">C2Rust is Back</span>
+                            </a>
+                        </span>
+                    
+
+                    
+                        <span class="button next">
+                            <a href="/blog/2020/09/transpiled_c_safety/">
+                                <span class="button__text">Refactoring Rust Transpiled from C</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2023</span>
+            
+            <span>Immunant, Inc.</span>
+            <span>
+                <div>
+                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                </div>
+            </span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.d724c23da79b74d2f775793cbf5d5c894e2ef08feca6b7bdfb47467d97284c7eda6c5e7ec14e4252aa0e324948876c6b8432883a0db3632860dd0d7fba21f8ab.js" integrity="sha512-1yTCPaebdNL3dXk8v11ciU4u8I/spre9&#43;0dGfZcoTH7abF5&#43;wU5CUqoOMklIh2xrhDKIOg2zYyhg3Q1/uiH4qw=="></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-44066564-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="/js/prism_custom.js"></script>
+	
+
+
+    </body>
+</html>
