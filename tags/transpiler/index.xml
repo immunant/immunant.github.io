@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>transpiler on Immunant, Inc</title>
+    <title>Transpiler on Immunant, Inc</title>
     <link>/tags/transpiler/</link>
-    <description>Recent content in transpiler on Immunant, Inc</description>
+    <description>Recent content in Transpiler on Immunant, Inc</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Mon, 27 Jan 2020 00:00:00 -0800</lastBuildDate><atom:link href="/tags/transpiler/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 27 Jan 2020 00:00:00 -0800</lastBuildDate>
+    <atom:link href="/tags/transpiler/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bitfields Forever: Why we need a C-compatible Rust Crate</title>
       <link>/blog/2020/01/bitfields/</link>
       <pubDate>Mon, 27 Jan 2020 00:00:00 -0800</pubDate>
-      
       <guid>/blog/2020/01/bitfields/</guid>
       <description>What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren&amp;rsquo;t just a relic of yesteryear&amp;rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory.</description>
     </item>
-    
   </channel>
 </rss>

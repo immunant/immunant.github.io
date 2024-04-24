@@ -1,97 +1,76 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>migration on Immunant, Inc</title>
+    <title>Migration on Immunant, Inc</title>
     <link>/tags/migration/</link>
-    <description>Recent content in migration on Immunant, Inc</description>
+    <description>Recent content in Migration on Immunant, Inc</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="/tags/migration/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/migration/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Emitting Safer Rust with C2Rust</title>
       <link>/blog/2023/03/lifting/</link>
       <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2023/03/lifting/</guid>
       <description>In this post, we will discuss recent results from Immunant and Galois in extending C2Rust to emit memory-safe Rust in certain cases. With this work we aim to shift a meaningful part of the translation burden from the human to the machine. Up until now, C2Rust has only been able to translate C to unsafe Rust that is no safer than the original input C code. Although this provides a starting point for manual refactoring into idiomatic and safe Rust, this work had to be done by the human.</description>
     </item>
-    
     <item>
       <title>C2Rust is Back</title>
       <link>/blog/2022/06/back/</link>
       <pubDate>Tue, 14 Jun 2022 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2022/06/back/</guid>
-      <description>tl;dr: c2rust (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust. As always, we welcome new users and are eager for any feedback!
-After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by Immunant in collaboration with our friends at Galois.</description>
+      <description>tl;dr: c2rust (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust. As always, we welcome new users and are eager for any feedback!&#xA;After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by Immunant in collaboration with our friends at Galois.</description>
     </item>
-    
     <item>
       <title>Refactoring Rust Transpiled from C</title>
       <link>/blog/2020/09/transpiled_c_safety/</link>
       <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2020/09/transpiled_c_safety/</guid>
-      <description>Memory management errors are responsible for 70 to 80 percent of security vulnerabilities1 2. This would be much less of a problem if computers were running more Rust and less (if any) C code.
-So do we rewrite every widely used C project in Rust? Doing so entirely by hand is infeasible. Doing so in an entirely mechanized way is impossible. Between these extremes lies a point that strikes the optimal balance between the efficiency of automation and the intelligence of humans.</description>
+      <description>Memory management errors are responsible for 70 to 80 percent of security vulnerabilities1 2. This would be much less of a problem if computers were running more Rust and less (if any) C code.&#xA;So do we rewrite every widely used C project in Rust? Doing so entirely by hand is infeasible. Doing so in an entirely mechanized way is impossible. Between these extremes lies a point that strikes the optimal balance between the efficiency of automation and the intelligence of humans.</description>
     </item>
-    
     <item>
       <title>Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly</title>
       <link>/blog/2020/06/kernel_modules/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2020/06/kernel_modules/</guid>
       <description>Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we&amp;rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&amp;rsquo;ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules.</description>
     </item>
-    
     <item>
       <title>Translating Quake 3 into Rust</title>
       <link>/blog/2020/01/quake3/</link>
       <pubDate>Mon, 06 Jan 2020 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2020/01/quake3/</guid>
       <description>The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust.</description>
     </item>
-    
     <item>
       <title>Source Code Linking: Merging C Headers into Rust Modules</title>
       <link>/blog/2019/12/header_merging/</link>
       <pubDate>Wed, 18 Dec 2019 16:00:00 -0800</pubDate>
-      
       <guid>/blog/2019/12/header_merging/</guid>
       <description>Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&amp;rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&amp;rsquo;s module system is a huge improvement over C header files.</description>
     </item>
-    
     <item>
       <title>Rust 2020: Lessons learned by transpiling C to Rust</title>
       <link>/blog/2019/11/rust2020/</link>
       <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2019/11/rust2020/</guid>
       <description>The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&amp;rsquo;ve uncovered some dark corners of C as it&amp;rsquo;s written in practice, and found places where Rust can&amp;rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C.</description>
     </item>
-    
     <item>
       <title>Improved C Variadics in Rust and C2Rust</title>
       <link>/blog/2019/09/variadics/</link>
       <pubDate>Tue, 17 Sep 2019 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2019/09/variadics/</guid>
-      <description>Introduction to C Variadics The C language provides a special class of functions called variadic functions that can be called with a variable number of arguments. The declaration of a variadic function ends with an ellipsis, e.g.:
-void variadic_function(int x, ...); Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).
-The C runtime provides a set of helper macros that developers use to retrieve the values of the variadic arguments.</description>
+      <description>Introduction to C Variadics The C language provides a special class of functions called variadic functions that can be called with a variable number of arguments. The declaration of a variadic function ends with an ellipsis, e.g.:&#xA;void variadic_function(int x, ...); Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).&#xA;The C runtime provides a set of helper macros that developers use to retrieve the values of the variadic arguments.</description>
     </item>
-    
     <item>
       <title>Introduction to C2Rust</title>
       <link>/blog/2019/08/introduction-to-c2rust/</link>
       <pubDate>Fri, 16 Aug 2019 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2019/08/introduction-to-c2rust/</guid>
       <description>We believe that software should be both fast and safe. Languages like C and C++ deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. Rust delivers on speed and interoperability while making memory safety the default.</description>
     </item>
-    
   </channel>
 </rss>

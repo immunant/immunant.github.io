@@ -7,34 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="/authors/per-larsen/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/authors/per-larsen/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Emitting Safer Rust with C2Rust</title>
       <link>/blog/2023/03/lifting/</link>
       <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2023/03/lifting/</guid>
       <description>In this post, we will discuss recent results from Immunant and Galois in extending C2Rust to emit memory-safe Rust in certain cases. With this work we aim to shift a meaningful part of the translation burden from the human to the machine. Up until now, C2Rust has only been able to translate C to unsafe Rust that is no safer than the original input C code. Although this provides a starting point for manual refactoring into idiomatic and safe Rust, this work had to be done by the human.</description>
     </item>
-    
     <item>
       <title>Refactoring Rust Transpiled from C</title>
       <link>/blog/2020/09/transpiled_c_safety/</link>
       <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2020/09/transpiled_c_safety/</guid>
-      <description>Memory management errors are responsible for 70 to 80 percent of security vulnerabilities1 2. This would be much less of a problem if computers were running more Rust and less (if any) C code.
-So do we rewrite every widely used C project in Rust? Doing so entirely by hand is infeasible. Doing so in an entirely mechanized way is impossible. Between these extremes lies a point that strikes the optimal balance between the efficiency of automation and the intelligence of humans.</description>
+      <description>Memory management errors are responsible for 70 to 80 percent of security vulnerabilities1 2. This would be much less of a problem if computers were running more Rust and less (if any) C code.&#xA;So do we rewrite every widely used C project in Rust? Doing so entirely by hand is infeasible. Doing so in an entirely mechanized way is impossible. Between these extremes lies a point that strikes the optimal balance between the efficiency of automation and the intelligence of humans.</description>
     </item>
-    
     <item>
       <title>Optimizing for Security</title>
       <link>/blog/2018/09/multicompiler/</link>
       <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
-      
       <guid>/blog/2018/09/multicompiler/</guid>
       <description>It is obviously very bad if everybody used the same password. It is also bad when one person reuses the same password across sites. Luckily, we have password managers that can generate unique, random passwords for each site. It is no less of a problem when everybody runs the same software for the following reason: When a software flaw is found, we want every installation of the program to be different enough that the same malicious input cannot compromise multiple users (but not so different that users notice).</description>
     </item>
-    
   </channel>
 </rss>

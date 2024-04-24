@@ -2,6 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/</loc>
+    <lastmod>2023-08-15T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/jobs/</loc>
+    <lastmod>2023-08-15T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/authors/per-larsen/</loc>
     <lastmod>2023-01-11T00:00:00+00:00</lastmod>
   </url><url>
@@ -17,9 +23,6 @@
     <loc>/blog/2023/03/lifting/</loc>
     <lastmod>2023-01-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/</loc>
-    <lastmod>2023-01-11T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>/tags/lifting/</loc>
     <lastmod>2023-01-11T00:00:00+00:00</lastmod>
   </url><url>
@@ -31,9 +34,6 @@
   </url><url>
     <loc>/tags/</loc>
     <lastmod>2023-01-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/jobs/</loc>
-    <lastmod>2022-07-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/blog/2022/06/back/</loc>
     <lastmod>2022-06-14T00:00:00+00:00</lastmod>
@@ -111,6 +111,9 @@
     <lastmod>2014-05-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/mitigating/</loc>
+    <lastmod>2014-05-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/isolation/</loc>
     <lastmod>2014-05-20T00:00:00+00:00</lastmod>
   </url>
 </urlset>

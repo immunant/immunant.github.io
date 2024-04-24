@@ -7,69 +7,56 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
       <link>/authors/per-larsen/</link>
       <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>/authors/per-larsen/</guid>
       <description>Per is a co-founder and CEO at Immunant. He is a fan of the metric system and an avid collector of limited-edition plastic spoons.</description>
     </item>
-    
     <item>
       <title>Eddy Westbrook</title>
       <link>/authors/eddy-westbrook/</link>
       <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
-      
       <guid>/authors/eddy-westbrook/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Frances Wingerter</title>
       <link>/authors/frances-wingerter/</link>
       <pubDate>Tue, 14 Jun 2022 00:00:00 +0000</pubDate>
-      
       <guid>/authors/frances-wingerter/</guid>
       <description></description>
     </item>
-    
     <item>
       <title></title>
       <link>/authors/andrei-homescu/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
-      
       <guid>/authors/andrei-homescu/</guid>
       <description>Andrei is a co-founder and chief mad scientist at Immunant. He is an expert in compiler and linker based security techniques and a veteran C++ and Rust programmer. In his free time, he enjoys video gaming, critically-acclaimed TV series, and urban hiking.</description>
     </item>
-    
     <item>
       <title></title>
       <link>/authors/daniel-kolsoi/</link>
       <pubDate>Mon, 27 Jan 2020 00:00:00 -0800</pubDate>
-      
       <guid>/authors/daniel-kolsoi/</guid>
       <description>Dan is a Staff Software Engineer at Immunant. He enjoys compiler, programming language, and video game design. In his free time, he likes to work on FOSS projects, play board/video games, and dabble in embedded hardware.</description>
     </item>
-    
     <item>
       <title></title>
       <link>/authors/stephen-crane/</link>
       <pubDate>Mon, 06 Jan 2020 00:00:00 +0000</pubDate>
-      
       <guid>/authors/stephen-crane/</guid>
       <description>Stephen is a co-founder and CTO at Immunant. Amongst other topics, Stephen especially enjoys hacking on compiler-based systems security protections. He also loves games of all sorts.</description>
     </item>
-    
     <item>
       <title>Miguel Saldivar</title>
       <link>/authors/miguel-saldivar/</link>
       <pubDate>Mon, 06 Jan 2020 00:00:00 +0000</pubDate>
-      
       <guid>/authors/miguel-saldivar/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>
