@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Apr 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>In-process Sandboxing with Memory Protection Keys</title>
+      <link>/blog/2024/04/sandboxing/</link>
+      <pubDate>Fri, 05 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>/blog/2024/04/sandboxing/</guid>
+      <description>Modern software applications contain many distinct smaller components, such as libraries or plugins, that are often written by third-parties. Developers typically don’t have the resources to exhaustively review and scrutinize third-party source code, leaving application integrators and operational teams with little visibility into the security and correctness of this code. These libraries provide specialized functionality, and often do not need access to the entire application, but the status quo is that an application is an amalgamation of all this code into one process with all components having equal access to all data in the application.</description>
+    </item>
     <item>
       <title>Emitting Safer Rust with C2Rust</title>
       <link>/blog/2023/03/lifting/</link>

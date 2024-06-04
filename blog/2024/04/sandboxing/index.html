@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="canonical" href="/blog/2024/04/sandboxing/" />
+<title>
+    In-process Sandboxing with Memory Protection Keys :: Immunant, Inc 
+</title>
+
+
+
+
+
+
+<link rel="stylesheet" href="/main.min.1f0ca5de9fac925dba9a1915e01d6851539e742ec145025a80fa5bab054a1299.css">
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png ">
+<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png ">
+<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png ">
+<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png ">
+<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png ">
+<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png ">
+<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png ">
+<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png ">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png ">
+<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png ">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png ">
+<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png ">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png ">
+<link rel="manifest" href="/images/favicon/manifest.json ">
+<meta name="msapplication-TileColor" content="#0A4F93">
+<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
+<link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
+<link rel="icon" href="/images/favicon.ico " type="image/x-icon">
+<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="In-process Sandboxing with Memory Protection Keys">
+<meta itemprop="description" content="Modern software applications contain many distinct smaller components, such as libraries or plugins, that are often written by third-parties. Developers typically don’t have the resources to exhaustively review and scrutinize third-party source code, leaving application integrators and operational teams with little visibility into the security and correctness of this code. These libraries provide specialized functionality, and often do not need access to the entire application, but the status quo is that an application is an amalgamation of all this code into one process with all components having equal access to all data in the application."><meta itemprop="datePublished" content="2024-04-05T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2024-04-05T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1765"><meta itemprop="image" content="/images" />
+<meta itemprop="keywords" content="sandboxing," /><meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="/images" /><meta name="twitter:title" content="In-process Sandboxing with Memory Protection Keys"/>
+<meta name="twitter:description" content="Modern software applications contain many distinct smaller components, such as libraries or plugins, that are often written by third-parties. Developers typically don’t have the resources to exhaustively review and scrutinize third-party source code, leaving application integrators and operational teams with little visibility into the security and correctness of this code. These libraries provide specialized functionality, and often do not need access to the entire application, but the status quo is that an application is an amalgamation of all this code into one process with all components having equal access to all data in the application."/>
+
+
+
+
+<meta property="article:published_time" content="2024-04-05 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">Immunant</span>
+            <span class="logo__cursor"></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/migrating">Migration</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>9 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title"><a href="/blog/2024/04/sandboxing/">In-process Sandboxing with Memory Protection Keys</a></h1>
+                By
+                    
+                    <a href="/authors/ayrton-mu%C3%B1oz">Ayrton Muñoz</a>
+                
+                     & 
+                    <a href="/authors/stephen-crane">Stephen Crane</a>
+                
+            
+
+            
+
+            <div class="post-content">
+                <p>Modern software applications contain many distinct smaller components, such as libraries or plugins, that are often written by third-parties. Developers typically don’t have the resources to exhaustively review and scrutinize third-party source code, leaving application integrators and operational teams with little visibility into the security and correctness of this code. These libraries provide specialized functionality, and often do not need access to the entire application, but the status quo is that an application is an amalgamation of all this code into one process with all components having equal access to all data in the application.</p>
+<p>Combining distinct components into a single process is convenient and saves implementation time, but this architecture conflicts with the security idea of least privilege - each component should only have the privileges and access required for its job. By placing multiple components in a single process, one component can affect another - even if they&rsquo;re logically unrelated. One <a href="https://www.chromium.org/Home/chromium-security/guts/">alternative architecture</a>, implemented in modern web browsers like Chrome and Firefox, is separating risky components into their own processes with fewer privileges which effectively sandboxes these components. This is typically most relevant to components that process input data from potentially untrusted sources, such as media codecs and parsers. However, retrofitting this architecture onto an existing application can be costly and time consuming.</p>
+<p>In this post we&rsquo;ll introduce our alternative in-process <a href="https://github.com/immunant/IA2-Phase2/">sandboxing runtime</a> and show how to retrofit it onto existing codebases with lower developer effort and runtime overhead than creating separate processes. Our sandbox is currently intended for C programs running on x86-64, but we have also previously prototyped support for Rust and are working on an ARM64 port. We’ll also describe how it could benefit other codebases using C/C++ libraries by preventing the lack of memory-safety from being abused to break invariants enforced by higher-level languages.</p>
+<h2 id="sandboxing-with-processes">Sandboxing with Processes</h2>
+<p>Sandboxing with processes works by placing components into separate executables that run in different address spaces. This isolates each component&rsquo;s memory and significantly increases the barrier for an attacker to arbitrarily access another component’s data. Essentially, when multiple components coexist in a single address space, a <a href="https://alexgaynor.net/2019/aug/12/introduction-to-memory-unsafety-for-vps-of-engineering/">missing bounds check</a> on a pointer dereference in one component can affect another, logically unrelated component. While this spatial memory-safety problem has been solved by modern languages that automatically insert bounds checks, it is a <a href="https://www.chromium.org/Home/chromium-security/memory-safety/">fundamental issue for C/C++</a>. Due to the large ecosystem of libraries written in C/C++ and the niche they occupy among languages, improving memory-safety remains an important challenge. This would also be beneficial for codebases in managed languages, such as Java, that rely on C/C++ libraries (e.g. for performance-critical operations) since the lack of memory-safety can be abused to break guarantees which the higher-level language tries to provide. This could be things like type-system invariants enforced by a higher-level language. Essentially <a href="https://www.linkedin.com/pulse/i-dont-care-memory-safety-david-chisnall/">memory-safety matters</a> because those bugs undermine guarantees that developers rely on to reason about a program.</p>
+<p>With components in separate address spaces, the barrier for attackers is increased because they can only interact with assistance from the operating system (OS). This means an attacker would need more than a missing bounds check in a component that processes untrusted inputs. An attacker would also need to leverage vulnerabilities in the OS or abuse the interface between processes to freely access the privileged component&rsquo;s memory. Due to the cost of factoring an application into processes, developers typically design the process interfaces very carefully so they can’t be misused. However processes execute independently, so this refactoring involves making the individual components asynchronous. It&rsquo;s also not always practical to increase the number of processes because each additional process imposes memory and management overhead imposed on the operating system.</p>
+<p>In contrast, in-process sandboxing uses a single address space leading to lower memory requirements. It also avoids the need to refactor components around an asynchronous inter-process communication (IPC) protocol which can take significant developer effort. In our runtime we also delineate the sandbox along existing boundaries making it easier to reason about interactions between components. It also does not preclude the use of multiple processes and can be used as a more fine-grained sandbox on top of the coarse protection provided by multiple processes.</p>
+<h2 id="memory-protection-keys">Memory Protection Keys</h2>
+<p>The granularity of in-process sandboxing depends on the hardware primitives used to isolate memory. Our approach is to use x86-64’s <a href="https://www.kernel.org/doc/html/v5.5/core-api/protection-keys.html">Memory Protection Keys</a> (MPK) feature which has been available since 2016 and is now readily available on common cloud computing infrastructure such as Amazon’s EC2 C5 instances. It provides 16 “protection keys” (pkeys) for each process which we use to define sandbox compartments. A pkey is a tag assigned to every memory page in a process and is compared against a dedicated register before each read or write to check if the page may be accessed. Our runtime assigns libraries different pkeys and changes this Protection-Key Rights Register (PKRU) each time the program jumps between libraries. Pkeys alone are not a security feature so our runtime combines it with x86-64’s <a href="https://www.intel.com/content/www/us/en/developer/articles/technical/technical-look-control-flow-enforcement-technology.html">Control-flow Enforcement Technology</a> (CET) feature to ensure that the PKRU only changes at transitions between libraries. This ensures that each library component cannot access memory tagged with another pkey.</p>
+<h2 id="developer-workflow">Developer Workflow</h2>
+<p>Sandboxing improves memory-safety, but it also introduces cognitive overhead for developers who then have to consider new interactions between sandbox compartments. Essentially, sandboxing provides minimal benefit if the interface defined at compartment boundaries allows arbitrary (and potentially sensitive) data to pass through. To mitigate this, we chose to delineate the sandbox compartments using pre-existing boundaries. We define a compartment as a set of libraries which is assigned a unique pkey and use the library APIs as the compartment interfaces. More specifically this applies to any dynamic shared object (DSO), so it includes any shared libraries (i.e. .so or .dll files) as well as the main program executable itself. This means that the existing library APIs become the interface between sandbox compartments. The benefits of this choice are very specific to the library’s API (e.g. a library with a <code>void write_to_arbitrary_address(int *addr, int val)</code> API would not benefit much) , but it should make it simpler to <a href="https://archive.fosdem.org/2023/schedule/event/cc_online_vulnerabilities/">evaluate an interface’s suitability</a> as a sandbox boundary.</p>
+<p>Our runtime tries to be as transparent as possible to developers, but libraries at compartment boundaries require source code annotations, mainly with information about control-flow. To simplify the sandboxing process, we developed a source rewriter tool which takes in C source files and adds the annotations wherever they can be inferred. Instead of annotating source files in-place, the rewriter creates copies in an output directory which are then passed onto the existing build system. This minimizes the amount of developer-facing annotations in sandboxed codebases. Ideally the only annotations developers should encounter while working are those that cannot be reasonably inferred such as annotations for what variables must be shared between compartments. The rewriter also generates a new source file defining call gates for transitions between compartments and a file of extra linker arguments required to insert the call gates. These artifacts are then passed on to a standard compiler as shown below to create the sandboxed application. While we currently support GCC and Clang, our runtime intends to be toolchain-agnostic so we may add support for other compilers as the need arises.</p>
+
+    <img src="/images/blog/2024/04/workflow.png"  alt="Developer workflow for sandboxing with the source rewriter"  class="center"  style="border-radius: 8px;"  />
+
+
+<h2 id="threat-model">Threat Model</h2>
+<p>As we alluded to earlier, the benefits of sandboxing depend on what is allowed to cross compartment boundaries. Of the 16 MPK protection keys, one default key is accessible regardless of the PKRU so our sandbox supports up to 15 compartments. Each compartment consists of a set of DSOs and by default any memory they handle is not accessible from outside the compartment. This includes variables on the stack, in the heap, global and static variables and thread-local storage. Compartments can also contain prebuilt libraries, assuming the prebuilts are not at the compartment boundary (i.e. they don’t directly interact with DSOs in other compartments). Also our threat model assumes that compartments are mutually distrusting. Even if only one compartment contains sensitive user data, by only allowing each compartment to access its own data we ensure that libraries can only interact in ways explicitly allowed by the APIs. We chose this model as it is reasonably generic and can be specialized to fit the needs of different applications. Other use-cases we considered include sandboxing multiple, potentially untrusted 3rd-party libraries within a small trusted application and sandboxing a smaller enclave-style compartment within a larger application. Here &ldquo;untrusted&rdquo; assumes that code was not written to be intentionally malicious, but may have unknown memory-safety vulnerabilities. We also assume that a potential attacker has access to the on-disk binaries, so any data embedded in the on-disk binary is not sensitive.</p>
+<h2 id="performance-costs">Performance Costs</h2>
+<p>Like any sandboxing solution, the elements of our approach have their costs in terms of performance. On Linux the mechanism for tagging pages with pkeys is the pkey_mprotect syscall. This has the usual costs associated with a syscall which include a context-switch into the OS as well as modification of the page-table entries for the specified memory pages. This mainly happens when initializing the program or creating new threads so in steady-state it should not impose a burden. Modifying the PKRU can be done with a single <code>wrpkru</code> userspace instruction which introduces minimal overhead on its own. Since our runtime provides extra assurances about the confidentiality of data in each compartment (e.g. it uses a separate stack for each compartment), transitions do have a higher switching cost than a single instruction. Since transitions are entirely in userspace, they require control-flow integrity (CFI) checks to prevent a compromised compartment from abusing a <code>wrpkru</code> to gain access to other compartments. As mentioned above, we use CET’s <a href="https://docs.kernel.org/next/x86/shstk.html">shadow stack and indirect branch tracking</a> which impose minimal overhead since the checks are done by the hardware. The PKRU is also a thread-local register so our runtime requires no additional synchronization between threads.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Due to the pervasiveness of C/C++ code and the breadth of their ecosystem of libraries, improving memory-safety is an important challenge. In-process sandboxing is an underutilized alternative to the common approach of separating an application into multiple processes. However, with the availability of new hardware primitives it has become a viable approach on x86-64 and our sandboxing framework provides a reasonably generic solution which can be retrofitted onto existing C codebases. If you think your software could benefit from the assurances our sandbox provides, feel free to contact us at <a href="mailto:team@immunant.com">team@immunant.com</a>. We’d love to hear from you and see how our framework can be specialized to more use-cases. In a follow-up post we’ll do a more technical, hands-on walkthrough of how to sandbox an application.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+                <p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="/tags/sandboxing">sandboxing</a></span>
+                </p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>1765 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2024-04-04 17:00 -0700</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h"></span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="/blog/2023/03/lifting/">
+                                <span class="button__text">Emitting Safer Rust with C2Rust</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2024</span>
+            
+            <span>Immunant, Inc.</span>
+            <span>
+                <div>
+                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                </div>
+            </span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.47632ee188dd1dc0fb06803b8470b13ae2aa6dfc6de7710facd82f7a115149b83a918d4799cf627e5bc674266e0f84bf991384da9d655fef6283917aa0f0f51a.js" integrity="sha512-R2Mu4YjdHcD7BoA7hHCxOuKqbfxt53EPrNgvehFRSbg6kY1Hmc9iflvGdCZuD4S/mROE2p1lX&#43;9ig5F6oPD1Gg=="></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-44066564-2', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+	
+		<script src="/js/prism_custom.js"></script>
+	
+
+
+    </body>
+</html>
