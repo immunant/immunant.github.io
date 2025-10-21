@@ -13,7 +13,7 @@
 
 
 
-<link rel="stylesheet" href="/main.min.1f0ca5de9fac925dba9a1915e01d6851539e742ec145025a80fa5bab054a1299.css">
+<link rel="stylesheet" href="/main.min.ab5336003ba331300318b49292c672210905baf1ef5410a739f647e70c8808fa.css">
 
 
 
@@ -39,13 +39,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
 <link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
 <link rel="icon" href="/images/favicon.ico " type="image/x-icon">
-<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Source Code Linking: Merging C Headers into Rust Modules">
-<meta itemprop="description" content="Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&rsquo;s module system is a huge improvement over C header files."><meta itemprop="datePublished" content="2019-12-18T16:00:00-08:00" />
-<meta itemprop="dateModified" content="2019-12-18T16:00:00-08:00" />
-<meta itemprop="wordCount" content="3129"><meta itemprop="image" content="/images" />
-<meta itemprop="keywords" content="migration,Rust,c2rust,refactoring," /><meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="/images" /><meta name="twitter:title" content="Source Code Linking: Merging C Headers into Rust Modules"/>
-<meta name="twitter:description" content="Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&rsquo;s module system is a huge improvement over C header files."/>
+<meta name="theme-color" content="#0A4F93">
+  <meta itemprop="name" content="Source Code Linking: Merging C Headers into Rust Modules">
+  <meta itemprop="description" content="Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they’re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust’s module system is a huge improvement over C header files. Modules declare an interface of type declarations and functions for other modules to use. In contrast, C has no such modern conveniences, so declarations must be duplicated in each source file. If C2Rust is going to produce reasonable Rust code, we have to bridge that gap by de-duplicating and merging declarations across modules.">
+  <meta itemprop="datePublished" content="2019-12-18T16:00:00-08:00">
+  <meta itemprop="dateModified" content="2019-12-18T16:00:00-08:00">
+  <meta itemprop="wordCount" content="3129">
+  <meta itemprop="image" content="/images">
+  <meta itemprop="keywords" content="Migration,Rust,C2rust,Refactoring">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/images">
+  <meta name="twitter:title" content="Source Code Linking: Merging C Headers into Rust Modules">
+  <meta name="twitter:description" content="Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they’re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust’s module system is a huge improvement over C header files. Modules declare an interface of type declarations and functions for other modules to use. In contrast, C has no such modern conveniences, so declarations must be duplicated in each source file. If C2Rust is going to produce reasonable Rust code, we have to bridge that gap by de-duplicating and merging declarations across modules.">
 
 
 
@@ -60,7 +65,10 @@
 
     </head>
 
-    <body class="dark-theme">
+    
+        <body>
+    
+    
         <div class="container">
             <header class="header">
     <span class="header__inner">
@@ -68,17 +76,21 @@
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">Immunant</span>
-            <span class="logo__cursor"></span>
+            <span class="logo__text ">
+                Immunant</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
         
     </div>
 </a>
 
 
         <span class="header__right">
-            
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/migrating">Migration</a></li>
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/migrating">Migration</a></li>
     </ul>
 </nav>
 
@@ -88,14 +100,6 @@
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                     </svg>
                 </span>
-            
-
-            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
-  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
-  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
-</svg>
-</span>
         </span>
     </span>
 </header>
@@ -126,9 +130,8 @@
             <div class="post-content">
                 <p>Producing readable, idiomatic Rust code is a major goal of <a href="https://www.github.com/immunant/c2rust/">C2Rust</a>, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&rsquo;s module system is a huge improvement over C header files. Modules declare an interface of type declarations and functions for other modules to use. In contrast, C has no such modern conveniences, so declarations must be duplicated in each source file. If C2Rust is going to produce reasonable Rust code, we have to bridge that gap by de-duplicating and merging declarations across modules.</p>
 <p>TL;DR: As of the latest <a href="https://crates.io/crates/c2rust/0.14.0">C2Rust version (0.14)</a>, the transpiler can now emit declarations from C headers as module imports in Rust, instead of duplicating them in each source file! Just use <code>--emit-build-files</code> to generate a cargo project for the transpiled code and add the <code>--reorganize-definitions</code> flag for declaration merging:</p>
-<pre><code class="language-bash">c2rust transpile --emit-build-files --reorganize-definitions compile_commands.json
-</code></pre>
-<p>Besides being easier on the eyes, merging header declarations is a critical improvement to the maintainability of C2Rust generated code. You can now modify types and declarations once and rely on the Rust compiler to enforce type safety rather than duplicating error-prone edits across an entire codebase. This blog post is the story of how we did this, with all the tricky corner cases, weird C patterns, and dragons that we came across along the way.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>c2rust transpile --emit-build-files --reorganize-definitions compile_commands.json
+</span></span></code></pre></div><p>Besides being easier on the eyes, merging header declarations is a critical improvement to the maintainability of C2Rust generated code. You can now modify types and declarations once and rely on the Rust compiler to enforce type safety rather than duplicating error-prone edits across an entire codebase. This blog post is the story of how we did this, with all the tricky corner cases, weird C patterns, and dragons that we came across along the way.</p>
 <h2 id="the-problem-separate-compilation">The Problem: Separate Compilation</h2>
 <div class="dark">
     <figure class="center" >
@@ -149,17 +152,16 @@
     </figure>
 </div>
 <p>When building C code, the compiler translates each C source file separately into object files, as in the figure above. The build system then passes these objects to the linker, which takes the objects and matches up each reference to a name to the definition of the name. Because the compiler handles each C file separately, it has no way to know what definitions or types are declared in other files. Enter header files: headers allow the programmer to separate declarations out into reusable files that can then be included into each source file as needed. In C2Rust we also transpile each C source file separately, including all header declarations that are included in it. While this configuration exactly replicates how a normal C compiler works, it results in lots of duplicated type and functions declarations in the output Rust code. For example, the following declarations would get duplicated in each module that used the <code>foo</code> function.</p>
-<pre><code class="language-Rust">struct Point {
-  x: libc::c_int,
-  y: libc::c_int,
-}
-
-extern &quot;C&quot; {
-  #[no_mangle]
-  fn foo(_: *const Point) -&gt; libc::c_int;
-}
-</code></pre>
-<p>Referencing functions and types via <code>extern</code> declarations works, but it&rsquo;s not at all idiomatic for Rust. If we wanted to change the type signature of the <code>foo</code> function, we would have to modify it in every file that contains its extern declaration, and forgetting any would silently fail. What we would really like instead is for the transpiler to produce is a single definition of function <code>foo</code> in the correct module, and import this declaration with <code>use mod_foo::foo;</code> wherever it is used. Having a single canonical definition of each function and type would then avoid error-prone duplication of declarations across the codebase.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>  x: <span style="color:#a6e22e">libc</span>::c_int,
+</span></span><span style="display:flex;"><span>  y: <span style="color:#a6e22e">libc</span>::c_int,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">foo</span>(_: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> Point) -&gt; <span style="color:#a6e22e">libc</span>::c_int;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Referencing functions and types via <code>extern</code> declarations works, but it&rsquo;s not at all idiomatic for Rust. If we wanted to change the type signature of the <code>foo</code> function, we would have to modify it in every file that contains its extern declaration, and forgetting any would silently fail. What we would really like instead is for the transpiler to produce is a single definition of function <code>foo</code> in the correct module, and import this declaration with <code>use mod_foo::foo;</code> wherever it is used. Having a single canonical definition of each function and type would then avoid error-prone duplication of declarations across the codebase.</p>
 <h2 id="the-solution-merging-declarations">The Solution: Merging Declarations</h2>
 <div class="dark">
     <figure class="center" >
@@ -183,95 +185,89 @@ extern &quot;C&quot; {
 <h3 id="an-example">An Example</h3>
 <p>Before we think about how to automate this refactoring, let&rsquo;s manually step through the process of merging the header declarations for a simple example. Let&rsquo;s assume the function <code>distance</code> is defined in <code>operations.c</code>, which we&rsquo;ll omit here.</p>
 <p>operations.h:</p>
-<pre><code class="language-c">typedef struct {
-  int x;
-  int y;
-} Point;
-
-unsigned distance(Point *p1, Point *p2);
-</code></pre>
-<p>main.c:</p>
-<pre><code class="language-c">#include &quot;operations.h&quot;
-
-void main(int argc, char *argv[]) {
-  Point p, q;
-  /* ... */
-  unsigned d = distance(&amp;p, &amp;q);
-}
-</code></pre>
-<p>After we run this through C2Rust, we get Rust code for main that looks something like:</p>
-<pre><code class="language-rust">extern &quot;C&quot; {
-    #[no_mangle]
-    fn distance(p1: *mut Point, p2: *mut Point) -&gt; libc::c_uint;
-}
-#[derive(Copy, Clone)]
-#[repr(C)]
-pub struct Point {
-    pub x: libc::c_int,
-    pub y: libc::c_int,
-}
-unsafe fn main(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) {
-    let mut p: Point = Point{x: 0, y: 0,};
-    let mut q: Point = Point{x: 0, y: 0,};
-    /* ... */
-    let mut d: libc::c_uint = distance(&amp;mut p, &amp;mut q);
-}
-</code></pre>
-<p>Then in <code>operations.rs</code> we get the same struct definition for <code>Point</code> again, along with the definition of the function <code>distance</code>. When the Rust compiler compiles the main module, it doesn&rsquo;t care where <code>distance</code> is defined, and just assumes that we will supply the symbol <code>distance</code> to the linker with a definition that matches the extern declaration above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> x;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> y;
+</span></span><span style="display:flex;"><span>} Point;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsigned</span> <span style="color:#a6e22e">distance</span>(Point <span style="color:#f92672">*</span>p1, Point <span style="color:#f92672">*</span>p2);
+</span></span></code></pre></div><p>main.c:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;operations.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[]) {
+</span></span><span style="display:flex;"><span>  Point p, q;
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* ... */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">unsigned</span> d <span style="color:#f92672">=</span> <span style="color:#a6e22e">distance</span>(<span style="color:#f92672">&amp;</span>p, <span style="color:#f92672">&amp;</span>q);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>After we run this through C2Rust, we get Rust code for main that looks something like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">distance</span>(p1: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> Point, p2: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> Point) -&gt; <span style="color:#a6e22e">libc</span>::c_uint;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[derive(Copy, Clone)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[repr(C)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> x: <span style="color:#a6e22e">libc</span>::c_int,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> y: <span style="color:#a6e22e">libc</span>::c_int,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">mut</span> argc: <span style="color:#a6e22e">libc</span>::c_int, <span style="color:#66d9ef">mut</span> argv: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_char) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> p: <span style="color:#a6e22e">Point</span> <span style="color:#f92672">=</span> Point{x: <span style="color:#ae81ff">0</span>, y: <span style="color:#ae81ff">0</span>,};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> q: <span style="color:#a6e22e">Point</span> <span style="color:#f92672">=</span> Point{x: <span style="color:#ae81ff">0</span>, y: <span style="color:#ae81ff">0</span>,};
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* ... */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> d: <span style="color:#a6e22e">libc</span>::c_uint <span style="color:#f92672">=</span> distance(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> p, <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> q);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Then in <code>operations.rs</code> we get the same struct definition for <code>Point</code> again, along with the definition of the function <code>distance</code>. When the Rust compiler compiles the main module, it doesn&rsquo;t care where <code>distance</code> is defined, and just assumes that we will supply the symbol <code>distance</code> to the linker with a definition that matches the extern declaration above.</p>
 <p>The first step in cleaning this up looks pretty obvious: we should replace the <code>extern &quot;C&quot;</code> function declaration with an import of the function definition in Rust. Following our example, we should rewrite <code>main.rs</code> into:</p>
-<pre><code class="language-rust">use operations::distance;
-
-#[derive(Copy, Clone)]
-#[repr(C)]
-pub struct Point {
-    pub x: libc::c_int,
-    pub y: libc::c_int,
-}
-unsafe fn main(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) {
-    let mut p: Point = Point{x: 0, y: 0,};
-    let mut q: Point = Point{x: 0, y: 0,};
-    /* ... */
-    let mut d: libc::c_uint = distance(&amp;mut p, &amp;mut q);
-}
-</code></pre>
-<p>While this gets us the right function definition, the parameter types won&rsquo;t match. The <code>Point</code> struct in <code>main</code> is not the same <code>Point</code> as in <code>operations</code>. In C this isn&rsquo;t an issue, as these two type declarations are compatible, but Rust is strongly typed and treats each declaration as a different type. We need to unify the struct declarations and use the same type in both modules.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> operations::distance;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[derive(Copy, Clone)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[repr(C)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> x: <span style="color:#a6e22e">libc</span>::c_int,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> y: <span style="color:#a6e22e">libc</span>::c_int,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">mut</span> argc: <span style="color:#a6e22e">libc</span>::c_int, <span style="color:#66d9ef">mut</span> argv: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_char) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> p: <span style="color:#a6e22e">Point</span> <span style="color:#f92672">=</span> Point{x: <span style="color:#ae81ff">0</span>, y: <span style="color:#ae81ff">0</span>,};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> q: <span style="color:#a6e22e">Point</span> <span style="color:#f92672">=</span> Point{x: <span style="color:#ae81ff">0</span>, y: <span style="color:#ae81ff">0</span>,};
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* ... */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> d: <span style="color:#a6e22e">libc</span>::c_uint <span style="color:#f92672">=</span> distance(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> p, <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> q);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>While this gets us the right function definition, the parameter types won&rsquo;t match. The <code>Point</code> struct in <code>main</code> is not the same <code>Point</code> as in <code>operations</code>. In C this isn&rsquo;t an issue, as these two type declarations are compatible, but Rust is strongly typed and treats each declaration as a different type. We need to unify the struct declarations and use the same type in both modules.</p>
 <p>For this example, let&rsquo;s remove the declaration of <code>Point</code> in <code>main.rs</code> and use the one from <code>operations</code>, so we get the following main module:</p>
-<pre><code class="language-rust">use operations::{distance, Point};
-
-unsafe fn main(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) {
-    let mut p: Point = Point{x: 0, y: 0,};
-    let mut q: Point = Point{x: 0, y: 0,};
-    /* ... */
-    let mut d: libc::c_uint = distance(&amp;mut p, &amp;mut q);
-}
-</code></pre>
-<h3 id="automating-the-refactoring">Automating the Refactoring</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> operations::{distance, Point};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">mut</span> argc: <span style="color:#a6e22e">libc</span>::c_int, <span style="color:#66d9ef">mut</span> argv: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_char) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> p: <span style="color:#a6e22e">Point</span> <span style="color:#f92672">=</span> Point{x: <span style="color:#ae81ff">0</span>, y: <span style="color:#ae81ff">0</span>,};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> q: <span style="color:#a6e22e">Point</span> <span style="color:#f92672">=</span> Point{x: <span style="color:#ae81ff">0</span>, y: <span style="color:#ae81ff">0</span>,};
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* ... */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> d: <span style="color:#a6e22e">libc</span>::c_uint <span style="color:#f92672">=</span> distance(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> p, <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> q);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="automating-the-refactoring">Automating the Refactoring</h3>
 <p>Now that we&rsquo;ve seen how the refactoring process should work, we need to automate it. At a high level, the refactoring collects declarations from headers, then for each unique declaration, picks a canonical declaration or matches it against a definition and updates all references to point to that canonical declaration or definition.</p>
 <p>To make the refactoring process simpler to automate, we first make the transpiler separate out which Rust items came from shared headers and which were in the C file. This separation lets us quickly select declarations for merging. For example, the C2Rust transpiler marks declarations of <code>Point</code> and <code>distance</code> as coming from the header <code>operations.h</code> like this:</p>
-<pre><code class="language-rust">#[c2rust::header_src = &quot;operations.h&quot;]
-pub mod operations_h {
-    #[derive(Copy, Clone)]
-    #[repr(C)]
-    pub struct Point {
-        pub x: libc::c_int,
-        pub y: libc::c_int,
-    }
-    extern &quot;C&quot; {
-        #[no_mangle]
-        pub fn distance(p1: *mut Point, p2: *mut Point) -&gt; libc::c_uint;
-    }
-}
-
-pub use self::operations_h::{Point, distance};
-
-unsafe fn main(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) {
-    let mut p: Point = Point{x: 0, y: 0,};
-    let mut q: Point = Point{x: 0, y: 0,};
-    /* ... */
-    let mut d: libc::c_uint = distance(&amp;mut p, &amp;mut q);
-}
-</code></pre>
-<p>The refactoring engine then scans through the crate, de-duplicating declarations that can be merged. We de-duplicate declarations based on type equality and name. As we will see below, this comparison differs depending on the type of declaration. After de-duplicating all declarations, the refactoring needs to match declarations against defined globals and functions and replace uses of declarations with their definition if available. Finally, the refactoring relocates all remaining declarations from their header to new home modules and rewrites all uses to reference the new declaration paths.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[c2rust::header_src = </span><span style="color:#e6db74">&#34;operations.h&#34;</span><span style="color:#75715e">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> operations_h {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[derive(Copy, Clone)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[repr(C)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pub</span> x: <span style="color:#a6e22e">libc</span>::c_int,
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pub</span> y: <span style="color:#a6e22e">libc</span>::c_int,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">distance</span>(p1: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> Point, p2: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> Point) -&gt; <span style="color:#a6e22e">libc</span>::c_uint;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">use</span> self::operations_h::{Point, distance};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">mut</span> argc: <span style="color:#a6e22e">libc</span>::c_int, <span style="color:#66d9ef">mut</span> argv: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_char) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> p: <span style="color:#a6e22e">Point</span> <span style="color:#f92672">=</span> Point{x: <span style="color:#ae81ff">0</span>, y: <span style="color:#ae81ff">0</span>,};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> q: <span style="color:#a6e22e">Point</span> <span style="color:#f92672">=</span> Point{x: <span style="color:#ae81ff">0</span>, y: <span style="color:#ae81ff">0</span>,};
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* ... */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> d: <span style="color:#a6e22e">libc</span>::c_uint <span style="color:#f92672">=</span> distance(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> p, <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> q);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The refactoring engine then scans through the crate, de-duplicating declarations that can be merged. We de-duplicate declarations based on type equality and name. As we will see below, this comparison differs depending on the type of declaration. After de-duplicating all declarations, the refactoring needs to match declarations against defined globals and functions and replace uses of declarations with their definition if available. Finally, the refactoring relocates all remaining declarations from their header to new home modules and rewrites all uses to reference the new declaration paths.</p>
 <p>To understand how we compare and de-duplicate declarations, we must first take a quick detour into C and Rust&rsquo;s name space rules (not to be confused with C++ namespaces). In C (and Rust), a name space can be thought of as the category of a particular item. For example, functions in C are in the <em>ordinary identifier</em> namespace, while structs and enums are classified into the <em>tag</em> namespace (see C99 standard 6.2.3). C and Rust allow different declarations with the same name to co-exist, as long as they are in different namespaces. In C, this means that we can declare a <code>struct foo</code> and a function <code>foo</code> in the same scope without any conflict.</p>
 <p>Rust has three different namespaces: the <em>type</em>, <em>value</em>, and <em>macro</em> namespaces. For the purposes of refactoring transpiled code we can ignore the <em>macro</em> namespace since the transpiler never creates macros. However, the distinction between the <em>type</em> and <em>value</em> namespaces is important. All type declarations (<code>struct</code>, <code>enum</code>, <code>type</code>, etc.) are part of the <em>type</em> namespace. <code>fn</code> definitions, <code>static</code> globals and <code>const</code> declarations are in the <em>value</em> namespace. Thus we can declare both a <code>fn foo</code> and a <code>struct foo</code> in the same Rust module without conflicts.</p>
 <p>To de-duplicate declarations while we scan header modules, we keep a list of declarations that we have seen, indexed by namespace and name. Then for each declaration, we look up a list of potential matches with the same name in the same namespace. If we don&rsquo;t find an equivalent declaration (we&rsquo;ll clarify what we mean by equivalence later on) in this list, we add the declaration to the list. When this process finishes, we are left with a collection of all unique declarations from header modules.</p>
@@ -285,56 +281,54 @@ unsafe fn main(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) {
   
   <div class="column">
     <h3 id="before">Before</h3>
-<pre><code class="language-Rust">extern &quot;C&quot; {
-    pub type _IO_wide_data;
-    pub type _IO_codecvt;
-    pub type _IO_marker;
-    #[no_mangle]
-    fn fclose(__stream: *mut FILE) -&gt; libc::c_int;
-    #[no_mangle]
-    fn fopen(_: *const libc::c_char, _: *const libc::c_char) -&gt; *mut FILE;
-    #[no_mangle]
-    fn fprintf(_: *mut FILE, _: *const libc::c_char, _: ...) -&gt; libc::c_int;
-    #[no_mangle]
-    fn sscanf(_: *const libc::c_char, _: *const libc::c_char, _: ...)
-     -&gt; libc::c_int;
-    #[no_mangle]
-    fn memset(_: *mut libc::c_void, _: libc::c_int, _: libc::c_ulong)
-     -&gt; *mut libc::c_void;
-    #[no_mangle]
-    fn strcpy(_: *mut libc::c_char, _: *const libc::c_char)
-     -&gt; *mut libc::c_char;
-    #[no_mangle]
-    fn strlen(_: *const libc::c_char) -&gt; libc::c_ulong;
-    #[no_mangle]
-    fn malloc(_: libc::c_ulong) -&gt; *mut libc::c_void;
-    #[no_mangle]
-    fn realloc(_: *mut libc::c_void, _: libc::c_ulong) -&gt; *mut libc::c_void;
-    #[no_mangle]
-    fn free(__ptr: *mut libc::c_void);
-    #[no_mangle]
-    fn getenv(__name: *const libc::c_char) -&gt; *mut libc::c_char;
-}
-pub type size_t = libc::c_ulong;
-pub type __off_t = libc::c_long;
-pub type __off64_t = libc::c_long;
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">_IO_wide_data</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">_IO_codecvt</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">_IO_marker</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fclose</span>(__stream: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">FILE</span>) -&gt; <span style="color:#a6e22e">libc</span>::c_int;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fopen</span>(_: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> libc::c_char, _: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> libc::c_char) -&gt; <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">FILE</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fprintf</span>(_: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">FILE</span>, _: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> libc::c_char, _: <span style="color:#f92672">..</span>.) -&gt; <span style="color:#a6e22e">libc</span>::c_int;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">sscanf</span>(_: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> libc::c_char, _: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> libc::c_char, _: <span style="color:#f92672">..</span>.)
+</span></span><span style="display:flex;"><span>     -&gt; <span style="color:#a6e22e">libc</span>::c_int;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">memset</span>(_: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_void, _: <span style="color:#a6e22e">libc</span>::c_int, _: <span style="color:#a6e22e">libc</span>::c_ulong)
+</span></span><span style="display:flex;"><span>     -&gt; <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_void;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">strcpy</span>(_: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_char, _: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> libc::c_char)
+</span></span><span style="display:flex;"><span>     -&gt; <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_char;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">strlen</span>(_: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> libc::c_char) -&gt; <span style="color:#a6e22e">libc</span>::c_ulong;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">malloc</span>(_: <span style="color:#a6e22e">libc</span>::c_ulong) -&gt; <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_void;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">realloc</span>(_: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_void, _: <span style="color:#a6e22e">libc</span>::c_ulong) -&gt; <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_void;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">free</span>(__ptr: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_void);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">getenv</span>(__name: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> libc::c_char) -&gt; <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_char;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">size_t</span> <span style="color:#f92672">=</span> libc::c_ulong;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">__off_t</span> <span style="color:#f92672">=</span> libc::c_long;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">__off64_t</span> <span style="color:#f92672">=</span> libc::c_long;
+</span></span></code></pre></div>
   </div>
   
   <div class="column">
     <h3 id="after">After</h3>
-<pre><code class="language-Rust">pub use crate::stddef_h::size_t;
-pub use crate::stdlib::{
-    _IO_codecvt, _IO_marker, _IO_wide_data,
-    __off64_t, __off_t, FILE,
-};
-use crate::stdlib::{
-    fclose, fopen, fprintf, free, getenv, malloc,
-    memset, realloc, sscanf, strcpy, strlen,
-};
-</code></pre>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">use</span> <span style="color:#66d9ef">crate</span>::stddef_h::size_t;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">use</span> <span style="color:#66d9ef">crate</span>::stdlib::{
+</span></span><span style="display:flex;"><span>    _IO_codecvt, _IO_marker, _IO_wide_data,
+</span></span><span style="display:flex;"><span>    __off64_t, __off_t, <span style="color:#66d9ef">FILE</span>,
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> <span style="color:#66d9ef">crate</span>::stdlib::{
+</span></span><span style="display:flex;"><span>    fclose, fopen, fprintf, free, getenv, malloc,
+</span></span><span style="display:flex;"><span>    memset, realloc, sscanf, strcpy, strlen,
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
   </div>
   
 </div>
@@ -350,24 +344,22 @@ use crate::stdlib::{
 <p>For type declarations, we found that most code does in fact comply with the C99 definition of compatible types, so we implemented a comparison based on this definition. In short, primitive types are compatible if they are the same, and structs are compatible if they have the same name and if all fields have the same name and type, in the same order. Incomplete structs are compatible with any struct having the same name. This definition of equality is conservative, but that is fine for our purposes since not unifying two types in different modules is always a safe default.</p>
 <h3 id="corner-case-2-unnamed-declarations">Corner Case #2: Unnamed Declarations</h3>
 <p>C allows nesting of anonymous structs and unions, for example, in the following the struct containing <code>x</code> and <code>y</code> doesn&rsquo;t have a name:</p>
-<pre><code class="language-C">struct S {
-    struct {
-        int x;
-        int y;
-    } point;
-};
-</code></pre>
-<p>Rust doesn&rsquo;t allow this syntax, each struct and union must be given a name. To deal with this, C2Rust creates new, artificial names for the nested structs, like so:</p>
-<pre><code class="language-rust">pub struct S {
-    pub point: C2RustUnnamed,
-}
-
-pub struct C2RustUnnamed {
-    pub x: libc::c_int,
-    pub y: libc::c_int,
-}
-</code></pre>
-<p>As discussed above, we compare struct declarations for equality by their names, in addition to their field names and types. However, the artificial names created for anonymous types by the transpiler won&rsquo;t match across translation units. Consequently we need to loosen our definition of type equality to ignore the names of structs and unions if they are artificial. As shown above, we give these artificial names a distinctive pattern, <code>C2RustUnnamed...</code>, so we can ignore these names when comparing types.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> S {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> x;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> y;
+</span></span><span style="display:flex;"><span>    } point;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>Rust doesn&rsquo;t allow this syntax, each struct and union must be given a name. To deal with this, C2Rust creates new, artificial names for the nested structs, like so:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">S</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> point: <span style="color:#a6e22e">C2RustUnnamed</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">C2RustUnnamed</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> x: <span style="color:#a6e22e">libc</span>::c_int,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> y: <span style="color:#a6e22e">libc</span>::c_int,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>As discussed above, we compare struct declarations for equality by their names, in addition to their field names and types. However, the artificial names created for anonymous types by the transpiler won&rsquo;t match across translation units. Consequently we need to loosen our definition of type equality to ignore the names of structs and unions if they are artificial. As shown above, we give these artificial names a distinctive pattern, <code>C2RustUnnamed...</code>, so we can ignore these names when comparing types.</p>
 <h2 id="decisions-where-should-it-live">Decisions: Where should it live?</h2>
 <p>So far we&rsquo;ve hand waved away an important aspect of this refactoring: now that we&rsquo;ve merged all copies of a declaration, where should we emit it? For declarations of values (functions and globals) found elsewhere in the codebase, there is a clear answer: we leave the value in the module it was defined in and replace all other declarations with imports of the definition. However, for types or functions in other libraries there is not an obvious home for the merged declaration, so we resort to heuristics.</p>
 <p>The principle of least surprise is critical here; we want a programmer to easily locate type declarations where they expect to find them in the transpiled Rust code. We could imagine all sorts of ways to locate declarations, e.g., emitting each declaration in the module with the most references to it, or emitting declarations in the module containing their allocation site, but these heuristics are brittle and may not make sense to the programmer in all cases. For now we&rsquo;ve settled on the following rules, although this may certainly evolve over time.</p>
@@ -436,12 +428,12 @@ pub struct C2RustUnnamed {
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             
             <span>Immunant, Inc.</span>
             <span>
                 <div>
-                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                    &nbsp; <a href="https://github.com/immunant"  rel="me noopener " title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant"  rel="me noopener " title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com"  rel="me noopener " title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/"  rel="me noopener " title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
                 </div>
             </span>
         </div>
@@ -455,21 +447,9 @@ pub struct C2RustUnnamed {
 
 
 
-
-<script type="text/javascript" src="/bundle.min.47632ee188dd1dc0fb06803b8470b13ae2aa6dfc6de7710facd82f7a115149b83a918d4799cf627e5bc674266e0f84bf991384da9d655fef6283917aa0f0f51a.js" integrity="sha512-R2Mu4YjdHcD7BoA7hHCxOuKqbfxt53EPrNgvehFRSbg6kY1Hmc9iflvGdCZuD4S/mROE2p1lX&#43;9ig5F6oPD1Gg=="></script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-44066564-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+<script type="text/javascript" src="/bundle.min.24d2f5614a90b8e944ad3be842c8de07b906ecfc28f4f13f0526a91cbceece17b89b4348efdfe793d38ad5ba1cdbafeec419e424807e57850f80a2a8d254b646.js" integrity="sha512-JNL1YUqQuOlErTvoQsjeB7kG7Pwo9PE/BSapHLzuzhe4m0NI79/nk9OK1boc26/uxBnkJIB&#43;V4UPgKKo0lS2Rg=="></script>
 
 
-	
-		<script src="/js/prism_custom.js"></script>
-	
 
 
     </body>

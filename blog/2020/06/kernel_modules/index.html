@@ -13,7 +13,7 @@
 
 
 
-<link rel="stylesheet" href="/main.min.1f0ca5de9fac925dba9a1915e01d6851539e742ec145025a80fa5bab054a1299.css">
+<link rel="stylesheet" href="/main.min.ab5336003ba331300318b49292c672210905baf1ef5410a739f647e70c8808fa.css">
 
 
 
@@ -39,13 +39,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
 <link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
 <link rel="icon" href="/images/favicon.ico " type="image/x-icon">
-<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly">
-<meta itemprop="description" content="Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we&rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&rsquo;ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules."><meta itemprop="datePublished" content="2020-06-01T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-06-01T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1297"><meta itemprop="image" content="/images" />
-<meta itemprop="keywords" content="migration,Rust,c2rust," /><meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="/images" /><meta name="twitter:title" content="Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly"/>
-<meta name="twitter:description" content="Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we&rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&rsquo;ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules."/>
+<meta name="theme-color" content="#0A4F93">
+  <meta itemprop="name" content="Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly">
+  <meta itemprop="description" content="Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we’ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We’ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules. The basic steps we’ll cover are:">
+  <meta itemprop="datePublished" content="2020-06-01T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2020-06-01T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1297">
+  <meta itemprop="image" content="/images">
+  <meta itemprop="keywords" content="Migration,Rust,C2rust">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/images">
+  <meta name="twitter:title" content="Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly">
+  <meta name="twitter:description" content="Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we’ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We’ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules. The basic steps we’ll cover are:">
 
 
 
@@ -60,7 +65,10 @@
 
     </head>
 
-    <body class="dark-theme">
+    
+        <body>
+    
+    
         <div class="container">
             <header class="header">
     <span class="header__inner">
@@ -68,17 +76,21 @@
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">Immunant</span>
-            <span class="logo__cursor"></span>
+            <span class="logo__text ">
+                Immunant</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
         
     </div>
 </a>
 
 
         <span class="header__right">
-            
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/migrating">Migration</a></li>
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/migrating">Migration</a></li>
     </ul>
 </nav>
 
@@ -88,14 +100,6 @@
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                     </svg>
                 </span>
-            
-
-            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
-  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
-  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
-</svg>
-</span>
         </span>
     </span>
 </header>
@@ -139,11 +143,10 @@ macro expansions from the kernel build. We used the
 <a href="https://github.com/rizsotto/Bear">Bear</a> tool to pseudo-build the original
 kernel module and produce a <code>compile_commands.json</code> file containing the
 compilation database:</p>
-<pre><code class="language-shell">$ cd .../bareflank/bfdriver/src/platform/linux
-$ make clean
-$ bear make CC=clang
-</code></pre>
-<p>The kernel build system compiles C files differently (enabling or disabling
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cd .../bareflank/bfdriver/src/platform/linux
+</span></span><span style="display:flex;"><span>$ make clean
+</span></span><span style="display:flex;"><span>$ bear make CC<span style="color:#f92672">=</span>clang
+</span></span></code></pre></div><p>The kernel build system compiles C files differently (enabling or disabling
 some language features) depending on the compiler used. Since the C2Rust
 transpiler uses clang as its front-end, we had to use clang for the
 pseudo-build as well. One complication we ran into were <em>asm gotos</em>, which are
@@ -159,16 +162,14 @@ support them yet. We need to first investigate whether Rust&rsquo;s inline assem
 <a href="https://blog.rust-lang.org/inside-rust/2020/06/08/new-inline-asm.html">redesign</a>)
 even supports this feature right now.</p>
 <p>After producing the compilation database, we transpiled the C files into Rust:</p>
-<pre><code class="language-shell">$ # Remove compiler flags we can't handle
-$ sed -i -e 's/&quot;-Werror.*&quot;,//' ./compile_commands.json
-$ c2rust transpile ./compile_commands.json --emit-no-std \
-  --emit-modules -o bareflank-rs &quot;$@&quot;
-</code></pre>
-<p>After making some fixes and additions to C2Rust and fix the subsequent
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ <span style="color:#75715e"># Remove compiler flags we can&#39;t handle</span>
+</span></span><span style="display:flex;"><span>$ sed -i -e <span style="color:#e6db74">&#39;s/&#34;-Werror.*&#34;,//&#39;</span> ./compile_commands.json
+</span></span><span style="display:flex;"><span>$ c2rust transpile ./compile_commands.json --emit-no-std <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --emit-modules -o bareflank-rs <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><p>After making some fixes and additions to C2Rust and fix the subsequent
 compilation errors, we compiled the resulting Rust code with:</p>
-<pre><code class="language-shell"># cargo build --release --target x86_64-linux-kernel -Zbuild-std=core
-</code></pre>
-<p>We had originally used
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># cargo build --release --target x86_64-linux-kernel -Zbuild-std=core</span>
+</span></span></code></pre></div><p>We had originally used
 <a href="https://github.com/rust-osdev/cargo-xbuild"><code>cargo-xbuild</code></a> to accomplish
 this without support from the Rust compiler, but the Rust team  added the
 kernel module target to Cargo at the end of August 2019. Once that happened,
@@ -195,10 +196,9 @@ to fix a couple of issues. First, Cargo produces a static library called
 <code>libbareflank_rs.a</code>, but the kernel build system only supports object files and
 not static libraries. We turned the static library into an object file by
 calling the system linker from our kernel module <code>Makefile</code>:</p>
-<pre><code class="language-Make">$(M)/libbareflank_rs.o: target/x86_64-linux-kernel/release/bareflank_rs.a
-        $(LD) -r -o $@ --whole-archive $^
-</code></pre>
-<p>The second issue was that we were initially also transpiling the
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Make" data-lang="Make"><span style="display:flex;"><span><span style="color:#a6e22e">$(M)/libbareflank_rs.o</span><span style="color:#f92672">:</span> target/x86_64-linux-kernel/release/bareflank_rs.a
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">$(</span>LD<span style="color:#66d9ef">)</span> -r -o $@ --whole-archive $^
+</span></span></code></pre></div><p>The second issue was that we were initially also transpiling the
 <code>bareflank.mod.c</code> file that the kernel build system auto-generates from the input
 object files. We were producing a <code>libbareflank_rs.o</code> that already included
 a transpiled copy of this auto-generated file,
@@ -233,89 +233,84 @@ to implement a work-around in C2Rust by emitting a pair of nested
 structures (aligned outer structure, packed inner structure) instead:</p>
 </li>
 </ul>
-<pre><code class="language-Rust">#[repr(C, align(64))]
-pub struct xregs_state(pub xregs_state_Inner);
-#[repr(C, packed)]
-pub struct xregs_state_Inner {
-  // ...
-}
-</code></pre>
-<p>All of these issues have been implemented in C2Rust and should work for all
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#75715e">#[repr(C, align(64))]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">xregs_state</span>(<span style="color:#66d9ef">pub</span> xregs_state_Inner);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[repr(C, packed)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">xregs_state_Inner</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>All of these issues have been implemented in C2Rust and should work for all
 kernel modules, but different modules may expose new unimplemented C features.</p>
 <h1 id="the-ugly">The Ugly</h1>
 <p>C2Rust maps C types to their definitions in the libc crate, but we were
 unable (at the time) to use this crate in our kernel module. Instead, we
 redefined some of its types manually:</p>
-<pre><code class="language-Rust">pub mod libc {
-    pub type c_char = i8;
-    pub type c_schar = i8;
-    pub type c_ulong = u64;
-    pub type c_uint = u32;
-    // ...all the others
-}
-</code></pre>
-<p>(The <a href="https://crates.io/crates/cty"><code>cty</code></a> crate also provides the necessary type aliases<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">mod</span> libc {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">c_char</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">i8</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">c_schar</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">i8</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">c_ulong</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">u64</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">c_uint</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">u32</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...all the others
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>(The <a href="https://crates.io/crates/cty"><code>cty</code></a> crate also provides the necessary type aliases<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.)</p>
 <p>We also had to implement a couple of libc functions that the compiler relies on:</p>
-<pre><code class="language-Rust">pub unsafe fn memset(s: *mut c_void, c: c_int, n: size_t) -&gt; *mut c_void {
-    core::ptr::write_bytes(s as *mut u8, c as u8, n as usize);
-    s
-}
-
-pub unsafe fn memcpy(dest: *mut c_void, src: *const c_void, n: size_t) -&gt; *mut c_void {
-    core::ptr::copy_nonoverlapping(src as *const u8, dest as *mut u8, n as usize);
-    dest
-}
-</code></pre>
-<p>Finally, we added stubs for a few missing kernel functions, and for the Rust
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">memset</span>(s: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> c_void, c: <span style="color:#a6e22e">c_int</span>, n: <span style="color:#a6e22e">size_t</span>) -&gt; <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> c_void {
+</span></span><span style="display:flex;"><span>    core::ptr::write_bytes(s <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">u8</span>, c <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u8</span>, n <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">usize</span>);
+</span></span><span style="display:flex;"><span>    s
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">memcpy</span>(dest: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> c_void, src: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> c_void, n: <span style="color:#a6e22e">size_t</span>) -&gt; <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> c_void {
+</span></span><span style="display:flex;"><span>    core::ptr::copy_nonoverlapping(src <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">u8</span>, dest <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> <span style="color:#66d9ef">u8</span>, n <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">usize</span>);
+</span></span><span style="display:flex;"><span>    dest
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Finally, we added stubs for a few missing kernel functions, and for the Rust
 panic handler (we decided to implement it properly at a later date):</p>
-<pre><code class="language-Rust">#[no_mangle]
-pub extern &quot;C&quot; fn __bad_size_call_parameter() -&gt; ! {
-    unreachable!(&quot;__bad_size_call_parameter&quot;)
-}
-
-#[no_mangle]
-pub extern &quot;C&quot; fn __bad_percpu_size() -&gt; ! {
-    unreachable!(&quot;__bad_percpu_size&quot;)
-}
-
-#[panic_handler]
-fn panic(_info: &amp;PanicInfo) -&gt; ! {
-    // FIXME: call into the kernel
-    loop {}
-}
-</code></pre>
-<p>The main remaining &ldquo;ugliness&rdquo; is that the transpiler fully expands C macros, so
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">__bad_size_call_parameter</span>() -&gt; <span style="color:#f92672">!</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">unreachable!</span>(<span style="color:#e6db74">&#34;__bad_size_call_parameter&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[no_mangle]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">__bad_percpu_size</span>() -&gt; <span style="color:#f92672">!</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">unreachable!</span>(<span style="color:#e6db74">&#34;__bad_percpu_size&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[panic_handler]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">panic</span>(_info: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">PanicInfo</span>) -&gt; <span style="color:#f92672">!</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// FIXME: call into the kernel
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">loop</span> {}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The main remaining &ldquo;ugliness&rdquo; is that the transpiler fully expands C macros, so
 the transpiled code is not always pleasant to look at:</p>
-<pre><code class="language-Rust">   match ::core::mem::size_of::&lt;libc::c_int&gt;() as libc::c_ulong {
-	1 =&gt; {
-	    pscr_ret__ = ({
-		let mut pfo_ret__: libc::c_int = 0;
-		match ::core::mem::size_of::&lt;libc::c_int&gt;() as libc::c_ulong {
-		    1 =&gt; asm!(&quot;movb %gs:$1,$0&quot; :
-					       &quot;=q&quot; (pfo_ret__) :
-					       &quot;*m&quot; (&amp;cpu_number)
-					       : : &quot;volatile&quot;),
-		    2 =&gt; asm!(&quot;movw %gs:$1,$0&quot; :
-					       &quot;=r&quot; (pfo_ret__) :
-					       &quot;*m&quot; (&amp;cpu_number)
-					       : : &quot;volatile&quot;),
-		    4 =&gt; asm!(&quot;movl %gs:$1,$0&quot; :
-					       &quot;=r&quot; (pfo_ret__) :
-					       &quot;*m&quot; (&amp;cpu_number)
-					       : : &quot;volatile&quot;),
-		    8 =&gt; asm!(&quot;movq %gs:$1,$0&quot; :
-					       &quot;=r&quot; (pfo_ret__) :
-					       &quot;*m&quot; (&amp;cpu_number)
-					       : : &quot;volatile&quot;),
-		    _ =&gt; {
-			__bad_percpu_size();
-		    }
-		}
-		pfo_ret__
-	    })
-	}
-</code></pre>
-<p>C2Rust uses clang as a front-end which currently expands macros very early before parsing,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span>   <span style="color:#66d9ef">match</span> ::core::mem::size_of::<span style="color:#f92672">&lt;</span>libc::c_int<span style="color:#f92672">&gt;</span>() <span style="color:#66d9ef">as</span> libc::c_ulong {
+</span></span><span style="display:flex;"><span>	<span style="color:#ae81ff">1</span> <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>	    pscr_ret__ <span style="color:#f92672">=</span> ({
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> pfo_ret__: <span style="color:#a6e22e">libc</span>::c_int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">match</span> ::core::mem::size_of::<span style="color:#f92672">&lt;</span>libc::c_int<span style="color:#f92672">&gt;</span>() <span style="color:#66d9ef">as</span> libc::c_ulong {
+</span></span><span style="display:flex;"><span>		    <span style="color:#ae81ff">1</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">asm!</span>(<span style="color:#e6db74">&#34;movb %gs:$1,$0&#34;</span> :
+</span></span><span style="display:flex;"><span>					       <span style="color:#e6db74">&#34;=q&#34;</span> (pfo_ret__) :
+</span></span><span style="display:flex;"><span>					       <span style="color:#e6db74">&#34;*m&#34;</span> (<span style="color:#f92672">&amp;</span>cpu_number)
+</span></span><span style="display:flex;"><span>					       : : <span style="color:#e6db74">&#34;volatile&#34;</span>),
+</span></span><span style="display:flex;"><span>		    <span style="color:#ae81ff">2</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">asm!</span>(<span style="color:#e6db74">&#34;movw %gs:$1,$0&#34;</span> :
+</span></span><span style="display:flex;"><span>					       <span style="color:#e6db74">&#34;=r&#34;</span> (pfo_ret__) :
+</span></span><span style="display:flex;"><span>					       <span style="color:#e6db74">&#34;*m&#34;</span> (<span style="color:#f92672">&amp;</span>cpu_number)
+</span></span><span style="display:flex;"><span>					       : : <span style="color:#e6db74">&#34;volatile&#34;</span>),
+</span></span><span style="display:flex;"><span>		    <span style="color:#ae81ff">4</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">asm!</span>(<span style="color:#e6db74">&#34;movl %gs:$1,$0&#34;</span> :
+</span></span><span style="display:flex;"><span>					       <span style="color:#e6db74">&#34;=r&#34;</span> (pfo_ret__) :
+</span></span><span style="display:flex;"><span>					       <span style="color:#e6db74">&#34;*m&#34;</span> (<span style="color:#f92672">&amp;</span>cpu_number)
+</span></span><span style="display:flex;"><span>					       : : <span style="color:#e6db74">&#34;volatile&#34;</span>),
+</span></span><span style="display:flex;"><span>		    <span style="color:#ae81ff">8</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">asm!</span>(<span style="color:#e6db74">&#34;movq %gs:$1,$0&#34;</span> :
+</span></span><span style="display:flex;"><span>					       <span style="color:#e6db74">&#34;=r&#34;</span> (pfo_ret__) :
+</span></span><span style="display:flex;"><span>					       <span style="color:#e6db74">&#34;*m&#34;</span> (<span style="color:#f92672">&amp;</span>cpu_number)
+</span></span><span style="display:flex;"><span>					       : : <span style="color:#e6db74">&#34;volatile&#34;</span>),
+</span></span><span style="display:flex;"><span>		    _ <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>			__bad_percpu_size();
+</span></span><span style="display:flex;"><span>		    }
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		pfo_ret__
+</span></span><span style="display:flex;"><span>	    })
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div><p>C2Rust uses clang as a front-end which currently expands macros very early before parsing,
 so modifying it to produce an AST with unexpanded macros would be a significant undertaking.
 We are currently considering other alternatives, but it is unclear whether any
 of them would be simpler. For the foreseeable future, C2Rust will
@@ -383,12 +378,12 @@ not be able to transpile non-trivial function-like C macros to Rust macros.</p>
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             
             <span>Immunant, Inc.</span>
             <span>
                 <div>
-                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                    &nbsp; <a href="https://github.com/immunant"  rel="me noopener " title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant"  rel="me noopener " title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com"  rel="me noopener " title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/"  rel="me noopener " title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
                 </div>
             </span>
         </div>
@@ -402,21 +397,9 @@ not be able to transpile non-trivial function-like C macros to Rust macros.</p>
 
 
 
-
-<script type="text/javascript" src="/bundle.min.47632ee188dd1dc0fb06803b8470b13ae2aa6dfc6de7710facd82f7a115149b83a918d4799cf627e5bc674266e0f84bf991384da9d655fef6283917aa0f0f51a.js" integrity="sha512-R2Mu4YjdHcD7BoA7hHCxOuKqbfxt53EPrNgvehFRSbg6kY1Hmc9iflvGdCZuD4S/mROE2p1lX&#43;9ig5F6oPD1Gg=="></script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-44066564-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+<script type="text/javascript" src="/bundle.min.24d2f5614a90b8e944ad3be842c8de07b906ecfc28f4f13f0526a91cbceece17b89b4348efdfe793d38ad5ba1cdbafeec419e424807e57850f80a2a8d254b646.js" integrity="sha512-JNL1YUqQuOlErTvoQsjeB7kG7Pwo9PE/BSapHLzuzhe4m0NI79/nk9OK1boc26/uxBnkJIB&#43;V4UPgKKo0lS2Rg=="></script>
 
 
-	
-		<script src="/js/prism_custom.js"></script>
-	
 
 
     </body>

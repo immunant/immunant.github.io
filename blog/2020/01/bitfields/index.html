@@ -13,7 +13,7 @@
 
 
 
-<link rel="stylesheet" href="/main.min.1f0ca5de9fac925dba9a1915e01d6851539e742ec145025a80fa5bab054a1299.css">
+<link rel="stylesheet" href="/main.min.ab5336003ba331300318b49292c672210905baf1ef5410a739f647e70c8808fa.css">
 
 
 
@@ -39,13 +39,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
 <link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
 <link rel="icon" href="/images/favicon.ico " type="image/x-icon">
-<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Bitfields Forever: Why we need a C-compatible Rust Crate">
-<meta itemprop="description" content="What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren&rsquo;t just a relic of yesteryear&rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory."><meta itemprop="datePublished" content="2020-01-27T00:00:00-08:00" />
-<meta itemprop="dateModified" content="2020-01-27T00:00:00-08:00" />
-<meta itemprop="wordCount" content="2097"><meta itemprop="image" content="/images" />
-<meta itemprop="keywords" content="Rust,c2rust,transpiler,bitfields," /><meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="/images" /><meta name="twitter:title" content="Bitfields Forever: Why we need a C-compatible Rust Crate"/>
-<meta name="twitter:description" content="What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren&rsquo;t just a relic of yesteryear&rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory."/>
+<meta name="theme-color" content="#0A4F93">
+  <meta itemprop="name" content="Bitfields Forever: Why we need a C-compatible Rust Crate">
+  <meta itemprop="description" content="What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren’t just a relic of yesteryear’s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory. Projects like Nginx as well as many Linux kernel modules also reduce memory usage this way. Moreover, some hardware interfaces expect bits to be laid out in a particular format.">
+  <meta itemprop="datePublished" content="2020-01-27T00:00:00-08:00">
+  <meta itemprop="dateModified" content="2020-01-27T00:00:00-08:00">
+  <meta itemprop="wordCount" content="2097">
+  <meta itemprop="image" content="/images">
+  <meta itemprop="keywords" content="Rust,C2rust,Transpiler,Bitfields">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/images">
+  <meta name="twitter:title" content="Bitfields Forever: Why we need a C-compatible Rust Crate">
+  <meta name="twitter:description" content="What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren’t just a relic of yesteryear’s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory. Projects like Nginx as well as many Linux kernel modules also reduce memory usage this way. Moreover, some hardware interfaces expect bits to be laid out in a particular format.">
 
 
 
@@ -60,7 +65,10 @@
 
     </head>
 
-    <body class="dark-theme">
+    
+        <body>
+    
+    
         <div class="container">
             <header class="header">
     <span class="header__inner">
@@ -68,17 +76,21 @@
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">Immunant</span>
-            <span class="logo__cursor"></span>
+            <span class="logo__text ">
+                Immunant</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
         
     </div>
 </a>
 
 
         <span class="header__right">
-            
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/migrating">Migration</a></li>
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/migrating">Migration</a></li>
     </ul>
 </nav>
 
@@ -88,14 +100,6 @@
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                     </svg>
                 </span>
-            
-
-            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
-  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
-  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
-</svg>
-</span>
         </span>
     </span>
 </header>
@@ -133,28 +137,25 @@ hardware interfaces expect bits to be laid out in a particular format.</p>
 have to keep track of but know that they wouldn&rsquo;t use all possible values in the integer type,
 you can compact them together by assigning a maximum bit size to the integer. For example,
 suppose we&rsquo;d like to write a very contrived compact date <code>struct</code> in C:</p>
-<pre><code class="language-C">struct Date {
-    unsigned char day: 5;
-    unsigned char month: 4;
-    signed short year: 15;
-} __attribute__((packed));
-</code></pre>
-<p>We use 5 bits of space for <code>day</code> because that&rsquo;s the minimum size (<code>2 ^ 5 = 32</code>) to store the largest
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> Date {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> day: <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> month: <span style="color:#ae81ff">4</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">signed</span> <span style="color:#66d9ef">short</span> year: <span style="color:#ae81ff">15</span>;
+</span></span><span style="display:flex;"><span>} <span style="color:#a6e22e">__attribute__</span>((packed));
+</span></span></code></pre></div><p>We use 5 bits of space for <code>day</code> because that&rsquo;s the minimum size (<code>2 ^ 5 = 32</code>) to store the largest
 number of days in any given month (31). Similarly, we give <code>month</code> 4 bits to minimally represent
 12 months. Finally, we give <code>year</code> enough bits to be able to represent the current year
 (and then some!) and make it signed to signify the era. This should give us a nice three-byte
 <code>struct</code><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
 <p>Clang can helpfully confirm our <code>struct</code> is laid out as expected:</p>
-<pre><code class="language-bash">clang -Xclang -fdump-record-layouts date.c
-</code></pre>
-<pre><code class="language-C">*** Dumping AST Record Layout
-     0 | struct Date
- 0:0-4 |   unsigned char day
- 0:5-8 |   unsigned char month
-1:1-15 |   signed short year
-       | [sizeof=3, align=1]
-</code></pre>
-<p>The bitfields <code>day</code> and <code>month</code> share the first byte, but the last bit of <code>month</code> straddles the
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>clang -Xclang -fdump-record-layouts date.c
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#f92672">***</span> Dumping AST Record Layout
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">0</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">struct</span> Date
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">0</span><span style="color:#f92672">:</span><span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">4</span> <span style="color:#f92672">|</span>   <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> day
+</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">0</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5</span><span style="color:#f92672">-</span><span style="color:#ae81ff">8</span> <span style="color:#f92672">|</span>   <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> month
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#ae81ff">15</span> <span style="color:#f92672">|</span>   <span style="color:#66d9ef">signed</span> <span style="color:#66d9ef">short</span> year
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">|</span> [<span style="color:#66d9ef">sizeof</span><span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, align<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>]
+</span></span></code></pre></div><p>The bitfields <code>day</code> and <code>month</code> share the first byte, but the last bit of <code>month</code> straddles the
 second byte followed by <code>year</code> taking up the remainder of the last two bytes.</p>
 <h2 id="translation-requirements">Translation Requirements</h2>
 <p>The goal of <a href="https://github.com/immunant/c2rust">C2Rust</a> is to translate any standard C code into Rust. To translate bitfields from C, we therefore
@@ -177,27 +178,26 @@ layer so that users didn&rsquo;t have to think about or manage bitfield boilerpl
 <h3 id="the-rust-bitfield-crate">The <code>rust-bitfield</code> Crate</h3>
 <p>The <a href="https://github.com/dzamlo/rust-bitfield">rust-bitfield</a> crate provides a nifty <code>bitfield!</code>
 macro_rules macro:</p>
-<pre><code class="language-Rust">bitfield!{
-    struct Date(MSB0 [u8]);
-    u32;
-    get_day, set_day: 4, 0;
-    get_month, set_month: 8, 5;
-    get_year, set_year: 23, 9;
-}
-
-fn main() {
-    let mut date = Date([0, 0, 0]);
-
-    date.set_day(7);
-    date.set_month(1);
-    date.set_year(2020);
-
-    assert_eq!(date.get_day(), 7);
-    assert_eq!(date.get_month(), 1);
-    assert_eq!(date.get_year(), 2020);
-}
-</code></pre>
-<p>We liked that the bit specification was easy to read and that
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#a6e22e">bitfield!</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Date</span>(<span style="color:#66d9ef">MSB0</span> [<span style="color:#66d9ef">u8</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">u32</span>;
+</span></span><span style="display:flex;"><span>    get_day, set_day: <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    get_month, set_month: <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">5</span>;
+</span></span><span style="display:flex;"><span>    get_year, set_year: <span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">9</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> date <span style="color:#f92672">=</span> Date([<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    date.set_day(<span style="color:#ae81ff">7</span>);
+</span></span><span style="display:flex;"><span>    date.set_month(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    date.set_year(<span style="color:#ae81ff">2020</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.get_day(), <span style="color:#ae81ff">7</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.get_month(), <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.get_year(), <span style="color:#ae81ff">2020</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We liked that the bit specification was easy to read and that
 you could specify most or least significant bit ordering. However, since the <code>struct</code> must be
 backed by a byte array, there are no directly addressible non-bitfield fields, let alone pointers to
 them(<code>#2</code>). Another issue we had was that <code>macro_rules!</code> macros are hard to format automatically.
@@ -207,30 +207,29 @@ source code to file and does not know what the expected format of the non-standa
 thing about this approach is that it abstracts the complexity of bitfields behind helper methods(<code>#3</code>).</p>
 <h3 id="the-packed_struct-crate">The <code>packed_struct</code> Crate</h3>
 <p>The feature-packed <a href="https://github.com/hashmismatch/packed_struct.rs">packed_struct</a> crate:</p>
-<pre><code class="language-Rust">#[derive(PackedStruct)]
-#[packed_struct(bit_numbering=&quot;msb0&quot;)]
-pub struct Date {
-    #[packed_field(bits=&quot;0..=4&quot;)]
-    day: u8,
-    #[packed_field(bits=&quot;5..=8&quot;)]
-    month: u8,
-    #[packed_field(bits=&quot;9..=23&quot;, endian=&quot;msb&quot;)]
-    year: i16,
-}
-
-fn main() {
-    let mut date = Date { day: 0, month: 0, year: 0 };
-
-    date.day = 7;
-    date.month = 1;
-    date.year = 2020;
-
-    assert_eq!(date.day, 7);
-    assert_eq!(date.month, 1);
-    assert_eq!(date.year, 2020);
-}
-</code></pre>
-<p>We really wanted to use this crate. It seems to have a ton of neat configuration options,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#75715e">#[derive(PackedStruct)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[packed_struct(bit_numbering=</span><span style="color:#e6db74">&#34;msb0&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Date</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[packed_field(bits=</span><span style="color:#e6db74">&#34;0..=4&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    day: <span style="color:#66d9ef">u8</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[packed_field(bits=</span><span style="color:#e6db74">&#34;5..=8&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    month: <span style="color:#66d9ef">u8</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[packed_field(bits=</span><span style="color:#e6db74">&#34;9..=23&#34;</span><span style="color:#75715e">, endian=</span><span style="color:#e6db74">&#34;msb&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    year: <span style="color:#66d9ef">i16</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> date <span style="color:#f92672">=</span> Date { day: <span style="color:#ae81ff">0</span>, month: <span style="color:#ae81ff">0</span>, year: <span style="color:#ae81ff">0</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    date.day <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>;
+</span></span><span style="display:flex;"><span>    date.month <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    date.year <span style="color:#f92672">=</span> <span style="color:#ae81ff">2020</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.day, <span style="color:#ae81ff">7</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.month, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.year, <span style="color:#ae81ff">2020</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We really wanted to use this crate. It seems to have a ton of neat configuration options,
 e.g., you can turn bitfields into enums. And more importantly, it uses actual fields rather
 than an internal byte representation, unlike <code>rust-bitfield</code>.</p>
 <p>A big problem we had with it was
@@ -247,48 +246,47 @@ and <code>struct</code> attributes seemed like a great approach in general.</p>
 <p>The <a href="https://github.com/rust-lang/rust-bindgen">bindgen</a> crate emits Rust <code>struct</code>s based on C
 code for interoperability and therefore is a bit closer to what we need in <code>C2Rust</code> than the previous two crates.
 Running the C date example through bindgen would get you the following, trimmed for brevity:</p>
-<pre><code class="language-Rust">#[repr(C)]
-pub struct __BindgenBitfieldUnit&lt;Storage, Align&gt; {
-    storage: Storage,
-    align: [Align; 0],
-}
-impl&lt;Storage, Align&gt; __BindgenBitfieldUnit&lt;Storage, Align&gt;
-where
-    Storage: AsRef&lt;[u8]&gt; + AsMut&lt;[u8]&gt;,
-{
-    pub fn get_bit(&amp;self, index: usize) -&gt; bool {
-        // ...
-    }
-    pub fn set_bit(&amp;mut self, index: usize, val: bool) {
-        // ...
-    }
-    pub fn get(&amp;self, bit_offset: usize, bit_width: u8) -&gt; u64 {
-        // ...
-    }
-    pub fn set(&amp;mut self, bit_offset: usize, bit_width: u8, val: u64) {
-        // ...
-    }
-}
-#[repr(C, packed)]
-pub struct Date {
-    pub _bitfield_1: __BindgenBitfieldUnit&lt;[u8; 4usize], u16&gt;,
-}
-
-impl Date {
-    pub fn day(&amp;self) -&gt; ::std::os::raw::c_uchar {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 5u8) as u8) }
-    }
-    pub fn set_day(&amp;mut self, val: ::std::os::raw::c_uchar) {
-        unsafe {
-            let val: u8 = ::std::mem::transmute(val);
-            self._bitfield_1.set(0usize, 5u8, val as u64)
-        }
-    }
-
-    // ...
-}
-</code></pre>
-<p>Note that the amount of boilerplate can quickly balloon(<code>#3</code>). Despite this,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#75715e">#[repr(C)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">__BindgenBitfieldUnit</span><span style="color:#f92672">&lt;</span>Storage, Align<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    storage: <span style="color:#a6e22e">Storage</span>,
+</span></span><span style="display:flex;"><span>    align: [Align; <span style="color:#ae81ff">0</span>],
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>Storage, Align<span style="color:#f92672">&gt;</span> __BindgenBitfieldUnit<span style="color:#f92672">&lt;</span>Storage, Align<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
+</span></span><span style="display:flex;"><span>    Storage: AsRef<span style="color:#f92672">&lt;</span>[<span style="color:#66d9ef">u8</span>]<span style="color:#f92672">&gt;</span> <span style="color:#f92672">+</span> AsMut<span style="color:#f92672">&lt;</span>[<span style="color:#66d9ef">u8</span>]<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">get_bit</span>(<span style="color:#f92672">&amp;</span>self, index: <span style="color:#66d9ef">usize</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">set_bit</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, index: <span style="color:#66d9ef">usize</span>, val: <span style="color:#66d9ef">bool</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">get</span>(<span style="color:#f92672">&amp;</span>self, bit_offset: <span style="color:#66d9ef">usize</span>, bit_width: <span style="color:#66d9ef">u8</span>) -&gt; <span style="color:#66d9ef">u64</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">set</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, bit_offset: <span style="color:#66d9ef">usize</span>, bit_width: <span style="color:#66d9ef">u8</span>, val: <span style="color:#66d9ef">u64</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[repr(C, packed)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Date</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> _bitfield_1: <span style="color:#a6e22e">__BindgenBitfieldUnit</span><span style="color:#f92672">&lt;</span>[<span style="color:#66d9ef">u8</span>; <span style="color:#ae81ff">4</span><span style="color:#66d9ef">usize</span>], <span style="color:#66d9ef">u16</span><span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Date {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">day</span>(<span style="color:#f92672">&amp;</span>self) -&gt; ::std::os::raw::c_uchar {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">unsafe</span> { ::std::mem::transmute(self._bitfield_1.get(<span style="color:#ae81ff">0</span><span style="color:#66d9ef">usize</span>, <span style="color:#ae81ff">5</span><span style="color:#66d9ef">u8</span>) <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u8</span>) }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">set_day</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, val: ::std::os::raw::c_uchar) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">unsafe</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> val: <span style="color:#66d9ef">u8</span> <span style="color:#f92672">=</span> ::std::mem::transmute(val);
+</span></span><span style="display:flex;"><span>            self._bitfield_1.set(<span style="color:#ae81ff">0</span><span style="color:#66d9ef">usize</span>, <span style="color:#ae81ff">5</span><span style="color:#66d9ef">u8</span>, val <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u64</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>Note that the amount of boilerplate can quickly balloon(<code>#3</code>). Despite this,
 the above is a really neat approach because the <code>align</code> field treats the alignment
 as if it were an actual field that can be customized through generics. <code>#1</code> is satisfied
 because byte compatability is maintained. Furthermore, it&rsquo;s very clever that consecutive
@@ -301,37 +299,35 @@ though. Check out this <a href="https://myrrlyn.net/blog/misc/bitfields-in-rust"
 <p>It appears to have the same problem as <code>rust-bitfield</code> insofar that bitfields are backed by a byte array.
 Therefore it doesn&rsquo;t meet requirement <code>#2</code>. Bits are read in a novel way though. A generic load method reads from
 (and another writes to) the backing bytes like so:</p>
-<pre><code class="language-Rust">bitvec[10..23].load::&lt;u16&gt;().unwrap();
-</code></pre>
-<p>Here the index represents bits, not bytes. A big advantage <code>bitvec</code> does have over <code>rust-bitfield</code>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span>bitvec[<span style="color:#ae81ff">10</span><span style="color:#f92672">..</span><span style="color:#ae81ff">23</span>].load::<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u16</span><span style="color:#f92672">&gt;</span>().unwrap();
+</span></span></code></pre></div><p>Here the index represents bits, not bytes. A big advantage <code>bitvec</code> does have over <code>rust-bitfield</code>
 and <code>packed_struct</code> is that it seems to still be actively developed as of this writing.</p>
 <h2 id="our-approach-the-c2rust-bitfields-crate">Our Approach: The <code>c2rust-bitfields</code> Crate</h2>
 <p>Learning from the first three of the above crates, we tried to find a middle ground which could satisfy
 all of our requirements:</p>
-<pre><code class="language-Rust">#[repr(C, align(1))]
-#[derive(BitfieldStruct)]
-struct Date {
-    #[bitfield(name = &quot;day&quot;, ty = &quot;libc::c_uchar&quot;, bits = &quot;0..=4&quot;)]
-    #[bitfield(name = &quot;month&quot;, ty = &quot;libc::c_uchar&quot;, bits = &quot;5..=8&quot;)]
-    #[bitfield(name = &quot;year&quot;, ty = &quot;libc::c_short&quot;, bits = &quot;9..=23&quot;)]
-    day_month_year: [u8; 3]
-}
-
-fn main() {
-    let mut date = Date {
-        day_month_year: [0; 3]
-    };
-
-    date.set_day(7);
-    date.set_month(1);
-    date.set_year(2020);
-
-    assert_eq!(date.day(), 7);
-    assert_eq!(date.month(), 1);
-    assert_eq!(date.year(), 2020);
-}
-</code></pre>
-<p>We are ABI compatible with C(<code>#1</code>) because we use a <code>struct</code> format with actual fields
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#75715e">#[repr(C, align(1))]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[derive(BitfieldStruct)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Date</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[bitfield(name = </span><span style="color:#e6db74">&#34;day&#34;</span><span style="color:#75715e">, ty = </span><span style="color:#e6db74">&#34;libc::c_uchar&#34;</span><span style="color:#75715e">, bits = </span><span style="color:#e6db74">&#34;0..=4&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[bitfield(name = </span><span style="color:#e6db74">&#34;month&#34;</span><span style="color:#75715e">, ty = </span><span style="color:#e6db74">&#34;libc::c_uchar&#34;</span><span style="color:#75715e">, bits = </span><span style="color:#e6db74">&#34;5..=8&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[bitfield(name = </span><span style="color:#e6db74">&#34;year&#34;</span><span style="color:#75715e">, ty = </span><span style="color:#e6db74">&#34;libc::c_short&#34;</span><span style="color:#75715e">, bits = </span><span style="color:#e6db74">&#34;9..=23&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    day_month_year: [<span style="color:#66d9ef">u8</span>; <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> date <span style="color:#f92672">=</span> Date {
+</span></span><span style="display:flex;"><span>        day_month_year: [<span style="color:#ae81ff">0</span>; <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    date.set_day(<span style="color:#ae81ff">7</span>);
+</span></span><span style="display:flex;"><span>    date.set_month(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    date.set_year(<span style="color:#ae81ff">2020</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.day(), <span style="color:#ae81ff">7</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.month(), <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.year(), <span style="color:#ae81ff">2020</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We are ABI compatible with C(<code>#1</code>) because we use a <code>struct</code> format with actual fields
 and combine adjacent bitfields into a single byte array field. This format also allows for pointers
 (and references) to be taken of non-bitfield fields, satisfying <code>#2</code>. Lastly, <code>#3</code> is satisfied by
 having method generation boilerplate automatically derived from the macro with very little of it
@@ -351,39 +347,37 @@ to account for this limitation (which might be removed in the future). Both crat
 <h3 id="bitfields-in-the-wild-nginx">Bitfields in the Wild: Nginx</h3>
 <p>Adding bitfield support to C2Rust was necessary to successfully translate and compile
 Nginx in Rust. One Nginx <code>struct</code> with bitfields looks like this in C:</p>
-<pre><code class="language-C">typedef struct {
-    ngx_file_t file;
-    off_t offset;
-    ngx_path_t *path;
-    ngx_pool_t *pool;
-    char *warn;
-    ngx_uint_t access;
-    unsigned log_level:8;
-    unsigned persistent:1;
-    unsigned clean:1;
-    unsigned thread_write:1;
-} ngx_temp_file_t;
-</code></pre>
-<p>Rather than the last four fields being four unsigned ints in size(16 bytes on many platforms), it
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ngx_file_t</span> file;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">off_t</span> offset;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ngx_path_t</span> <span style="color:#f92672">*</span>path;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ngx_pool_t</span> <span style="color:#f92672">*</span>pool;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>warn;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">ngx_uint_t</span> access;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> log_level:<span style="color:#ae81ff">8</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> persistent:<span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> clean:<span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> thread_write:<span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">ngx_temp_file_t</span>;
+</span></span></code></pre></div><p>Rather than the last four fields being four unsigned ints in size(16 bytes on many platforms), it
 only needs to occupy two bytes. And when transpiled into Rust, it looks like this:</p>
-<pre><code class="language-Rust">#[repr(C)]
-#[derive(BitfieldStruct, Clone, Copy)]
-pub struct ngx_temp_file_t {
-    pub file: ngx_file_t,
-    pub offset: off_t,
-    pub path: *mut ngx_path_t,
-    pub pool: *mut ngx_pool_t,
-    pub warn: *mut libc::c_char,
-    pub access: ngx_uint_t,
-    #[bitfield(name = &quot;log_level&quot;, ty = &quot;libc::c_uint&quot;, bits = &quot;0..=7&quot;)]
-    #[bitfield(name = &quot;persistent&quot;, ty = &quot;libc::c_uint&quot;, bits = &quot;8..=8&quot;)]
-    #[bitfield(name = &quot;clean&quot;, ty = &quot;libc::c_uint&quot;, bits = &quot;9..=9&quot;)]
-    #[bitfield(name = &quot;thread_write&quot;, ty = &quot;libc::c_uint&quot;, bits = &quot;10..=10&quot;)]
-    pub log_level_persistent_clean_thread_write: [u8; 2],
-    pub _pad: [u8; 6],
-}
-</code></pre>
-<p>Interestingly, there are 6 trailing bytes for padding. This is necessary to be equivalent to the original
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#75715e">#[repr(C)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[derive(BitfieldStruct, Clone, Copy)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ngx_temp_file_t</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> file: <span style="color:#a6e22e">ngx_file_t</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> offset: <span style="color:#a6e22e">off_t</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> path: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> ngx_path_t,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> pool: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> ngx_pool_t,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> warn: <span style="color:#f92672">*</span><span style="color:#66d9ef">mut</span> libc::c_char,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> access: <span style="color:#a6e22e">ngx_uint_t</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[bitfield(name = </span><span style="color:#e6db74">&#34;log_level&#34;</span><span style="color:#75715e">, ty = </span><span style="color:#e6db74">&#34;libc::c_uint&#34;</span><span style="color:#75715e">, bits = </span><span style="color:#e6db74">&#34;0..=7&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[bitfield(name = </span><span style="color:#e6db74">&#34;persistent&#34;</span><span style="color:#75715e">, ty = </span><span style="color:#e6db74">&#34;libc::c_uint&#34;</span><span style="color:#75715e">, bits = </span><span style="color:#e6db74">&#34;8..=8&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[bitfield(name = </span><span style="color:#e6db74">&#34;clean&#34;</span><span style="color:#75715e">, ty = </span><span style="color:#e6db74">&#34;libc::c_uint&#34;</span><span style="color:#75715e">, bits = </span><span style="color:#e6db74">&#34;9..=9&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[bitfield(name = </span><span style="color:#e6db74">&#34;thread_write&#34;</span><span style="color:#75715e">, ty = </span><span style="color:#e6db74">&#34;libc::c_uint&#34;</span><span style="color:#75715e">, bits = </span><span style="color:#e6db74">&#34;10..=10&#34;</span><span style="color:#75715e">)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> log_level_persistent_clean_thread_write: [<span style="color:#66d9ef">u8</span>; <span style="color:#ae81ff">2</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> _pad: [<span style="color:#66d9ef">u8</span>; <span style="color:#ae81ff">6</span>],
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Interestingly, there are 6 trailing bytes for padding. This is necessary to be equivalent to the original
 C <code>struct</code>. But the resulting struct is still 8 bytes(<code>16 - 2 - 6 = 8</code>) smaller than if bitfields were
 not used.</p>
 <h2 id="possible-crate-improvements-prs-welcome">Possible Crate Improvements (PRs Welcome!)</h2>
@@ -400,31 +394,30 @@ or an alternative <code>bit</code> attribute param. The exclusive range <code>..
 <h2 id="first-class-bitfield-support-in-rust">First-Class Bitfield Support in Rust?</h2>
 <p>Josh Triplett <a href="https://youtu.be/l9hM0h6IQDo?t=1132">recently mentioned</a> that the FFI working group
 is looking to explore Rust support for bitfields. A syntax for this might simply use attributes:</p>
-<pre><code class="language-Rust">#[repr(C, packed)]
-struct Date {
-    #[bits(5)] day: libc::c_uchar,
-    #[bits(4)] month: libc::c_uchar,
-    #[bits(15)] year: libc::c_short,
-}
-
-fn main() {
-    let mut date = Date {
-        day: 0,
-        month: 0,
-        year: 0,
-    };
-
-    date.day = 7;
-    date.month = 1;
-    date.year = 2020;
-
-    assert_eq!(date.day, 7);
-    assert_eq!(date.month, 1);
-    assert_eq!(date.year, 2020);
-    assert_eq!(std::mem::size_of::&lt;Date&gt;(), 3);
-}
-</code></pre>
-<h1 id="whats-next">What&rsquo;s Next?</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#75715e">#[repr(C, packed)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Date</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[bits(5)]</span> day: <span style="color:#a6e22e">libc</span>::c_uchar,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[bits(4)]</span> month: <span style="color:#a6e22e">libc</span>::c_uchar,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[bits(15)]</span> year: <span style="color:#a6e22e">libc</span>::c_short,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> date <span style="color:#f92672">=</span> Date {
+</span></span><span style="display:flex;"><span>        day: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        month: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        year: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    date.day <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>;
+</span></span><span style="display:flex;"><span>    date.month <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    date.year <span style="color:#f92672">=</span> <span style="color:#ae81ff">2020</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.day, <span style="color:#ae81ff">7</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.month, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(date.year, <span style="color:#ae81ff">2020</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">assert_eq!</span>(std::mem::size_of::<span style="color:#f92672">&lt;</span>Date<span style="color:#f92672">&gt;</span>(), <span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="whats-next">What&rsquo;s Next?</h1>
 <p>As we continue to develop C2Rust, we&rsquo;d love to hear what you want to see translated next. Drop us a line at <a href="mailto:team@immunant.com">team@immunant.com</a> and let us know! If you have legacy C code you need modernized and translated, the team here at Immunant is here to help. We are available for consulting and contracting engagements ranging from one-time support to full-service code modernization.</p>
 <div class="footnotes" role="doc-endnotes">
 <hr>
@@ -495,12 +488,12 @@ consider them internal.&#160;<a href="#fnref:3" class="footnote-backref" role="d
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             
             <span>Immunant, Inc.</span>
             <span>
                 <div>
-                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                    &nbsp; <a href="https://github.com/immunant"  rel="me noopener " title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant"  rel="me noopener " title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com"  rel="me noopener " title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/"  rel="me noopener " title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
                 </div>
             </span>
         </div>
@@ -514,21 +507,9 @@ consider them internal.&#160;<a href="#fnref:3" class="footnote-backref" role="d
 
 
 
-
-<script type="text/javascript" src="/bundle.min.47632ee188dd1dc0fb06803b8470b13ae2aa6dfc6de7710facd82f7a115149b83a918d4799cf627e5bc674266e0f84bf991384da9d655fef6283917aa0f0f51a.js" integrity="sha512-R2Mu4YjdHcD7BoA7hHCxOuKqbfxt53EPrNgvehFRSbg6kY1Hmc9iflvGdCZuD4S/mROE2p1lX&#43;9ig5F6oPD1Gg=="></script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-44066564-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+<script type="text/javascript" src="/bundle.min.24d2f5614a90b8e944ad3be842c8de07b906ecfc28f4f13f0526a91cbceece17b89b4348efdfe793d38ad5ba1cdbafeec419e424807e57850f80a2a8d254b646.js" integrity="sha512-JNL1YUqQuOlErTvoQsjeB7kG7Pwo9PE/BSapHLzuzhe4m0NI79/nk9OK1boc26/uxBnkJIB&#43;V4UPgKKo0lS2Rg=="></script>
 
 
-	
-		<script src="/js/prism_custom.js"></script>
-	
 
 
     </body>

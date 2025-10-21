@@ -13,7 +13,7 @@
 
 
 
-<link rel="stylesheet" href="/main.min.1f0ca5de9fac925dba9a1915e01d6851539e742ec145025a80fa5bab054a1299.css">
+<link rel="stylesheet" href="/main.min.ab5336003ba331300318b49292c672210905baf1ef5410a739f647e70c8808fa.css">
 
 
 
@@ -39,13 +39,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
 <link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
 <link rel="icon" href="/images/favicon.ico " type="image/x-icon">
-<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Introduction to C2Rust">
-<meta itemprop="description" content="We believe that software should be both fast and safe. Languages like C and C&#43;&#43; deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. Rust delivers on speed and interoperability while making memory safety the default."><meta itemprop="datePublished" content="2019-08-16T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2019-08-16T00:00:00+00:00" />
-<meta itemprop="wordCount" content="533"><meta itemprop="image" content="/images" />
-<meta itemprop="keywords" content="migration,Rust,c2rust," /><meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="/images" /><meta name="twitter:title" content="Introduction to C2Rust"/>
-<meta name="twitter:description" content="We believe that software should be both fast and safe. Languages like C and C&#43;&#43; deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. Rust delivers on speed and interoperability while making memory safety the default."/>
+<meta name="theme-color" content="#0A4F93">
+  <meta itemprop="name" content="Introduction to C2Rust">
+  <meta itemprop="description" content="We believe that software should be both fast and safe. Languages like C and C&#43;&#43; deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. Rust delivers on speed and interoperability while making memory safety the default. We see it as a practical fit for incrementally moving systems software in a safer direction; and we’re not the only ones.">
+  <meta itemprop="datePublished" content="2019-08-16T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2019-08-16T00:00:00+00:00">
+  <meta itemprop="wordCount" content="533">
+  <meta itemprop="image" content="/images">
+  <meta itemprop="keywords" content="Migration,Rust,C2rust">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/images">
+  <meta name="twitter:title" content="Introduction to C2Rust">
+  <meta name="twitter:description" content="We believe that software should be both fast and safe. Languages like C and C&#43;&#43; deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. Rust delivers on speed and interoperability while making memory safety the default. We see it as a practical fit for incrementally moving systems software in a safer direction; and we’re not the only ones.">
 
 
 
@@ -60,7 +65,10 @@
 
     </head>
 
-    <body class="dark-theme">
+    
+        <body>
+    
+    
         <div class="container">
             <header class="header">
     <span class="header__inner">
@@ -68,17 +76,21 @@
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">Immunant</span>
-            <span class="logo__cursor"></span>
+            <span class="logo__text ">
+                Immunant</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
         
     </div>
 </a>
 
 
         <span class="header__right">
-            
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/migrating">Migration</a></li>
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/migrating">Migration</a></li>
     </ul>
 </nav>
 
@@ -88,14 +100,6 @@
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                     </svg>
                 </span>
-            
-
-            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
-  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
-  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
-</svg>
-</span>
         </span>
     </span>
 </header>
@@ -122,34 +126,28 @@
                 <p>We believe that software should be both fast and safe. Languages like C and C++ deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. <a href="https://www.rust-lang.org/">Rust</a> delivers on speed and interoperability while making memory safety the default. We see it as a practical fit for incrementally moving systems software in a safer direction; and we&rsquo;re not the <a href="https://msrc-blog.microsoft.com/2019/07/16/a-proactive-approach-to-more-secure-code/">only ones</a>.</p>
 <p>To make that safer world a reality, we need a way to migrate existing software into more developer-friendly and secure languages. While many great projects such as Servo, Redox, and ripgrep are implementing new software in Rust, manual re-implementation efforts are costly and don&rsquo;t scale well. This is where C2Rust enters the picture. Our goal is to build useful tools that make it easier to take existing C code and get up and running with Rust. We aim to automate much of the translation and rewriting process so that migrating legacy systems is practical and scalable with minimal manual effort.</p>
 <p>We&rsquo;re excited to announce that a milestone long in the making is finally here! You can now install C2Rust from <a href="https://crates.io/crates/c2rust">crates.io</a> with a simple <code>cargo install</code> on Linux and OS X. We&rsquo;ve been hard at work improving C2Rust, so go install and give it a spin! You can find the necessary prerequisites in the <a href="https://github.com/immunant/c2rust#prerequisites">C2Rust README</a>.</p>
-<pre><code class="language-bash">cargo +nightly-2019-06-22 install c2rust
-</code></pre>
-<p><strong>Important!</strong> C2Rust depends on specific Rust nightly Rust version, so you&rsquo;ll need to specify the correct version when installing. Check <a href="https://crates.io/crates/c2rust">https://crates.io/crates/c2rust</a> for the latest required Rust nightly version.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo +nightly-2019-06-22 install c2rust
+</span></span></code></pre></div><p><strong>Important!</strong> C2Rust depends on specific Rust nightly Rust version, so you&rsquo;ll need to specify the correct version when installing. Check <a href="https://crates.io/crates/c2rust">https://crates.io/crates/c2rust</a> for the latest required Rust nightly version.</p>
 <h2 id="trying-out-c2rust">Trying out C2Rust</h2>
 <p>Here&rsquo;s a quick example of how to use the C2Rust translator on a simple <a href="https://github.com/clibs/buffer">buffer library</a>. C2Rust reliably translates far larger projects but that&rsquo;s a topic for a another blog post.</p>
 <p>If you haven&rsquo;t already, install C2Rust:</p>
-<pre><code class="language-bash">cargo +nightly-2019-06-22 install c2rust
-</code></pre>
-<p>Then check out the clibs buffer library:</p>
-<pre><code class="language-bash">git clone https://github.com/clibs/buffer.git
-cd buffer
-</code></pre>
-<p>Next, we need to generate a <code>compile_commands.json</code> file describing the build. We recommend <code>intercept-build</code> for simplicity but <a href="https://github.com/immunant/c2rust#generating-compile_commandsjson-files">many other tools</a> do the same thing.</p>
-<pre><code class="language-bash">pip install scan-build
-intercept-build make
-</code></pre>
-<p>Now we&rsquo;re ready to translate the code!</p>
-<pre><code class="language-bash">c2rust transpile --emit-build-files --binary test compile_commands.json
-</code></pre>
-<p>Here&rsquo;s what the flags do:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo +nightly-2019-06-22 install c2rust
+</span></span></code></pre></div><p>Then check out the clibs buffer library:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/clibs/buffer.git
+</span></span><span style="display:flex;"><span>cd buffer
+</span></span></code></pre></div><p>Next, we need to generate a <code>compile_commands.json</code> file describing the build. We recommend <code>intercept-build</code> for simplicity but <a href="https://github.com/immunant/c2rust#generating-compile_commandsjson-files">many other tools</a> do the same thing.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install scan-build
+</span></span><span style="display:flex;"><span>intercept-build make
+</span></span></code></pre></div><p>Now we&rsquo;re ready to translate the code!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>c2rust transpile --emit-build-files --binary test compile_commands.json
+</span></span></code></pre></div><p>Here&rsquo;s what the flags do:</p>
 <ul>
 <li><code>--binary test</code> tells the transpiler that we want to build a binary with the main function from the <code>test</code> module (<code>test.c</code>)</li>
 <li><code>--emit-build-files</code> will produce cargo build files for the project. Now we can build and run the Rust project with:</li>
 </ul>
-<pre><code class="language-bash">cargo +nightly build
-cargo +nightly run
-</code></pre>
-<p>Translated programs require nightly Rust for several reasons, including support for defining C variadic functions in Rust. This is gated by the <code>c_variadic</code> <a href="https://doc.rust-lang.org/beta/unstable-book/language-features/c-variadic.html">feature</a>.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo +nightly build
+</span></span><span style="display:flex;"><span>cargo +nightly run
+</span></span></code></pre></div><p>Translated programs require nightly Rust for several reasons, including support for defining C variadic functions in Rust. This is gated by the <code>c_variadic</code> <a href="https://doc.rust-lang.org/beta/unstable-book/language-features/c-variadic.html">feature</a>.
 When C-compatible variadic functions and a <a href="https://github.com/immunant/c2rust/issues/46">few other features</a> are stabilized, translated projects won&rsquo;t require nightly Rust. If your translated code doesn&rsquo;t use any of the unstable features, you won&rsquo;t need nightly after translation.</p>
 <h2 id="getting-in-touch">Getting in touch</h2>
 <p>Hit a roadblock? Is it one of our <a href="https://github.com/immunant/c2rust/blob/master/docs/known-limitations.md">known limitations</a>? If not, jump onto our <a href="https://discord.gg/ANSrTuu">discord channel</a> to tell us about it or send a mail to <a href="mailto:c2rust@immunant.com">c2rust@immunant.com</a>. We&rsquo;d love to hear from you.</p>
@@ -207,12 +205,12 @@ When C-compatible variadic functions and a <a href="https://github.com/immunant/
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             
             <span>Immunant, Inc.</span>
             <span>
                 <div>
-                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                    &nbsp; <a href="https://github.com/immunant"  rel="me noopener " title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant"  rel="me noopener " title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com"  rel="me noopener " title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/"  rel="me noopener " title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
                 </div>
             </span>
         </div>
@@ -226,21 +224,9 @@ When C-compatible variadic functions and a <a href="https://github.com/immunant/
 
 
 
-
-<script type="text/javascript" src="/bundle.min.47632ee188dd1dc0fb06803b8470b13ae2aa6dfc6de7710facd82f7a115149b83a918d4799cf627e5bc674266e0f84bf991384da9d655fef6283917aa0f0f51a.js" integrity="sha512-R2Mu4YjdHcD7BoA7hHCxOuKqbfxt53EPrNgvehFRSbg6kY1Hmc9iflvGdCZuD4S/mROE2p1lX&#43;9ig5F6oPD1Gg=="></script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-44066564-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+<script type="text/javascript" src="/bundle.min.24d2f5614a90b8e944ad3be842c8de07b906ecfc28f4f13f0526a91cbceece17b89b4348efdfe793d38ad5ba1cdbafeec419e424807e57850f80a2a8d254b646.js" integrity="sha512-JNL1YUqQuOlErTvoQsjeB7kG7Pwo9PE/BSapHLzuzhe4m0NI79/nk9OK1boc26/uxBnkJIB&#43;V4UPgKKo0lS2Rg=="></script>
 
 
-	
-		<script src="/js/prism_custom.js"></script>
-	
 
 
     </body>

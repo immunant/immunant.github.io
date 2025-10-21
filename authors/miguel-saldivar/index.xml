@@ -4,7 +4,7 @@
     <title>Miguel Saldivar on Immunant, Inc</title>
     <link>/authors/miguel-saldivar/</link>
     <description>Recent content in Miguel Saldivar on Immunant, Inc</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
     <lastBuildDate>Mon, 06 Jan 2020 00:00:00 +0000</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>/blog/2020/01/quake3/</link>
       <pubDate>Mon, 06 Jan 2020 00:00:00 +0000</pubDate>
       <guid>/blog/2020/01/quake3/</guid>
-      <description>The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust.</description>
+      <description>&lt;img src=&#34;/images/blog/2020/01/frag.gif&#34;  alt=&#34;Animated GIF of Rust Quake3 gameplay&#34;  class=&#34;center&#34;  style=&#34;border-radius: 8px;&#34;  /&gt;&#xA;&#xA;&#xA;&lt;p&gt;The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust. After a couple of days, we were likely the first people to ever play Quake3 in Rust!&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

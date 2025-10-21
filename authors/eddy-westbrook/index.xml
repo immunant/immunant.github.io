@@ -4,7 +4,7 @@
     <title>Eddy Westbrook on Immunant, Inc</title>
     <link>/authors/eddy-westbrook/</link>
     <description>Recent content in Eddy Westbrook on Immunant, Inc</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
     <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>/blog/2023/03/lifting/</link>
       <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
       <guid>/blog/2023/03/lifting/</guid>
-      <description>In this post, we will discuss recent results from Immunant and Galois in extending C2Rust to emit memory-safe Rust in certain cases. With this work we aim to shift a meaningful part of the translation burden from the human to the machine. Up until now, C2Rust has only been able to translate C to unsafe Rust that is no safer than the original input C code. Although this provides a starting point for manual refactoring into idiomatic and safe Rust, this work had to be done by the human.</description>
+      <description>&lt;p&gt;In this post, we will discuss recent results from Immunant and Galois in extending C2Rust to emit memory-safe Rust in certain cases. With this work we aim to shift a meaningful part of the translation burden from the human to the machine. Up until now, C2Rust has only been able to translate C to unsafe Rust that is no safer than the original input C code. Although this provides a starting point for manual refactoring into idiomatic and safe Rust, this work had to be done by the human. By using a combination of static and dynamic analysis, the current in-development version of C2Rust can now perform some of the lifting to safe Rust automatically. This post describes how this analysis works and how we are using it to make it easier to translate unsafe C programs into memory-safe Rust.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

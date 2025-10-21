@@ -4,7 +4,7 @@
     <title>Immunant, Inc</title>
     <link>/authors/stephen-crane/</link>
     <description>Recent content on Immunant, Inc</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
     <lastBuildDate>Fri, 05 Apr 2024 00:00:00 +0000</lastBuildDate>
@@ -14,28 +14,28 @@
       <link>/blog/2024/04/sandboxing/</link>
       <pubDate>Fri, 05 Apr 2024 00:00:00 +0000</pubDate>
       <guid>/blog/2024/04/sandboxing/</guid>
-      <description>Modern software applications contain many distinct smaller components, such as libraries or plugins, that are often written by third-parties. Developers typically don’t have the resources to exhaustively review and scrutinize third-party source code, leaving application integrators and operational teams with little visibility into the security and correctness of this code. These libraries provide specialized functionality, and often do not need access to the entire application, but the status quo is that an application is an amalgamation of all this code into one process with all components having equal access to all data in the application.</description>
+      <description>&lt;p&gt;Modern software applications contain many distinct smaller components, such as libraries or plugins, that are often written by third-parties. Developers typically don’t have the resources to exhaustively review and scrutinize third-party source code, leaving application integrators and operational teams with little visibility into the security and correctness of this code. These libraries provide specialized functionality, and often do not need access to the entire application, but the status quo is that an application is an amalgamation of all this code into one process with all components having equal access to all data in the application.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Translating Quake 3 into Rust</title>
       <link>/blog/2020/01/quake3/</link>
       <pubDate>Mon, 06 Jan 2020 00:00:00 +0000</pubDate>
       <guid>/blog/2020/01/quake3/</guid>
-      <description>The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust.</description>
+      <description>&lt;img src=&#34;/images/blog/2020/01/frag.gif&#34;  alt=&#34;Animated GIF of Rust Quake3 gameplay&#34;  class=&#34;center&#34;  style=&#34;border-radius: 8px;&#34;  /&gt;&#xA;&#xA;&#xA;&lt;p&gt;The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust. After a couple of days, we were likely the first people to ever play Quake3 in Rust!&lt;/p&gt;</description>
     </item>
     <item>
       <title>Source Code Linking: Merging C Headers into Rust Modules</title>
       <link>/blog/2019/12/header_merging/</link>
       <pubDate>Wed, 18 Dec 2019 16:00:00 -0800</pubDate>
       <guid>/blog/2019/12/header_merging/</guid>
-      <description>Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&amp;rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&amp;rsquo;s module system is a huge improvement over C header files.</description>
+      <description>&lt;p&gt;Producing readable, idiomatic Rust code is a major goal of &lt;a href=&#34;https://www.github.com/immunant/c2rust/&#34;&gt;C2Rust&lt;/a&gt;, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&amp;rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&amp;rsquo;s module system is a huge improvement over C header files. Modules declare an interface of type declarations and functions for other modules to use. In contrast, C has no such modern conveniences, so declarations must be duplicated in each source file. If C2Rust is going to produce reasonable Rust code, we have to bridge that gap by de-duplicating and merging declarations across modules.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Rust 2020: Lessons learned by transpiling C to Rust</title>
       <link>/blog/2019/11/rust2020/</link>
       <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
       <guid>/blog/2019/11/rust2020/</guid>
-      <description>The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&amp;rsquo;ve uncovered some dark corners of C as it&amp;rsquo;s written in practice, and found places where Rust can&amp;rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C.</description>
+      <description>&lt;p&gt;The &lt;a href=&#34;https://www.github.com/immunant/c2rust/&#34;&gt;C2Rust&lt;/a&gt; project is all about translating C&#xA;code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our&#xA;C2Rust introductory blog post &lt;a href=&#34;/blog/2019/08/introduction-to-c2rust/&#34;&gt;here&lt;/a&gt;.)&#xA;Along the way we&amp;rsquo;ve uncovered  some dark corners of C as it&amp;rsquo;s written in practice, and&#xA;found places where Rust can&amp;rsquo;t quite replicate the same code with the same ABI. This is&#xA;the story of those dark corners and the areas we think Rust needs to improve to be fully&#xA;FFI compatible with C.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

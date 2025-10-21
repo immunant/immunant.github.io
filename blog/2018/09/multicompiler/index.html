@@ -13,7 +13,7 @@
 
 
 
-<link rel="stylesheet" href="/main.min.1f0ca5de9fac925dba9a1915e01d6851539e742ec145025a80fa5bab054a1299.css">
+<link rel="stylesheet" href="/main.min.ab5336003ba331300318b49292c672210905baf1ef5410a739f647e70c8808fa.css">
 
 
 
@@ -39,13 +39,18 @@
 <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png ">
 <link rel="shortcut icon" href="/images/favicon.ico " type="image/x-icon">
 <link rel="icon" href="/images/favicon.ico " type="image/x-icon">
-<meta name="theme-color" content="#0A4F93"><meta itemprop="name" content="Optimizing for Security">
-<meta itemprop="description" content="It is obviously very bad if everybody used the same password. It is also bad when one person reuses the same password across sites. Luckily, we have password managers that can generate unique, random passwords for each site. It is no less of a problem when everybody runs the same software for the following reason: When a software flaw is found, we want every installation of the program to be different enough that the same malicious input cannot compromise multiple users (but not so different that users notice)."><meta itemprop="datePublished" content="2018-09-10T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2018-09-10T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3295"><meta itemprop="image" content="/images" />
-<meta itemprop="keywords" content="DARPA,LLVM,Randomization," /><meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="/images" /><meta name="twitter:title" content="Optimizing for Security"/>
-<meta name="twitter:description" content="It is obviously very bad if everybody used the same password. It is also bad when one person reuses the same password across sites. Luckily, we have password managers that can generate unique, random passwords for each site. It is no less of a problem when everybody runs the same software for the following reason: When a software flaw is found, we want every installation of the program to be different enough that the same malicious input cannot compromise multiple users (but not so different that users notice)."/>
+<meta name="theme-color" content="#0A4F93">
+  <meta itemprop="name" content="Optimizing for Security">
+  <meta itemprop="description" content="It is obviously very bad if everybody used the same password. It is also bad when one person reuses the same password across sites. Luckily, we have password managers that can generate unique, random passwords for each site. It is no less of a problem when everybody runs the same software for the following reason: When a software flaw is found, we want every installation of the program to be different enough that the same malicious input cannot compromise multiple users (but not so different that users notice). You don’t use the same password as anyone else; why should you run an identical copy of the software that everybody else is running?">
+  <meta itemprop="datePublished" content="2018-09-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2018-09-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="3295">
+  <meta itemprop="image" content="/images">
+  <meta itemprop="keywords" content="DARPA,LLVM,Randomization">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="/images">
+  <meta name="twitter:title" content="Optimizing for Security">
+  <meta name="twitter:description" content="It is obviously very bad if everybody used the same password. It is also bad when one person reuses the same password across sites. Luckily, we have password managers that can generate unique, random passwords for each site. It is no less of a problem when everybody runs the same software for the following reason: When a software flaw is found, we want every installation of the program to be different enough that the same malicious input cannot compromise multiple users (but not so different that users notice). You don’t use the same password as anyone else; why should you run an identical copy of the software that everybody else is running?">
 
 
 
@@ -61,7 +66,10 @@
 
     </head>
 
-    <body class="dark-theme">
+    
+        <body>
+    
+    
         <div class="container">
             <header class="header">
     <span class="header__inner">
@@ -69,17 +77,21 @@
     <div class="logo">
         
             <span class="logo__mark">></span>
-            <span class="logo__text">Immunant</span>
-            <span class="logo__cursor"></span>
+            <span class="logo__text ">
+                Immunant</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
         
     </div>
 </a>
 
 
         <span class="header__right">
-            
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/migrating">Migration</a></li>
+    <ul class="menu__inner"><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/isolation">Isolation</a></li><li><a href="/jobs">Jobs</a></li><li><a href="/migrating">Migration</a></li>
     </ul>
 </nav>
 
@@ -89,14 +101,6 @@
                         <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                     </svg>
                 </span>
-            
-
-            <span class="theme-toggle"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
-  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
-  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
-</svg>
-</span>
         </span>
     </span>
 </header>
@@ -164,148 +168,135 @@ The multicompiler re-orders stack elements and can insert padding between stack 
 </ol>
 <h3 id="downloading-dependencies-and-sources">Downloading Dependencies and Sources</h3>
 <p>This section assumes you have root access to a host running Ubuntu 16.04 or later. If you&rsquo;re on another Linux distribution, you&rsquo;ll need to adjust the commands accordingly. If you&rsquo;re on Windows or macOS, you can use docker or VirtualBox to set up a suitable Linux environment.</p>
-<pre><code class="language-bash"># install prerequisite packages on Ubuntu as root
-# note: the default version of cmake on Ubuntu 14.04 is too old for LLVM.
-apt-get install -y  \
-	build-essential libssl-dev libxml2-dev \
-	libpcre3-dev binutils-dev cmake git mdm
-</code></pre>
-<pre><code class="language-bash">ROOT_DIR=$HOME/diversity &amp;&amp; mkdir -p $ROOT_DIR &amp;&amp; cd $ROOT_DIR
-
-git clone --depth 1 \
-	git@github.com:securesystemslab/multicompiler.git \
-	multicompiler
-
-git clone --depth 1 \
-	git@github.com:securesystemslab/multicompiler-clang.git \
-	multicompiler/tools/clang
-
-git clone --depth 1 \
-	git@github.com:securesystemslab/multicompiler-compiler-rt.git \
-	multicompiler/projects/compiler-rt
-
-git clone --depth 1 \
-	git@github.com:securesystemslab/poolalloc.git \
-	multicompiler/projects/poolalloc
-</code></pre>
-<h3 id="linker-plugin-support">Linker Plugin Support</h3>
-<pre><code class="language-bash">$ /usr/bin/ld -plugin
-/usr/bin/ld: -plugin: missing argument
-/usr/bin/ld: use the --help option for usage information
-</code></pre>
-<p>If you see <code>-plugin: missing argument</code> in the output, you&rsquo;re all set. Otherwise you can build your own copy of binutils with plugin support using <a href="https://llvm.org/docs/GoldPlugin.html#how-to-build-it">these instructions</a>. You&rsquo;ll need to adjust the path to point to your custom binutils build in the next step.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># install prerequisite packages on Ubuntu as root</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># note: the default version of cmake on Ubuntu 14.04 is too old for LLVM.</span>
+</span></span><span style="display:flex;"><span>apt-get install -y  <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	build-essential libssl-dev libxml2-dev <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	libpcre3-dev binutils-dev cmake git mdm
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ROOT_DIR<span style="color:#f92672">=</span>$HOME/diversity <span style="color:#f92672">&amp;&amp;</span> mkdir -p $ROOT_DIR <span style="color:#f92672">&amp;&amp;</span> cd $ROOT_DIR
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git clone --depth <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	git@github.com:securesystemslab/multicompiler.git <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	multicompiler
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git clone --depth <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	git@github.com:securesystemslab/multicompiler-clang.git <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	multicompiler/tools/clang
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git clone --depth <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	git@github.com:securesystemslab/multicompiler-compiler-rt.git <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	multicompiler/projects/compiler-rt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git clone --depth <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	git@github.com:securesystemslab/poolalloc.git <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	multicompiler/projects/poolalloc
+</span></span></code></pre></div><h3 id="linker-plugin-support">Linker Plugin Support</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ /usr/bin/ld -plugin
+</span></span><span style="display:flex;"><span>/usr/bin/ld: -plugin: missing argument
+</span></span><span style="display:flex;"><span>/usr/bin/ld: use the --help option <span style="color:#66d9ef">for</span> usage information
+</span></span></code></pre></div><p>If you see <code>-plugin: missing argument</code> in the output, you&rsquo;re all set. Otherwise you can build your own copy of binutils with plugin support using <a href="https://llvm.org/docs/GoldPlugin.html#how-to-build-it">these instructions</a>. You&rsquo;ll need to adjust the path to point to your custom binutils build in the next step.</p>
 <h3 id="configuring-and-making">Configuring and Making</h3>
-<pre><code class="language-bash"># building multicompiler in-tree isn't recommended
-BUILD_DIR=$ROOT_DIR/multicompiler/build &amp;&amp; mkdir -p $BUILD_DIR &amp;&amp; cd $BUILD_DIR
-
-# `DLLVM_BINUTILS_INCDIR` is required for LTO support. If your host linker
-# was built without plugin support, point `LLVM_BINUTILS_INCDIR` to the
-# path of the binutils binaries you built previously.
-cmake .. -DLLVM_TARGETS_TO_BUILD=&quot;X86&quot; \
- 	-DCMAKE_INSTALL_PREFIX=$ROOT_DIR/multicompiler/install \
-	-DLLVM_BINUTILS_INCDIR=/usr/include \
-	-DCMAKE_BUILD_TYPE=Release
-
-make -j`ncpus` &amp;&amp; make install
-</code></pre>
-<h3 id="downloading-cpython-sources">Downloading CPython Sources</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># building multicompiler in-tree isn&#39;t recommended</span>
+</span></span><span style="display:flex;"><span>BUILD_DIR<span style="color:#f92672">=</span>$ROOT_DIR/multicompiler/build <span style="color:#f92672">&amp;&amp;</span> mkdir -p $BUILD_DIR <span style="color:#f92672">&amp;&amp;</span> cd $BUILD_DIR
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># `DLLVM_BINUTILS_INCDIR` is required for LTO support. If your host linker</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># was built without plugin support, point `LLVM_BINUTILS_INCDIR` to the</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># path of the binutils binaries you built previously.</span>
+</span></span><span style="display:flex;"><span>cmake .. -DLLVM_TARGETS_TO_BUILD<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;X86&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span> 	-DCMAKE_INSTALL_PREFIX<span style="color:#f92672">=</span>$ROOT_DIR/multicompiler/install <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	-DLLVM_BINUTILS_INCDIR<span style="color:#f92672">=</span>/usr/include <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	-DCMAKE_BUILD_TYPE<span style="color:#f92672">=</span>Release
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>make -j<span style="color:#e6db74">`</span>ncpus<span style="color:#e6db74">`</span> <span style="color:#f92672">&amp;&amp;</span> make install
+</span></span></code></pre></div><h3 id="downloading-cpython-sources">Downloading CPython Sources</h3>
 <p>We&rsquo;re almost ready to use the multicompiler, all we need is to download the CPython source code and its build dependencies.</p>
-<pre><code class="language-bash"># dependencies
-apt-get install --no-install-recommends -y \
-	python-setuptools tcl-dev liblzma-dev libgdbm-dev tk-dev libreadline-dev
-
-# sources
-PY2_SRC=https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz
-
-cd $ROOT_DIR &amp;&amp; wget $PY2_SRC -O - | tar -zx
-</code></pre>
-<h3 id="diversifying-cpython-with-the-multicompiler">Diversifying CPython with the Multicompiler</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># dependencies</span>
+</span></span><span style="display:flex;"><span>apt-get install --no-install-recommends -y <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	python-setuptools tcl-dev liblzma-dev libgdbm-dev tk-dev libreadline-dev
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sources</span>
+</span></span><span style="display:flex;"><span>PY2_SRC<span style="color:#f92672">=</span>https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cd $ROOT_DIR <span style="color:#f92672">&amp;&amp;</span> wget $PY2_SRC -O - | tar -zx
+</span></span></code></pre></div><h3 id="diversifying-cpython-with-the-multicompiler">Diversifying CPython with the Multicompiler</h3>
 <p>Kudos for making it thus far, let&rsquo;s compile our own diversified CPython binary!</p>
 <p>There is no particular reason that we chose CPython2 other than the fact that it comes with a comprehensive test suite and has a relatively sane build system. We&rsquo;re using the <code>CC</code> and <code>CXX</code> environment variables to point the build system to the multicompiler you just built. We&rsquo;re also passing the <code>-flto</code> flag to make sure we always compile in link-time optimization mode. We&rsquo;re going to compile CPython twice: once without diversity (<code>norando</code>), once with function order randomization (<code>fnrando</code>). It is usually desirable to apply multiple types of diversity to a single build; try enabling additional randomization flags. All the flags accepted by the multicompiler are described in the <a href="https://github.com/securesystemslab/multicompiler/blob/master/README.md">README</a>.</p>
 <p>Note that you may have to change the ways flags are passed to the compiler if you decide to compile and diversify some other software package.</p>
-<pre><code class="language-bash"># configuring and making a link-time-optimized CPython binary
-cd $ROOT_DIR/Python-2.7.12
-CC=&quot;$ROOT_DIR/multicompiler/install/bin/clang -flto&quot; \
-CXX=&quot;$ROOT_DIR/multicompiler/install/bin/clang++ -flto&quot; \
-RANLIB=&quot;$ROOT_DIR/multicompiler/install/bin/llvm-ranlib&quot; \
-AR=&quot;$ROOT_DIR/multicompiler/install/bin/llvm-ar&quot; \
-CFLAGS=&quot;-O2 -g -frandom-seed=42&quot; \
-CXXFLAGS=$CFLAGS \
-LDFLAGS=&quot;-Wl,--plugin-opt,-random-seed=42&quot; \
-	./configure --prefix=$ROOT_DIR/python_norando &amp;&amp; make -j`ncpus` install
-
-#  testing (excluding tests that can fail on Ubuntu hosts)
-time make TESTOPTS=&quot;-x test_gdb test_ssl&quot; quicktest
-
-make distclean
-
-# configuring and making a link-time-diversified CPython binary
-# by adding `-randomize-function-list` to `LDFLAGS`
-CC=&quot;$ROOT_DIR/multicompiler/install/bin/clang -flto&quot; \
-CXX=&quot;$ROOT_DIR/multicompiler/install/bin/clang++ -flto&quot; \
-RANLIB=&quot;$ROOT_DIR/multicompiler/install/bin/llvm-ranlib&quot; \
-AR=&quot;$ROOT_DIR/multicompiler/install/bin/llvm-ar&quot; \
-CFLAGS=&quot;-O2 -g -frandom-seed=42&quot; \
-CXXFLAGS=$CFLAGS \
-LDFLAGS=&quot;-Wl,--plugin-opt,-random-seed=42 -Wl,--plugin-opt,-randomize-function-list&quot; \
-	./configure --prefix=$ROOT_DIR/python_fnrando &amp;&amp; make -j`ncpus` install
-
-#  testing diversified python
-time make TESTOPTS=&quot;-x test_gdb test_ssl&quot; quicktest
-</code></pre>
-<p><strong>Note:</strong> we pass a random seed even for the &ldquo;norando&rdquo; build (where none is required) to suppress warnings.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># configuring and making a link-time-optimized CPython binary</span>
+</span></span><span style="display:flex;"><span>cd $ROOT_DIR/Python-2.7.12
+</span></span><span style="display:flex;"><span>CC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/clang -flto&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CXX<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/clang++ -flto&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>RANLIB<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/llvm-ranlib&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>AR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/llvm-ar&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-O2 -g -frandom-seed=42&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CXXFLAGS<span style="color:#f92672">=</span>$CFLAGS <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>LDFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Wl,--plugin-opt,-random-seed=42&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	./configure --prefix<span style="color:#f92672">=</span>$ROOT_DIR/python_norando <span style="color:#f92672">&amp;&amp;</span> make -j<span style="color:#e6db74">`</span>ncpus<span style="color:#e6db74">`</span> install
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  testing (excluding tests that can fail on Ubuntu hosts)</span>
+</span></span><span style="display:flex;"><span>time make TESTOPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-x test_gdb test_ssl&#34;</span> quicktest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>make distclean
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># configuring and making a link-time-diversified CPython binary</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># by adding `-randomize-function-list` to `LDFLAGS`</span>
+</span></span><span style="display:flex;"><span>CC<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/clang -flto&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CXX<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/clang++ -flto&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>RANLIB<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/llvm-ranlib&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>AR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$ROOT_DIR<span style="color:#e6db74">/multicompiler/install/bin/llvm-ar&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-O2 -g -frandom-seed=42&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CXXFLAGS<span style="color:#f92672">=</span>$CFLAGS <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>LDFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Wl,--plugin-opt,-random-seed=42 -Wl,--plugin-opt,-randomize-function-list&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	./configure --prefix<span style="color:#f92672">=</span>$ROOT_DIR/python_fnrando <span style="color:#f92672">&amp;&amp;</span> make -j<span style="color:#e6db74">`</span>ncpus<span style="color:#e6db74">`</span> install
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  testing diversified python</span>
+</span></span><span style="display:flex;"><span>time make TESTOPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-x test_gdb test_ssl&#34;</span> quicktest
+</span></span></code></pre></div><p><strong>Note:</strong> we pass a random seed even for the &ldquo;norando&rdquo; build (where none is required) to suppress warnings.</p>
 <h3 id="verifying-the-effects-of-function-randomization">Verifying the Effects of Function Randomization</h3>
-<pre><code class="language-bash">nm --numeric-sort $ROOT_DIR/python_norando/bin/python | \
-	egrep &quot;[[:xdigit:]]+\st\s\w+&quot; | tail
-
-nm --numeric-sort $ROOT_DIR/python_fnrando/bin/python | \
-	egrep &quot;[[:xdigit:]]+\st\s\w+&quot; | tail
-
-</code></pre>
-<p>On the host used for testing, <code>tail</code> returns the following for <code>python_norando</code></p>
-<pre><code class="language-plain">0000000000559160 t ast_for_call
-0000000000559910 t ast_for_slice
-0000000000559d40 t alias_for_import_name
-000000000055a280 t ast_for_suite
-000000000055a520 t ast_for_funcdef
-000000000055a6c0 t ast_for_classdef
-00000000007a2dd0 t __frame_dummy_init_array_entry
-00000000007a2dd0 t __init_array_start
-00000000007a2dd8 t __do_global_dtors_aux_fini_array_entry
-00000000007a2dd8 t __init_array_end
-</code></pre>
-<p>whereas the same command for <code>python_fnrando</code> prints</p>
-<pre><code class="language-plain">000000000055bea0 t iter_len
-000000000055bfd0 t slot_nb_inplace_and
-000000000055bff0 t wrap_ternaryfunc_r
-000000000055c060 t formatteriter_next
-000000000055c270 t frame_get_f_exc_value
-000000000055c310 t builtin_repr
-00000000007a2dd0 t __frame_dummy_init_array_entry
-00000000007a2dd0 t __init_array_start
-00000000007a2dd8 t __do_global_dtors_aux_fini_array_entry
-00000000007a2dd8 t __init_array_end
-</code></pre>
-<p>The last four functions have not been shuffled by the multicompiler. This is because these functions originate from precompiled files (e.g. <code>crtbegin.o</code>) on the host and were linked in automatically. In other words, precompiled code in objects or libraries is not visible to the multicompiler. For maximal security coverage, all code must pass through the multicompiler.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>nm --numeric-sort $ROOT_DIR/python_norando/bin/python | <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	egrep <span style="color:#e6db74">&#34;[[:xdigit:]]+\st\s\w+&#34;</span> | tail
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>nm --numeric-sort $ROOT_DIR/python_fnrando/bin/python | <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	egrep <span style="color:#e6db74">&#34;[[:xdigit:]]+\st\s\w+&#34;</span> | tail
+</span></span></code></pre></div><p>On the host used for testing, <code>tail</code> returns the following for <code>python_norando</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>0000000000559160 t ast_for_call
+</span></span><span style="display:flex;"><span>0000000000559910 t ast_for_slice
+</span></span><span style="display:flex;"><span>0000000000559d40 t alias_for_import_name
+</span></span><span style="display:flex;"><span>000000000055a280 t ast_for_suite
+</span></span><span style="display:flex;"><span>000000000055a520 t ast_for_funcdef
+</span></span><span style="display:flex;"><span>000000000055a6c0 t ast_for_classdef
+</span></span><span style="display:flex;"><span>00000000007a2dd0 t __frame_dummy_init_array_entry
+</span></span><span style="display:flex;"><span>00000000007a2dd0 t __init_array_start
+</span></span><span style="display:flex;"><span>00000000007a2dd8 t __do_global_dtors_aux_fini_array_entry
+</span></span><span style="display:flex;"><span>00000000007a2dd8 t __init_array_end
+</span></span></code></pre></div><p>whereas the same command for <code>python_fnrando</code> prints</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>000000000055bea0 t iter_len
+</span></span><span style="display:flex;"><span>000000000055bfd0 t slot_nb_inplace_and
+</span></span><span style="display:flex;"><span>000000000055bff0 t wrap_ternaryfunc_r
+</span></span><span style="display:flex;"><span>000000000055c060 t formatteriter_next
+</span></span><span style="display:flex;"><span>000000000055c270 t frame_get_f_exc_value
+</span></span><span style="display:flex;"><span>000000000055c310 t builtin_repr
+</span></span><span style="display:flex;"><span>00000000007a2dd0 t __frame_dummy_init_array_entry
+</span></span><span style="display:flex;"><span>00000000007a2dd0 t __init_array_start
+</span></span><span style="display:flex;"><span>00000000007a2dd8 t __do_global_dtors_aux_fini_array_entry
+</span></span><span style="display:flex;"><span>00000000007a2dd8 t __init_array_end
+</span></span></code></pre></div><p>The last four functions have not been shuffled by the multicompiler. This is because these functions originate from precompiled files (e.g. <code>crtbegin.o</code>) on the host and were linked in automatically. In other words, precompiled code in objects or libraries is not visible to the multicompiler. For maximal security coverage, all code must pass through the multicompiler.</p>
 <p><strong>Note:</strong> The way we&rsquo;ve built CPython is simple but not the most secure. To show what arguments were passed to the CPython <code>configure</code> script on your host, run the following commands in a python REPL:</p>
-<pre><code class="language-python">import distutils.sysconfig
-print(distutils.sysconfig.get_config_var('CONFIG_ARGS'))
-</code></pre>
-<p>Example output on Ubuntu 16.04:</p>
-<pre><code class="language-bash">'--enable-shared' '--prefix=/usr' '--enable-ipv6' '--enable-unicode=ucs4' 
-'--with-dbmliborder=bdb:gdbm' '--with-system-expat' '--with-computed-gotos' 
-'--with-system-ffi'  '--with-fpectl' 'CC=x86_64-linux-gnu-gcc' 
-'CFLAGS=-Wdate-time -D_FORTIFY_SOURCE=2 -g  -fstack-protector-strong -Wformat 
--Werror=format-security ' 'LDFLAGS=-Wl,-Bsymbolic-functions -Wl,-z,relro'
-</code></pre>
-<h3 id="performance-impact-of-randomization">Performance Impact of Randomization</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> distutils.sysconfig
+</span></span><span style="display:flex;"><span>print(distutils<span style="color:#f92672">.</span>sysconfig<span style="color:#f92672">.</span>get_config_var(<span style="color:#e6db74">&#39;CONFIG_ARGS&#39;</span>))
+</span></span></code></pre></div><p>Example output on Ubuntu 16.04:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#e6db74">&#39;--enable-shared&#39;</span> <span style="color:#e6db74">&#39;--prefix=/usr&#39;</span> <span style="color:#e6db74">&#39;--enable-ipv6&#39;</span> <span style="color:#e6db74">&#39;--enable-unicode=ucs4&#39;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;--with-dbmliborder=bdb:gdbm&#39;</span> <span style="color:#e6db74">&#39;--with-system-expat&#39;</span> <span style="color:#e6db74">&#39;--with-computed-gotos&#39;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;--with-system-ffi&#39;</span>  <span style="color:#e6db74">&#39;--with-fpectl&#39;</span> <span style="color:#e6db74">&#39;CC=x86_64-linux-gnu-gcc&#39;</span> 
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;CFLAGS=-Wdate-time -D_FORTIFY_SOURCE=2 -g  -fstack-protector-strong -Wformat 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">-Werror=format-security &#39;</span> <span style="color:#e6db74">&#39;LDFLAGS=-Wl,-Bsymbolic-functions -Wl,-z,relro&#39;</span>
+</span></span></code></pre></div><h3 id="performance-impact-of-randomization">Performance Impact of Randomization</h3>
 <p>Now that we&rsquo;ve checked that functions are getting shuffled around as expected, lets see what kind of performance impact this transformation is having. In general, the overheads you&rsquo;ll see depends on what transformations were enabled and the workload itself. Function shuffling tends to have very low overhead (e.g., less than 1% on the <a href="https://www.spec.org/cpu2006/CINT2006/">SPEC CINT2006</a> benchmarks) which is not all that surprising; the layout of functions shouldn&rsquo;t really matter given the large number of caching mechanisms used in modern processors.</p>
 <p>On an unloaded Ubuntu 16.04 host, the <code>norando</code> and <code>fnrando</code> runs of the testsuite finished in 4m48s and 4m51s respectively. Re-running the testsuite shows that much of the difference we observe is due to measurement noise. The performance overhead added by randomization depends on what is being randomized as well as the underlying program and workload. Function layout randomization tends to add non-negligible overheads whereas others can add 5 to 10% in cases to CPU-bound workloads.</p>
 <h2 id="cyber-fault-tolerant-attack-recovery">Cyber Fault-Tolerant Attack Recovery</h2>
 <p>Since mid-2015, we&rsquo;ve been working to test and enhance the multicompiler as part of a DARPAs <a href="https://www.darpa.mil/program/cyber-fault-tolerant-attack-recovery">Cyber Fault-Tolerant Attack Recovery (CFAR)</a> program. While the multicompiler already produces binaries that are more resilient thanks to randomization, running two or more randomized programs (variants) alongside each other provides additional security. According to the CFAR program goals:</p>
 <blockquote>
-<p>Fault-tolerant architectures run multiple subsystems in parallel and constantly cross-check results to rapidly detect, isolate and mitigate faults, which manifest as differences across the subsystems. Adapting fault-tolerant systems to run multiple variants of a vulnerable software system in parallel presents the opportunity to immediately detect and interdict cyber-attacks before they gain a foothold.</p>
-</blockquote>
+<p>Fault-tolerant architectures run multiple subsystems in parallel and constantly cross-check results to rapidly detect, isolate and mitigate faults, which manifest as differences across the subsystems. Adapting fault-tolerant systems to run multiple variants of a vulnerable software system in parallel presents the opportunity to immediately detect and interdict cyber-attacks before they gain a foothold.</p></blockquote>
 <p>This description is a bit terse, so let&rsquo;s unpack it.</p>
 <p>To run multiple program variants in parallel, we use a type of monitoring software (called a multi-variant execution environment, MVEE) to make sure that all variants receive the same inputs and that all variants generate the same output. If the MVEE sees that the variants starts to diverge in their behavior, it shuts them down since the divergence might be a symptom of compromise.</p>
 <p>Thanks to variant monitoring, MVEEs stop low-level exploits and contain the effects of a compromised program variant. An exploit can either compromise a single variant, which will cause its execution to diverge from other executing variants in which case the MVEE will terminate execution. Alternatively, an exploit can compromise all program variants and avoid any observable differences. Doing the latter is very difficult-especially when the diversified variants are substantially different. For instance, a regular code-reuse exploit becomes impossible if the address ranges for the <code>.text</code> sections of two program variants are disjoint. You can read much more about this idea in this paper <a href="http://www.ics.uci.edu/~stijnv/Papers/tdsc15-gadgets.pdf">Cloning your Gadgets: Complete ROP Attack Immunity with Multi-Variant Execution</a> written by a fellow CFAR researcher at UCI <a href="https://stijn-volckaert.github.io/personal/">Stijn Volckaert</a>.</p>
@@ -380,12 +371,12 @@ print(distutils.sysconfig.get_config_var('CONFIG_ARGS'))
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2024</span>
+            <span>&copy; 2025</span>
             
             <span>Immunant, Inc.</span>
             <span>
                 <div>
-                    &nbsp; <a href="https://github.com/immunant" target="_blank" rel="noopener" title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant" target="_blank" rel="noopener" title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com" target="_blank" rel="noopener" title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/" target="_blank" rel="noopener" title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
+                    &nbsp; <a href="https://github.com/immunant"  rel="me noopener " title="Github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a> &nbsp;&nbsp; <a href="https://twitter.com/immunant"  rel="me noopener " title="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a> &nbsp;&nbsp; <a href="mailto:team@immunant.com"  rel="me noopener " title="Email"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></a> &nbsp;&nbsp; <a href="https://www.linkedin.com/company/immunant/"  rel="me noopener " title="Linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a> &nbsp;
                 </div>
             </span>
         </div>
@@ -399,21 +390,9 @@ print(distutils.sysconfig.get_config_var('CONFIG_ARGS'))
 
 
 
-
-<script type="text/javascript" src="/bundle.min.47632ee188dd1dc0fb06803b8470b13ae2aa6dfc6de7710facd82f7a115149b83a918d4799cf627e5bc674266e0f84bf991384da9d655fef6283917aa0f0f51a.js" integrity="sha512-R2Mu4YjdHcD7BoA7hHCxOuKqbfxt53EPrNgvehFRSbg6kY1Hmc9iflvGdCZuD4S/mROE2p1lX&#43;9ig5F6oPD1Gg=="></script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-44066564-2', 'auto');
-        ga('send', 'pageview');
-    </script>
+<script type="text/javascript" src="/bundle.min.24d2f5614a90b8e944ad3be842c8de07b906ecfc28f4f13f0526a91cbceece17b89b4348efdfe793d38ad5ba1cdbafeec419e424807e57850f80a2a8d254b646.js" integrity="sha512-JNL1YUqQuOlErTvoQsjeB7kG7Pwo9PE/BSapHLzuzhe4m0NI79/nk9OK1boc26/uxBnkJIB&#43;V4UPgKKo0lS2Rg=="></script>
 
 
-	
-		<script src="/js/prism_custom.js"></script>
-	
 
 
     </body>

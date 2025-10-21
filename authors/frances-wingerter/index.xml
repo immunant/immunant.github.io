@@ -4,17 +4,24 @@
     <title>Frances Wingerter on Immunant, Inc</title>
     <link>/authors/frances-wingerter/</link>
     <description>Recent content in Frances Wingerter on Immunant, Inc</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Tue, 14 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Oct 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/authors/frances-wingerter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Announcing C2Rust v0.21</title>
+      <link>/blog/2025/10/c2rust_release/</link>
+      <pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>/blog/2025/10/c2rust_release/</guid>
+      <description>&lt;p&gt;We&amp;rsquo;ve recently been able to invest in some much-needed maintenance on and focused improvements to the C2Rust transpiler, which translates C code into unsafe Rust. Below is a highlights reel of some of the more substantial changes in version 0.21, underlining improvements toward generating more idiomatic Rust and a couple places where we’d most appreciate feedback. For a more comprehensive list of all changes, including many correctness improvements and bugfixes in this release, see the &lt;a href=&#34;https://github.com/immunant/c2rust/releases/tag/v0.21.0&#34;&gt;release notes&lt;/a&gt;!&lt;/p&gt;</description>
+    </item>
     <item>
       <title>C2Rust is Back</title>
       <link>/blog/2022/06/back/</link>
       <pubDate>Tue, 14 Jun 2022 00:00:00 +0000</pubDate>
       <guid>/blog/2022/06/back/</guid>
-      <description>tl;dr: c2rust (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust. As always, we welcome new users and are eager for any feedback!&#xA;After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by Immunant in collaboration with our friends at Galois.</description>
+      <description>&lt;p&gt;&lt;strong&gt;tl;dr&lt;/strong&gt;: &lt;a href=&#34;https://github.com/immunant/c2rust&#34;&gt;c2rust&lt;/a&gt; (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust.&#xA;As always, we welcome new users and are eager for any feedback!&lt;/p&gt;&#xA;&lt;p&gt;After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by &lt;a href=&#34;https://immunant.com/&#34;&gt;Immunant&lt;/a&gt; in collaboration with our friends at &lt;a href=&#34;https://https://galois.com/&#34;&gt;Galois&lt;/a&gt;.&#xA;The code had bitrotted a fair bit since 2019, so the first order of business was modernizing dependencies and compatibility.&#xA;c2rust used &lt;code&gt;rustc&lt;/code&gt;&amp;rsquo;s internal representation of the Rust language AST (&lt;code&gt;libsyntax&lt;/code&gt;) to build and process the Rust code it generated, which&#xA;meant that we depended on the compiler&amp;rsquo;s internal libraries and could not simply get and version our AST representation via Cargo like our other dependencies.&#xA;Every time we wanted to support building with a newer &lt;code&gt;rustc&lt;/code&gt; nightly, we had to do whatever forward-porting work was needed throughout the codebase.&#xA;This meant we couldn&amp;rsquo;t get unrelated &lt;code&gt;rustc&lt;/code&gt; improvements (shortened compile times, bug fixes, etc.) without committing to a bunch of unrelated code churn.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

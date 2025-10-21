@@ -4,7 +4,7 @@
     <title>Refactoring on Immunant, Inc</title>
     <link>/tags/refactoring/</link>
     <description>Recent content in Refactoring on Immunant, Inc</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
     <lastBuildDate>Wed, 18 Dec 2019 16:00:00 -0800</lastBuildDate>
@@ -14,7 +14,7 @@
       <link>/blog/2019/12/header_merging/</link>
       <pubDate>Wed, 18 Dec 2019 16:00:00 -0800</pubDate>
       <guid>/blog/2019/12/header_merging/</guid>
-      <description>Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&amp;rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&amp;rsquo;s module system is a huge improvement over C header files.</description>
+      <description>&lt;p&gt;Producing readable, idiomatic Rust code is a major goal of &lt;a href=&#34;https://www.github.com/immunant/c2rust/&#34;&gt;C2Rust&lt;/a&gt;, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&amp;rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&amp;rsquo;s module system is a huge improvement over C header files. Modules declare an interface of type declarations and functions for other modules to use. In contrast, C has no such modern conveniences, so declarations must be duplicated in each source file. If C2Rust is going to produce reasonable Rust code, we have to bridge that gap by de-duplicating and merging declarations across modules.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -4,94 +4,101 @@
     <title>Blog Posts on Immunant, Inc</title>
     <link>/blog/</link>
     <description>Recent content in Blog Posts on Immunant, Inc</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Immunant, Inc.</copyright>
-    <lastBuildDate>Fri, 05 Apr 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Oct 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Announcing C2Rust v0.21</title>
+      <link>/blog/2025/10/c2rust_release/</link>
+      <pubDate>Mon, 20 Oct 2025 00:00:00 +0000</pubDate>
+      <guid>/blog/2025/10/c2rust_release/</guid>
+      <description>&lt;p&gt;We&amp;rsquo;ve recently been able to invest in some much-needed maintenance on and focused improvements to the C2Rust transpiler, which translates C code into unsafe Rust. Below is a highlights reel of some of the more substantial changes in version 0.21, underlining improvements toward generating more idiomatic Rust and a couple places where we’d most appreciate feedback. For a more comprehensive list of all changes, including many correctness improvements and bugfixes in this release, see the &lt;a href=&#34;https://github.com/immunant/c2rust/releases/tag/v0.21.0&#34;&gt;release notes&lt;/a&gt;!&lt;/p&gt;</description>
+    </item>
     <item>
       <title>In-process Sandboxing with Memory Protection Keys</title>
       <link>/blog/2024/04/sandboxing/</link>
       <pubDate>Fri, 05 Apr 2024 00:00:00 +0000</pubDate>
       <guid>/blog/2024/04/sandboxing/</guid>
-      <description>Modern software applications contain many distinct smaller components, such as libraries or plugins, that are often written by third-parties. Developers typically don’t have the resources to exhaustively review and scrutinize third-party source code, leaving application integrators and operational teams with little visibility into the security and correctness of this code. These libraries provide specialized functionality, and often do not need access to the entire application, but the status quo is that an application is an amalgamation of all this code into one process with all components having equal access to all data in the application.</description>
+      <description>&lt;p&gt;Modern software applications contain many distinct smaller components, such as libraries or plugins, that are often written by third-parties. Developers typically don’t have the resources to exhaustively review and scrutinize third-party source code, leaving application integrators and operational teams with little visibility into the security and correctness of this code. These libraries provide specialized functionality, and often do not need access to the entire application, but the status quo is that an application is an amalgamation of all this code into one process with all components having equal access to all data in the application.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Emitting Safer Rust with C2Rust</title>
       <link>/blog/2023/03/lifting/</link>
       <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
       <guid>/blog/2023/03/lifting/</guid>
-      <description>In this post, we will discuss recent results from Immunant and Galois in extending C2Rust to emit memory-safe Rust in certain cases. With this work we aim to shift a meaningful part of the translation burden from the human to the machine. Up until now, C2Rust has only been able to translate C to unsafe Rust that is no safer than the original input C code. Although this provides a starting point for manual refactoring into idiomatic and safe Rust, this work had to be done by the human.</description>
+      <description>&lt;p&gt;In this post, we will discuss recent results from Immunant and Galois in extending C2Rust to emit memory-safe Rust in certain cases. With this work we aim to shift a meaningful part of the translation burden from the human to the machine. Up until now, C2Rust has only been able to translate C to unsafe Rust that is no safer than the original input C code. Although this provides a starting point for manual refactoring into idiomatic and safe Rust, this work had to be done by the human. By using a combination of static and dynamic analysis, the current in-development version of C2Rust can now perform some of the lifting to safe Rust automatically. This post describes how this analysis works and how we are using it to make it easier to translate unsafe C programs into memory-safe Rust.&lt;/p&gt;</description>
     </item>
     <item>
       <title>C2Rust is Back</title>
       <link>/blog/2022/06/back/</link>
       <pubDate>Tue, 14 Jun 2022 00:00:00 +0000</pubDate>
       <guid>/blog/2022/06/back/</guid>
-      <description>tl;dr: c2rust (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust. As always, we welcome new users and are eager for any feedback!&#xA;After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by Immunant in collaboration with our friends at Galois.</description>
+      <description>&lt;p&gt;&lt;strong&gt;tl;dr&lt;/strong&gt;: &lt;a href=&#34;https://github.com/immunant/c2rust&#34;&gt;c2rust&lt;/a&gt; (a transpiler from C to unsafe Rust) is once more being actively developed, now works with recent nightlies, has some new features and bugfixes, and has dropped the c2rust-refactor tool in preparation for an exciting new approach to generating safe rust.&#xA;As always, we welcome new users and are eager for any feedback!&lt;/p&gt;&#xA;&lt;p&gt;After a long while without much time or funding to dedicate to the project, c2rust is once more being updated and actively maintained by &lt;a href=&#34;https://immunant.com/&#34;&gt;Immunant&lt;/a&gt; in collaboration with our friends at &lt;a href=&#34;https://https://galois.com/&#34;&gt;Galois&lt;/a&gt;.&#xA;The code had bitrotted a fair bit since 2019, so the first order of business was modernizing dependencies and compatibility.&#xA;c2rust used &lt;code&gt;rustc&lt;/code&gt;&amp;rsquo;s internal representation of the Rust language AST (&lt;code&gt;libsyntax&lt;/code&gt;) to build and process the Rust code it generated, which&#xA;meant that we depended on the compiler&amp;rsquo;s internal libraries and could not simply get and version our AST representation via Cargo like our other dependencies.&#xA;Every time we wanted to support building with a newer &lt;code&gt;rustc&lt;/code&gt; nightly, we had to do whatever forward-porting work was needed throughout the codebase.&#xA;This meant we couldn&amp;rsquo;t get unrelated &lt;code&gt;rustc&lt;/code&gt; improvements (shortened compile times, bug fixes, etc.) without committing to a bunch of unrelated code churn.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Refactoring Rust Transpiled from C</title>
       <link>/blog/2020/09/transpiled_c_safety/</link>
       <pubDate>Tue, 01 Sep 2020 00:00:00 +0000</pubDate>
       <guid>/blog/2020/09/transpiled_c_safety/</guid>
-      <description>Memory management errors are responsible for 70 to 80 percent of security vulnerabilities1 2. This would be much less of a problem if computers were running more Rust and less (if any) C code.&#xA;So do we rewrite every widely used C project in Rust? Doing so entirely by hand is infeasible. Doing so in an entirely mechanized way is impossible. Between these extremes lies a point that strikes the optimal balance between the efficiency of automation and the intelligence of humans.</description>
+      <description>&lt;p&gt;Memory management errors are responsible for 70 to 80 percent of security vulnerabilities&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;. This would be much less of a problem if computers were running more Rust and less (if any) C code.&lt;/p&gt;&#xA;&lt;p&gt;So do we rewrite every widely used C project in Rust? Doing so entirely by hand is infeasible. Doing so in an entirely mechanized way is impossible. Between these extremes lies a point that strikes the optimal balance between the efficiency of automation and the intelligence of humans.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Transpiling A Kernel Module to Rust: The Good, the Bad and the Ugly</title>
       <link>/blog/2020/06/kernel_modules/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
       <guid>/blog/2020/06/kernel_modules/</guid>
-      <description>Earlier this year, we used the C2Rust framework to translate applications such as Quake 3 to Rust. In this post, we&amp;rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&amp;rsquo;ll use a small, 3-file kernel module which is part of the Bareflank Hypervisor SDK developed by Assured Information Security but you can use the same techniques to translate other kernel modules.</description>
+      <description>&lt;p&gt;Earlier this year, we used the C2Rust framework to translate applications such as &lt;a href=&#34;/blog/2020/01/quake3&#34;&gt;Quake 3&lt;/a&gt; to Rust. In this post, we&amp;rsquo;ll show you that it is also possible to translate privileged software such as modules that are loaded by the Linux kenel. We&amp;rsquo;ll use a small, 3-file kernel module which is part of the &lt;a href=&#34;https://github.com/Bareflank/hypervisor&#34;&gt;Bareflank Hypervisor SDK&lt;/a&gt; developed by &lt;a href=&#34;https://ainfosec.com&#34;&gt;Assured Information Security&lt;/a&gt; but you can use the same techniques to translate other kernel modules. The basic steps we&amp;rsquo;ll cover are:&lt;/p&gt;</description>
     </item>
     <item>
       <title>Bitfields Forever: Why we need a C-compatible Rust Crate</title>
       <link>/blog/2020/01/bitfields/</link>
       <pubDate>Mon, 27 Jan 2020 00:00:00 -0800</pubDate>
       <guid>/blog/2020/01/bitfields/</guid>
-      <description>What Are Bitfields? The C programming language is a product of a time where it was important to use as few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren&amp;rsquo;t just a relic of yesteryear&amp;rsquo;s computer programming; they remain frequently used today. Some domains, like embedded hardware, still require programmers to be frugal with memory.</description>
+      <description>&lt;h2 id=&#34;what-are-bitfields&#34;&gt;What Are Bitfields?&lt;/h2&gt;&#xA;&lt;p&gt;The C programming language is a product of a time where it was important to use as&#xA;few resoures as possible. Memory was measured in kilobytes rather than gigabytes as we do today. Bitfields offer a handy way to reduce memory usage. However, bitfields aren&amp;rsquo;t just a relic of yesteryear&amp;rsquo;s computer programming; they remain frequently used today.&#xA;Some domains, like embedded hardware, still require programmers to be frugal with memory. Projects like Nginx as well as many Linux kernel modules also reduce memory usage this way. Moreover, some&#xA;hardware interfaces expect bits to be laid out in a particular format.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Translating Quake 3 into Rust</title>
       <link>/blog/2020/01/quake3/</link>
       <pubDate>Mon, 06 Jan 2020 00:00:00 +0000</pubDate>
       <guid>/blog/2020/01/quake3/</guid>
-      <description>The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust.</description>
+      <description>&lt;img src=&#34;/images/blog/2020/01/frag.gif&#34;  alt=&#34;Animated GIF of Rust Quake3 gameplay&#34;  class=&#34;center&#34;  style=&#34;border-radius: 8px;&#34;  /&gt;&#xA;&#xA;&#xA;&lt;p&gt;The Rust-loving team at Immunant has been hard at work on C2Rust, a migration framework that takes the drudgery out of migrating to Rust. Our goal is to make safety improvements to the translated Rust automatically where we can, and help the programmer do the same where we cannot. First, however, we have to build a rock-solid translator that gets people up and running in Rust. Testing on small CLI programs gets old eventually, so we decided to try translating Quake 3 into Rust. After a couple of days, we were likely the first people to ever play Quake3 in Rust!&lt;/p&gt;</description>
     </item>
     <item>
       <title>Source Code Linking: Merging C Headers into Rust Modules</title>
       <link>/blog/2019/12/header_merging/</link>
       <pubDate>Wed, 18 Dec 2019 16:00:00 -0800</pubDate>
       <guid>/blog/2019/12/header_merging/</guid>
-      <description>Producing readable, idiomatic Rust code is a major goal of C2Rust, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&amp;rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&amp;rsquo;s module system is a huge improvement over C header files.</description>
+      <description>&lt;p&gt;Producing readable, idiomatic Rust code is a major goal of &lt;a href=&#34;https://www.github.com/immunant/c2rust/&#34;&gt;C2Rust&lt;/a&gt;, our project to accelerate migration of C code into Rust. One hurdle we faced is the mismatch between C headers and the Rust module system. C and Rust are similar in many ways: they&amp;rsquo;re both performance oriented languages with explicit memory management and full control over every aspect of the system. Rust&amp;rsquo;s module system is a huge improvement over C header files. Modules declare an interface of type declarations and functions for other modules to use. In contrast, C has no such modern conveniences, so declarations must be duplicated in each source file. If C2Rust is going to produce reasonable Rust code, we have to bridge that gap by de-duplicating and merging declarations across modules.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Rust 2020: Lessons learned by transpiling C to Rust</title>
       <link>/blog/2019/11/rust2020/</link>
       <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
       <guid>/blog/2019/11/rust2020/</guid>
-      <description>The C2Rust project is all about translating C code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our C2Rust introductory blog post here.) Along the way we&amp;rsquo;ve uncovered some dark corners of C as it&amp;rsquo;s written in practice, and found places where Rust can&amp;rsquo;t quite replicate the same code with the same ABI. This is the story of those dark corners and the areas we think Rust needs to improve to be fully FFI compatible with C.</description>
+      <description>&lt;p&gt;The &lt;a href=&#34;https://www.github.com/immunant/c2rust/&#34;&gt;C2Rust&lt;/a&gt; project is all about translating C&#xA;code into an equivalent, drop-in ABI-compatible Rust implementation. (Read our&#xA;C2Rust introductory blog post &lt;a href=&#34;/blog/2019/08/introduction-to-c2rust/&#34;&gt;here&lt;/a&gt;.)&#xA;Along the way we&amp;rsquo;ve uncovered  some dark corners of C as it&amp;rsquo;s written in practice, and&#xA;found places where Rust can&amp;rsquo;t quite replicate the same code with the same ABI. This is&#xA;the story of those dark corners and the areas we think Rust needs to improve to be fully&#xA;FFI compatible with C.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Improved C Variadics in Rust and C2Rust</title>
       <link>/blog/2019/09/variadics/</link>
       <pubDate>Tue, 17 Sep 2019 00:00:00 +0000</pubDate>
       <guid>/blog/2019/09/variadics/</guid>
-      <description>Introduction to C Variadics The C language provides a special class of functions called variadic functions that can be called with a variable number of arguments. The declaration of a variadic function ends with an ellipsis, e.g.:&#xA;void variadic_function(int x, ...); Variadic functions can be called with any number of arguments in place of the ellipsis (including none at all).&#xA;The C runtime provides a set of helper macros that developers use to retrieve the values of the variadic arguments.</description>
+      <description>&lt;h2 id=&#34;introduction-to-c-variadics&#34;&gt;Introduction to C Variadics&lt;/h2&gt;&#xA;&lt;p&gt;The C language provides a special class of functions called &lt;em&gt;variadic functions&lt;/em&gt;&#xA;that can be called with a variable number of arguments. The declaration of a variadic&#xA;function ends with an ellipsis, e.g.:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C&#34; data-lang=&#34;C&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;variadic_function&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, ...);&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Variadic functions can be called with any number of arguments in place of the&#xA;ellipsis (including none at all).&lt;/p&gt;&#xA;&lt;p&gt;The C runtime provides a set of helper macros that developers use to retrieve&#xA;the values of the variadic arguments.&#xA;All the macros, along with the &lt;code&gt;va_list&lt;/code&gt; type, are defined in the&#xA;&lt;code&gt;stdarg.h&lt;/code&gt; header and most commonly implemented as &lt;a href=&#34;https://en.wikipedia.org/wiki/Intrinsic_function&#34;&gt;compiler builtins&lt;/a&gt;:&lt;/p&gt;</description>
     </item>
     <item>
       <title>Introduction to C2Rust</title>
       <link>/blog/2019/08/introduction-to-c2rust/</link>
       <pubDate>Fri, 16 Aug 2019 00:00:00 +0000</pubDate>
       <guid>/blog/2019/08/introduction-to-c2rust/</guid>
-      <description>We believe that software should be both fast and safe. Languages like C and C++ deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. Rust delivers on speed and interoperability while making memory safety the default.</description>
+      <description>&lt;p&gt;We believe that software should be both fast and safe. Languages like C and C++ deliver blazingly fast performance but are pretty much impossible to use safely. Software mitigations built into the operating system make exploitation of buggy code much harder but attackers are amazing at finding ways to bypass new defenses. What we really need is a way to eliminate the source of memory corruption bugs. &lt;a href=&#34;https://www.rust-lang.org/&#34;&gt;Rust&lt;/a&gt; delivers on speed and interoperability while making memory safety the default. We see it as a practical fit for incrementally moving systems software in a safer direction; and we&amp;rsquo;re not the &lt;a href=&#34;https://msrc-blog.microsoft.com/2019/07/16/a-proactive-approach-to-more-secure-code/&#34;&gt;only ones&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Optimizing for Security</title>
       <link>/blog/2018/09/multicompiler/</link>
       <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
       <guid>/blog/2018/09/multicompiler/</guid>
-      <description>It is obviously very bad if everybody used the same password. It is also bad when one person reuses the same password across sites. Luckily, we have password managers that can generate unique, random passwords for each site. It is no less of a problem when everybody runs the same software for the following reason: When a software flaw is found, we want every installation of the program to be different enough that the same malicious input cannot compromise multiple users (but not so different that users notice).</description>
+      <description>&lt;p&gt;It is obviously very bad if everybody used the same password. It is also bad when one person reuses the same password across sites. Luckily, we have password managers that can &lt;em&gt;generate unique, random passwords&lt;/em&gt; for each site. It is no less of a problem when everybody runs the same software for the following reason: When a software flaw is found, we want every installation of the program to be different enough that the same malicious input cannot compromise multiple users (but not so different that users notice). You don&amp;rsquo;t use the same password as anyone else; why should you run an identical copy of the software that everybody else is running?&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
